@@ -7,7 +7,7 @@ var app = express()
 
 app.set('port', (process.env.PORT || 5000))
 
-// Process application/x-www-form-urlencoded
+// Process application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({extended: false}))
 
 // Process application/json
@@ -57,6 +57,7 @@ function sendTextMessage(sender, text) {
         json: {
             recipient: {id:sender},
             message: messageData,
+			"sender_action":"typing_on"
         }
     }, function(error, response, body) {
         if (error) {
