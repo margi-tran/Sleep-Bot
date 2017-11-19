@@ -1,5 +1,8 @@
 const token = "EAAFxZC8LaXgYBAJ9EJDT5U2XL00BnZADlH4OePZBvBO0FbR7da1ak9fgbyJ84GGje0TvTod1bH6ZCZAKYFLMJCyuB7lzzF6FFJ157zLFAkvqbQM9vZC58g2f5ZAYQZBtZAuzD9dhu7juSi0Q1cctCpZBjKvQ059P2LhzSfmgfCowifHC7SUVZBFsjCY"
 
+https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
+const verificationController = require('verification');
+
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
@@ -23,13 +26,15 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot')
 })
 
+/*
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
     if (req.query['hub.verify_token'] === 'my_token') {
         res.send(req.query['hub.challenge'])
     }
     res.send('Error, wrong token')
-})
+})*/
+app.get('/', verificationController);
 
 // from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
 app.post('/webhook/', function (req, res) {
@@ -57,7 +62,6 @@ function sendTextMessage(sender, text) {
         json: {
             recipient: {id:sender},
             message: messageData
-			sender_action:"typing_on"
         }
     }, function(error, response, body) {
         if (error) {
