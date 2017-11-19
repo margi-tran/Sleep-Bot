@@ -1,7 +1,7 @@
 const token = "EAAFxZC8LaXgYBAJ9EJDT5U2XL00BnZADlH4OePZBvBO0FbR7da1ak9fgbyJ84GGje0TvTod1bH6ZCZAKYFLMJCyuB7lzzF6FFJ157zLFAkvqbQM9vZC58g2f5ZAYQZBtZAuzD9dhu7juSi0Q1cctCpZBjKvQ059P2LhzSfmgfCowifHC7SUVZBFsjCY"
 
-https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
-const verificationController = require('verification');
+//https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
+const verificationController = require('./verification.js');
 
 var express = require('express')
 var bodyParser = require('body-parser')
