@@ -1,3 +1,4 @@
+// module for verify facebook
 module.exports = (req, res) => {
    /* const hubChallenge = req.query['hub.challenge'];
 

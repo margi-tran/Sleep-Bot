@@ -2,6 +2,7 @@ const token = "EAAFxZC8LaXgYBAJ9EJDT5U2XL00BnZADlH4OePZBvBO0FbR7da1ak9fgbyJ84GGj
 
 //https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
 const verificationController = require('./verification.js');
+const messageHandler = require('./message_handler.js');
 
 var express = require('express')
 var bodyParser = require('body-parser')
@@ -38,6 +39,7 @@ app.get('/', verificationController);
 
 // from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
 app.post('/webhook/', function (req, res) {
+	message_handler.handleMessage();
     messaging_events = req.body.entry[0].messaging
     for (i = 0; i < messaging_events.length; i++) {
         event = req.body.entry[0].messaging[i]
