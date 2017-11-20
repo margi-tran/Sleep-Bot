@@ -1,5 +1,5 @@
 /**
- * This module processes messages sent by a user, then sends a relevant reply.
+ * Module for processing messages recieved from the webhook and sending replies.
  */
  
  
@@ -7,6 +7,10 @@ var request = require('request')
 
 module.exports = (sender, text) => {
     sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
+	
+	if(text  === "data") {
+		sendTextMessage(sender, "DATA");
+	}
 };
 
 sendTextMessage = function(sender, text) {
