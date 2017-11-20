@@ -20,7 +20,7 @@ module.exports = (event) => {
 	
     sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
 	
-	if(text  === "!") {
+	if(message  === "!") {
 		sendMessage(sender, "Going to print your data!");
 	}
 };
