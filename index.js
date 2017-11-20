@@ -1,6 +1,5 @@
-//https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
-const verification_handler = require('./verification.js');
-const message_handler = require('./message_handler.js');
+const verificationHandler = require('./verification_handler.js');
+const webhook = require('./webhook.js');
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -19,8 +18,8 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot');
 });
 
-app.get('/', verification_handler);
-app.post('/webhook/', message_handler);
+app.get('/', verificationHandler);
+app.post('/webhook/', webhook);
 
 
 
