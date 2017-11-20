@@ -1,7 +1,11 @@
 var request = require('request')
 
+module.exports = (sender, text) => {
+    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
+};
+
 // from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
-exports.sendTextMessage = function(sender, text) {
+sendTextMessage = function(sender, text) {
     messageData = {
         text:text
     };

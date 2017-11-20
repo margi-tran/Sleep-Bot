@@ -1,10 +1,10 @@
-const verification_handler = require('./verification_handler.js');
-const webhook = require('./webhook.js');
+const verification_handler = require('./verification_handler');
+const webhook = require('./webhook');
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var request = require('request');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -20,6 +20,3 @@ app.get('/', function (req, res) {
 
 app.get('/', verification_handler);
 app.post('/webhook/', webhook);
-
-
-
