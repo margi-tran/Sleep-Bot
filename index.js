@@ -1,7 +1,7 @@
 const token = "EAAFxZC8LaXgYBAJ9EJDT5U2XL00BnZADlH4OePZBvBO0FbR7da1ak9fgbyJ84GGje0TvTod1bH6ZCZAKYFLMJCyuB7lzzF6FFJ157zLFAkvqbQM9vZC58g2f5ZAYQZBtZAuzD9dhu7juSi0Q1cctCpZBjKvQ059P2LhzSfmgfCowifHC7SUVZBFsjCY"
 
 //https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
-const verificationController = require('./verification.js');
+const verification_handler = require('./verification.js');
 const message_handler = require('./message_handler.js');
 
 var express = require('express')
@@ -35,8 +35,11 @@ app.get('/webhook/', function (req, res) {
     }
     res.send('Error, wrong token')
 })*/
-app.get('/', verificationController);
+app.get('/', verification_handler);
 
+app.post('/webhook/', message_handler);
+
+/*
 // from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
 app.post('/webhook/', function (req, res) {
 	message_handler.handleMessage();
@@ -50,26 +53,6 @@ app.post('/webhook/', function (req, res) {
         }
     }
     res.sendStatus(200)
-})
+})*/
 
-// from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
-function sendTextMessage(sender, text) {
-    messageData = {
-        text:text
-    }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message: messageData
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
-}
+
