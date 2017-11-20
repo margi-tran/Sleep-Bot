@@ -3,13 +3,13 @@
  */
  
  
-var request = require('request')
+//var request = require('request')
 
 module.exports = (sender, text) => {
     sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
 	
-	if(text  === "data") {
-		sendTextMessage(sender, "DATA");
+	if(text  === "!") {
+		sendTextMessage(sender, "going to print your data!");
 	}
 };
 
