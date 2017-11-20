@@ -1,19 +1,31 @@
 /**
- * Module for processing messages recieved from the webhook and sending replies.
+ * Module for processing messages recieved from the webhook. 
+   Messages sent from users are sent a reply.
  */
  
  
 var request = require('request')
 
-module.exports = (sender, text) => {
-    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
+/*module.exports = (sender, text) => {
+    sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
 	
 	if(text  === "!") {
-		sendTextMessage(sender, "going to print your data!");
+		sendMessage(sender, "going to print your data!");
+	}
+};*/
+
+module.exports = (event) => {
+	send = event.sender.id;
+	message = event.message.text;
+	
+    sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
+	
+	if(text  === "!") {
+		sendMessage(sender, "Going to print your data!");
 	}
 };
 
-sendTextMessage = function(sender, text) {
+sendMessage = function(sender, text) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},

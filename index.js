@@ -1,4 +1,4 @@
-const verification_handler = require('./verification_handler');
+const verificationHandler = require('./verification_handler');
 const webhook = require('./webhook');
 
 var express = require('express');
@@ -18,5 +18,5 @@ app.get('/', function (req, res) {
     res.send('Hello world, I am a chat bot');
 });
 
-app.get('/', verification_handler);
+app.get('/', verificationHandler);
 app.post('/webhook/', webhook);
