@@ -15,7 +15,7 @@ var request = require('request')
 };*/
 
 module.exports = (event) => {
-	send = event.sender.id;
+	sender = event.sender.id;
 	message = event.message.text;
 	
     sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
