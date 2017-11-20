@@ -3,7 +3,7 @@
  */
  
  
-//var request = require('request')
+var request = require('request')
 
 module.exports = (sender, text) => {
     sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
