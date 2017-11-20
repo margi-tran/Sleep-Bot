@@ -3,6 +3,7 @@
 /*exports.handleMessage = function() {
 	console.log("hey**************");
 */
+var request = require('request')
 
 module.exports = (req, res) => {
     messaging_events = req.body.entry[0].messaging
