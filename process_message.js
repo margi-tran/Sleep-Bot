@@ -18,7 +18,7 @@ module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
 	
-    sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
+    sendMessage(sender, "Text received, echo: " + message.substring(0, 200));
 	
 	if(message  === "!") {
 		sendMessage(sender, "Going to print your data!");
