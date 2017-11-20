@@ -2,7 +2,7 @@ const token = "EAAFxZC8LaXgYBAJ9EJDT5U2XL00BnZADlH4OePZBvBO0FbR7da1ak9fgbyJ84GGj
 
 //https://botcube.co/blog/2017/02/23/tutorial-create-smart-facebook-messenger-chatbot-with-node-js-and-api-ai-nlp.html
 const verificationController = require('./verification.js');
-const messageHandler = require('./message_handler.js');
+const message_handler = require('./message_handler.js');
 
 var express = require('express')
 var bodyParser = require('body-parser')
