@@ -1,14 +1,15 @@
+/**
+ * This module processes messages sent by a user, then sends a relevant reply.
+ */
+ 
+ 
 var request = require('request')
 
 module.exports = (sender, text) => {
     sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
 };
 
-// from https://chatbotsmagazine.com/have-15-minutes-create-your-own-facebook-messenger-bot-481a7db54892
 sendTextMessage = function(sender, text) {
-    messageData = {
-        text:text
-    };
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
