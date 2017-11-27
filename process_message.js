@@ -4,15 +4,7 @@
  */
  
  
-var request = require('request')
-
-/*module.exports = (sender, text) => {
-    sendMessage(sender, "Text received, echo: " + text.substring(0, 200));
-	
-	if(text  === "!") {
-		sendMessage(sender, "going to print your data!");
-	}
-};*/
+var request = require('request');
 
 module.exports = (event) => {
 	sender = event.sender.id;

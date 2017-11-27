@@ -15,7 +15,7 @@ app.listen(app.get('port'), function() {
 });
 
 app.get('/', function (req, res) {
-    res.send('Hello world, I am a chat bot');
+    res.send('Chatbot is alive!');
 });
 
 app.get('/', verificationHandler);
