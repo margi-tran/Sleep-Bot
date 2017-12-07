@@ -2,8 +2,8 @@
  * Module for handling Facebook messages recieved from the webhook.
  */
 
- 
-const processMessage = require('./process_message');
+
+var processMessage = require('./process_message');
 
 module.exports = (req, res) => {
     if (req.body.object === 'page') {
@@ -11,8 +11,8 @@ module.exports = (req, res) => {
             entry.messaging.forEach(event => {
 				if(event.message)
 					processMessage(event);
-            });
-        });
-        res.status(200).end();
+         	});
+    	});
+    	res.status(200).end();
     }
 };

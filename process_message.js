@@ -1,19 +1,19 @@
 /**
- * Module for processing messages recieved from the webhook. 
-   Messages sent from users are sent a reply.
+ * Module for processing messages recieved from the webhook.
+   Messages recieved from users are sent a reply.
  */
- 
- 
+
+
 var request = require('request');
 
 module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
-	
-    sendMessage(sender, "[ok1] Text received, echo: " + message.substring(0, 200));
-	
+
+    sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
+
 	if(message  === "!") {
-		sendMessage(sender, "Going to print your data!");
+		sendMessage(sender, "You entered '!'");
 	}
 };
 
