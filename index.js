@@ -31,9 +31,9 @@ app.get('/fitbit', function(req, res) {
 });
 
 app.get('/fitbit_oauth_callback', function(req, res) {
-	client.getAccessToken(res.query.code, redirect_uri).then(function(result) {
-		client.get("/profile.json", result.access_token).then(function(profile) {
-			res.send(profile);
-		})
-	})
+	client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
+            client.get("/profile.json", result.access_token).then(function(profile) {
+                reply(profile);
+            })
+        })
 });
