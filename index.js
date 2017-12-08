@@ -38,7 +38,7 @@ app.get('/fitbit', function(req, res) {
         })
 });*/
 
-app.get("/callback", function (req, res) {
+app.get("/fitbit_oauth_callback", function (req, res) {
     // exchange the authorization code we just received for an access token
     client.getAccessToken(req.query.code, 'YOUR_CALLBACK_URL').then(function (result) {
         // use the access token to fetch the user's profile information
