@@ -1,10 +1,15 @@
-const verificationHandler = require('./verification_handler');
-const webhook = require('./webhook');
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
+var Fitbit = require('fitbit-node');
+
+var verificationHandler = require('./verification_handler');
+var webhook = require('./webhook');
+
+var client = new Fitbit('22CGXL','3807c2304b0d81e22aba3d4d2290bfaf');
+var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
+var scope = "activity profile";
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -20,3 +25,15 @@ app.get('/', function (req, res) {
 
 app.get('/', verificationHandler);
 app.post('/webhook/', webhook);
+
+app.get('/fitbit', function(req, res) {
+	res.redirect(client.getAuthorizeUrl(scope, redirect_uri));
+});
+
+app.get('/fitbit_oauth_callback', function(req, res) {
+	client.getAccessToken(res.query.code, redirect_uri).then(function(result) {
+		client.get("/profile.json", result.access_token).then(function(profile) {
+			res.send(profile);
+		})
+	})
+});
