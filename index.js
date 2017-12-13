@@ -2,12 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
+
+var fbVerificationHandler = require('./facebook/verification_handler');
+var webhook = require('./facebook/webhook');
+
 var Fitbit = require('fitbit-node');
-
-var verificationHandler = require('./verification_handler');
-var webhook = require('./webhook');
-
-//var client = new Fitbit('22CGXL','3807c2304b0d81e22aba3d4d2290bfaf');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
 var scope = "activity profile";
@@ -24,7 +23,7 @@ app.get('/', function (req, res) {
     res.send('Chatbot is alive!');
 });
 
-app.get('/', verificationHandler);
+app.get('/', fbVerificationHandler);
 app.post('/webhook/', webhook);
 
 app.get('/fitbit', function(req, res) {
@@ -34,7 +33,7 @@ app.get('/fitbit', function(req, res) {
 app.get('/fitbit_oauth_callback', function(req, res) {
 	client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
             client.get("/profile.json", result.access_token).then(function(profile) {
-                res.send(profile);
+                res.send('TEST: ' + profile);
             })
         })
 });
