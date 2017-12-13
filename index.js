@@ -9,7 +9,7 @@ var webhook = require('./facebook/webhook');
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
-var scope = "activity profile";
+var scope = "activity profile sleep";
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -33,7 +33,7 @@ app.get('/fitbit', function(req, res) {
 app.get('/fitbit_oauth_callback', function(req, res) {
 	client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
             client.get("/profile.json", result.access_token).then(function(profile) {
-                res.send(profile);
+                res.send(profile); // test
             })
         })
 });
