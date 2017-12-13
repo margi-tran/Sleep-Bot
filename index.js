@@ -42,8 +42,8 @@ app.get("/fitbit_oauth_callback", function (req, res) {
     // exchange the authorization code we just received for an access token
     client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
         // use the access token to fetch the user's profile information
-        client.get("/profile.json", result.access_token).then(function (results) {
-            res.send(results[0]);
+        client.get("/profile.json", result.access_token).then(function (profile) {
+            res.send(profile);
         });
     }).catch(function (error) {
         res.send(error);
