@@ -7,7 +7,8 @@ var Fitbit = require('fitbit-node');
 var verificationHandler = require('./verification_handler');
 var webhook = require('./webhook');
 
-var client = new Fitbit('22CGXL','3807c2304b0d81e22aba3d4d2290bfaf');
+//var client = new Fitbit('22CGXL','3807c2304b0d81e22aba3d4d2290bfaf');
+var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
 var scope = "activity profile";
 
@@ -30,15 +31,16 @@ app.get('/fitbit', function(req, res) {
 	res.redirect(client.getAuthorizeUrl(scope, redirect_uri));
 });
 
-/*app.get('/fitbit_oauth_callback', function(req, res) {
+app.get('/fitbit_oauth_callback', function(req, res) {
 	client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
             client.get("/profile.json", result.access_token).then(function(profile) {
-                reply(profile);
+                res.send(profile);
             })
         })
-});*/
+});
 
-app.get("/fitbit_oauth_callback", function (req, res) {
+/*
+app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
     // exchange the authorization code we just received for an access token
     client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
         // use the access token to fetch the user's profile information
@@ -48,4 +50,4 @@ app.get("/fitbit_oauth_callback", function (req, res) {
     }).catch(function (error) {
         res.send(error);
     });
-});
+});*/
