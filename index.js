@@ -9,7 +9,7 @@ var webhook = require('./facebook/webhook');
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
-var scope = "activity profile sleep";
+var scope = "profile sleep activity";
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
