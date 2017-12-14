@@ -1,4 +1,4 @@
-const send = (userId, messageData)  => {
+module.exports = (userId, messageData)  => {
     return new Promise((resolve, reject) => {
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
