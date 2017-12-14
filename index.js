@@ -11,6 +11,9 @@ var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
 var scope = "profile sleep activity";
 
+var mongoose = require("mongoose");
+var db = moongoose.connect(process.env.MONGODB_URI);
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -30,15 +33,6 @@ app.get('/fitbit', function(req, res) {
 	res.redirect(client.getAuthorizeUrl(scope, redirect_uri));
 });
 
-app.get('/fitbit_oauth_callback', function(req, res) {
-	client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
-            client.get("/profile.json", result.access_token).then(function(profile) {
-                res.send(profile); // test
-            })
-        })
-});
-
-/*
 app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
     // exchange the authorization code we just received for an access token
     client.getAccessToken(req.query.code, redirect_uri).then(function (result) {
@@ -49,4 +43,4 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
     }).catch(function (error) {
         res.send(error);
     });
-});*/
+});
