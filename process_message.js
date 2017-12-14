@@ -60,12 +60,24 @@ module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
 
-    send(sender, "Your userId: " + sender);
+    /*send(sender, "Your userId: " + sender);
     send(sender, "[OK] Text received! echoing: " + message.substring(0, 200)).then(function(results) {
          sendMessage(sender, "You entered '!'");
     }).catch(function (error) {
         console.log('Error: ', error);
-    });
+    });*/
+
+    send(sender, "Your userId: " + sender).then(
+        send(sender, "[OK] Text received! echoing: " + message.substring(0, 200))).then(
+        sendMessage(sender, "You entered '!'")
+        );
+
+
+    /*send(sender, "[OK] Text received! echoing: " + message.substring(0, 200)).then(function(results) {
+         sendMessage(sender, "You entered '!'");
+    }).catch(function (error) {
+        console.log('Error: ', error);
+    });*/
 };
 
 function sendMessage(sender, text) {
