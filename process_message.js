@@ -10,10 +10,6 @@ module.exports = (event) => {
 	userId = event.sender.id;
 	message = event.message.text;
 
-    /*send(sender, "Your userId: " + sender).then(
-        send(sender, "[OK] Text received! echoing: " + message.substring(0, 200))).then(
-        sendMessage(sender, "You entered '!'")
-    );*/
 
     if(message === 'id') {
         sendMessage(userId, 'Your userId: ' + userId);
@@ -21,6 +17,8 @@ module.exports = (event) => {
     }
 
     if(message === '!multiple') sendMultipleMessages(userId, [1, 2, 3], 0); 
+
+    sendMessage(userId, "[OK] Text received! Echoing: " + message.substring(0, 200));
 };
 
 function sendMessage(userId, message) {
@@ -30,7 +28,8 @@ function sendMessage(userId, message) {
         method: 'POST',
         json: {
             recipient: {id: userId},
-            message: {text: message}
+            message: {text: message},
+            sender_action: "typing_on"
         }
     }, function(error, response, body) {
         if (error) {
