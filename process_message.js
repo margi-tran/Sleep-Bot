@@ -16,7 +16,7 @@ module.exports = (event) => {
     );*/
 
     if(message === 'id') {
-        sendMessage('Your userId: ' + userId);
+        sendMessage(userId, 'Your userId: ' + userId);
         return;
     }
 
@@ -44,7 +44,8 @@ function sendMessage(userId, message) {
 
 /*
  * Taken from https://developers.facebook.com/bugs/565416400306038
- * it was by Le Hoang Dieu
+ * it was by Le Hoang Dieu.
+ * Seems to be only work around for sendin multiple messages in order
  */
 function sendMultipleMessages(userId, messageArray, i) {
     if (i < messageArray.length) 
