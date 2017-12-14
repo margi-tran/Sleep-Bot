@@ -33,7 +33,7 @@ const send = (userId, messageData)  => {
     });
 };*/
 
-const send = (userId, message_data)  => {
+const send = (sender, text)  => {
      console.log("IN HERE");
     return new Promise((resolve, reject) => {
        // request();   
@@ -69,7 +69,7 @@ module.exports = (event) => {
 	}*/
 send(sender, "[OK] Text received, echo: " + message.substring(0, 200));
     send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function(results) {
-        console.log("GOT HERE WOW");
+        if(message == "!") send(sender, "You entered '!'");
     }). catch(function (error) {
         console.log("ERROR");
     });
