@@ -13,13 +13,13 @@ var scope = "profile sleep activity";
 
 
 var mongoose = require("mongoose");
-var db = moongoose.connect(process.env.MONGODB_URI);
+var db = mongoose.connect(process.env.MONGODB_URI);
 
-var testSchema = moongoose.Schema({
+var testSchema = mongoose.Schema({
 	first: String,
 	last: String
 });
-var Test = Moongoose.model('Test', testSchema);
+var Test = Mongoose.model('Test', testSchema);
 
 
 
