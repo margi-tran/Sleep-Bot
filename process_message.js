@@ -28,8 +28,7 @@ function sendMessage(userId, message) {
         method: 'POST',
         json: {
             recipient: {id: userId},
-            message: {text: message},
-            sender_action: "typing_on"
+            message: {text: message}
         }
     }, function(error, response, body) {
         if (error) {
