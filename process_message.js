@@ -6,29 +6,6 @@
 
 var request = require('request');
 
-const send = (userId, messageData)  => {
-    return new Promise((resolve, reject) => {
-        request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
-            method: 'POST',
-            json: {
-                recipient: {id: userId},
-                message: {text: messageData}
-            }
-        }, function(error, response, body) {
-            if (error) {
-                console.log('Error sending messages: ', error);
-            } else if (response.body.error) {
-                console.log('Error: ', response.body.error);
-            }
-            console.log('Message sent successfully to ' + userId); 
-            return resolve(response);
-        });
-    });
-}
-
-
 module.exports = (event) => {
 	userId = event.sender.id;
 	message = event.message.text;
@@ -38,7 +15,7 @@ module.exports = (event) => {
         sendMessage(sender, "You entered '!'")
     );*/
 
-    if(message === '!multiple') sendTextMessages(userId, [1, 2, 3], 0); 
+    if(message === '!multiple') sendMultipleMessages(userId, [1, 2, 3], 0); 
 };
 
 function sendMessage(sender, text) {
@@ -64,7 +41,7 @@ function sendMessage(sender, text) {
  * Taken from https://developers.facebook.com/bugs/565416400306038
  * it was by Le Hoang Dieu
  */
-function sendMultipleTextMessages(userId, messageArray, i) {
+function sendMultipleMessages(userId, messageArray, i) {
     if (i < text.length) 
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -84,3 +61,24 @@ function sendMultipleTextMessages(userId, messageArray, i) {
         });
 }
 
+function sendWithPromise(userId, message) {
+    return new Promise((resolve, reject) => {
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: {
+                recipient: {id: userId},
+                message: {text: message}
+            }
+        }, function(error, response, body) {
+            if (error) {
+                console.log('Error sending messages: ', error);
+            } else if (response.body.error) {
+                console.log('Error: ', response.body.error);
+            }
+            console.log('Message sent successfully to ' + userId); 
+            return resolve(response);
+        });
+    });
+}
