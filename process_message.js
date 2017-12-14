@@ -62,7 +62,7 @@ module.exports = (event) => {
 
     send(sender, "Your userId: " + sender);
     send(sender, "[OK] Text received! echoing: " + message.substring(0, 200)).then(function(results) {
-        if(messsage === "!") sendMessage(sender, "You entered '!'");
+         sendMessage(sender, "You entered '!'");
     }).catch(function (error) {
         console.log('Error: ', error);
     });
