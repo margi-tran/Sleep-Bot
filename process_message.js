@@ -59,16 +59,16 @@ const send = (userId, message_data)  => {
 
 
 module.exports = (event) => {
-	userId = event.sender.id;
-	messageData = event.message.text;
+	sender = event.sender.id;
+	message = event.message.text;
 
    /* sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
 
 	if(message  === "!") {
 		sendMessage(sender, "You entered '!'");
 	}*/
-send(userId, "[OK] Text received, echo: " + messageData.substring(0, 200));
-    send(userId, "[OK] Text received, echo: " + messageData.substring(0, 200)).then(function(results) {
+send(sender, "[OK] Text received, echo: " + message.substring(0, 200));
+    send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function(results) {
         console.log("GOT HERE WOW");
     }). catch(function (error) {
         console.log("ERROR");
