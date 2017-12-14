@@ -15,6 +15,11 @@ module.exports = (event) => {
         sendMessage(sender, "You entered '!'")
     );*/
 
+    if(message === 'id') {
+        send(sender, "Your userId: " + userId);
+        return;
+    }
+
     if(message === '!multiple') sendMultipleMessages(userId, [1, 2, 3], 0); 
 };
 
@@ -61,6 +66,7 @@ function sendMultipleMessages(userId, messageArray, i) {
         });
 }
 
+// NOT WORKING: MESSAGES ARENT SENT IN ORDER WITH PROMISES
 function sendWithPromise(userId, message) {
     return new Promise((resolve, reject) => {
         request({
