@@ -10,11 +10,15 @@ module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
 
-    sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
+   /* sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
 
 	if(message  === "!") {
 		sendMessage(sender, "You entered '!'");
-	}
+	}*/
+
+    sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function() {
+        if(message == "!") sendMessage(sender, "You entered '!'");
+    });
 };
 
 function sendMessage(sender, text) {
