@@ -33,8 +33,7 @@ const send = (userId, messageData)  => {
     });
 };*/
 
-const send = (sender, text)  => {
-     console.log("IN HERE");
+const send = (userId, messageData)  => {
     return new Promise((resolve, reject) => {
        // request();   
 
@@ -43,8 +42,8 @@ const send = (sender, text)  => {
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
         method: 'POST',
         json: {
-            recipient: {id: sender},
-            message: {text: text}
+            recipient: {id: userId},
+            message: {text: messageData}
         }
     }, function(error, response, body) {
         if (error) {
@@ -67,7 +66,7 @@ module.exports = (event) => {
 	if(message  === "!") {
 		sendMessage(sender, "You entered '!'");
 	}*/
-send(sender, "[OK] Text received, echo: " + message.substring(0, 200));
+send(sender, sender+ " [OK] Text received, echo: " + message.substring(0, 200));
     send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function(results) {
         if(message == "!") send(sender, "You entered '!'");
     }). catch(function (error) {
