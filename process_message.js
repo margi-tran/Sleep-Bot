@@ -35,22 +35,21 @@ const send2 = (userId, messageData)  => {
 
 const send = (userId, messageData)  => {
     return new Promise((resolve, reject) => {
-       request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: userId},
-            message: {text: messageData}
-        }
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: {
+                recipient: {id: userId},
+                message: {text: messageData}
+            }
         }, function(error, response, body) {
             if (error) {
                 console.log('Error sending messages: ', error);
             } else if (response.body.error) {
                 console.log('Error: ', response.body.error);
             }
-
-            console.log("Message sent successfully to " + userId); 
+            console.log('Message sent successfully to ' + userId); 
             return resolve(response);
         });
     });
@@ -61,18 +60,11 @@ module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
 
-   /* sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
-
-	if(message  === "!") {
-		sendMessage(sender, "You entered '!'");
-	}*/
-
     send(sender, "Your userId: " + sender);
-
-    send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function(results) {
-        sendMessage(sender, "You entered '!'");
-    }). catch(function (error) {
-        console.log("ERROR");
+    send(sender, "[OK] Text received! echoing: " + message.substring(0, 200)).then(function(results) {
+        if(messsage === "!") sendMessage(sender, "You entered '!'");
+    }).catch(function (error) {
+        console.log('Error: ', error);
     });
 };
 
