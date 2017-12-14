@@ -16,7 +16,7 @@ module.exports = (event) => {
     );*/
 
     if(message === 'id') {
-        send(sender, "Your userId: " + userId);
+        sendMessage(sender, "Your userId: " + userId);
         return;
     }
 
