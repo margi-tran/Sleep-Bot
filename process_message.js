@@ -6,6 +6,9 @@
 
 var request = require('request');
 
+var send = require('./send_message.js');
+
+
 module.exports = (event) => {
 	sender = event.sender.id;
 	message = event.message.text;
@@ -16,8 +19,8 @@ module.exports = (event) => {
 		sendMessage(sender, "You entered '!'");
 	}*/
 
-    sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function() {
-        if(message == "!") sendMessage(sender, "You entered '!'");
+    send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function() {
+        if(message == "!") send(sender, "You entered '!'");
     });
 };
 

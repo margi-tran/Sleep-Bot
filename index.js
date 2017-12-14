@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 
-var fbVerificationHandler = require('./facebook/verification_handler');
-var webhook = require('./facebook/webhook');
+var fbVerificationHandler = require('./verification_handler');
+var webhook = require('./webhook');
 
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
