@@ -30,7 +30,7 @@ const send = (userId, messageData)  => {
 
 
 module.exports = (event) => {
-	sender = event.sender.id;
+	userId = event.sender.id;
 	message = event.message.text;
 
     /*send(sender, "Your userId: " + sender).then(
@@ -38,8 +38,7 @@ module.exports = (event) => {
         sendMessage(sender, "You entered '!'")
     );*/
 
-    var a = ["1", "2", "3"] //my result is a array
-    sendTextMessages(sender, a, 0) //OK. It works for me :)
+    if(message === '!multiple') sendTextMessages(userId, [1, 2, 3], 0); 
 };
 
 function sendMessage(sender, text) {
@@ -61,25 +60,27 @@ function sendMessage(sender, text) {
 }
 
 
-
-function sendTextMessages(sender, text, i) {
-    if (i < text.length) {
+/*
+ * Taken from https://developers.facebook.com/bugs/565416400306038
+ * it was by Le Hoang Dieu
+ */
+function sendMultipleTextMessages(userId, messageArray, i) {
+    if (i < text.length) 
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {access_token:process.env.FB_PAGE_ACCESS_TOKEN},
             method: 'POST',
             json: {
-                recipient: {id:sender},
-                message: {text:text[i]},
+                recipient: {id: userId},
+                message: {text: messageArray[i]},
             }
         }, function(error, response, body) {
             if (error) {
-                console.log('Error sending messages: ', error)
+                console.log('Error sending messages: ', error);
             } else if (response.body.error) {
-                console.log('Error: ', response.body.error)
+                console.log('Error: ', response.body.error);
             }
-            sendTextMessages(sender, text, i+1)
-        })
-    } else return
+            sendTextMessages(userId, messageArray, i+1);
+        });
 }
 
