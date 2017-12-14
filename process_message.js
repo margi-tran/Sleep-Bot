@@ -33,7 +33,7 @@ const send = (userId, messageData)  => {
     });
 };*/
 
-const send = (sender, text)  => {
+const send = (userId, message_data)  => {
      console.log("IN HERE");
     return new Promise((resolve, reject) => {
        // request();   
@@ -59,17 +59,17 @@ const send = (sender, text)  => {
 
 
 module.exports = (event) => {
-	sender = event.sender.id;
-	message = event.message.text;
+	userId = event.sender.id;
+	messageData = event.message.text;
 
    /* sendMessage(sender, "[OK] Text received, echo: " + message.substring(0, 200));
 
 	if(message  === "!") {
 		sendMessage(sender, "You entered '!'");
 	}*/
-send(sender, "[OK] Text received, echo: " + message.substring(0, 200));
-    send(sender, "[OK] Text received, echo: " + message.substring(0, 200)).then(function(results) {
-        if(message == "!") send(sender, "You entered '!'");
+send(userId, "[OK] Text received, echo: " + messageData.substring(0, 200));
+    send(userId, "[OK] Text received, echo: " + messageData.substring(0, 200)).then(function(results) {
+        console.log("GOT HERE WOW");
     }). catch(function (error) {
         console.log("ERROR");
     });
