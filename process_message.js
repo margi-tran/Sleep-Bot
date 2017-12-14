@@ -18,14 +18,14 @@ module.exports = (event) => {
     if(message === '!multiple') sendMultipleMessages(userId, [1, 2, 3], 0); 
 };
 
-function sendMessage(sender, text) {
+function sendMessage(userId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
         method: 'POST',
         json: {
-            recipient: {id: sender},
-            message: {text: text}
+            recipient: {id: userId},
+            message: {text: message}
         }
     }, function(error, response, body) {
         if (error) {
@@ -42,7 +42,7 @@ function sendMessage(sender, text) {
  * it was by Le Hoang Dieu
  */
 function sendMultipleMessages(userId, messageArray, i) {
-    if (i < text.length) 
+    if (i < messageArray.length) 
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {access_token:process.env.FB_PAGE_ACCESS_TOKEN},
@@ -57,7 +57,7 @@ function sendMultipleMessages(userId, messageArray, i) {
             } else if (response.body.error) {
                 console.log('Error: ', response.body.error);
             }
-            sendTextMessages(userId, messageArray, i+1);
+            sendMultipleMessages(userId, messageArray, i+1);
         });
 }
 
