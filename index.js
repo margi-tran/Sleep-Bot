@@ -11,8 +11,17 @@ var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
 var scope = "profile sleep activity";
 
+/*
 var mongoose = require("mongoose");
 var db = moongoose.connect(process.env.MONGODB_URI);
+
+var testSchema = moongoose.Schema({
+	first: String,
+	last: String
+});
+var test = Moongoose.model('Test', testSchema);*/
+
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
