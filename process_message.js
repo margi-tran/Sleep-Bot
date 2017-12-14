@@ -33,7 +33,7 @@ const send = (userId, messageData)  => {
     });
 };*/
 
-const send = (userId, messageData)  => {
+const send = (sender, text)  => {
      console.log("IN HERE");
     return new Promise((resolve, reject) => {
        // request();   
