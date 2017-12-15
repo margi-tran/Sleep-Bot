@@ -24,7 +24,7 @@ var Test = mongoose.model('test', testSchema);*/
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
 var db = mongoose.connection;
-
+//
 var testSchema = mongoose.Schema({
 	name: String, 
 	last: String
