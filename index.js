@@ -43,8 +43,8 @@ app.get('/', function (req, res) {
   var url = process.env.MONGODB_URI;
 
   MongoClient.connect(url, function(err, db){ 
-  	if {
-  		(err) console.log('*UNABLE TO CONNECT');
+  	if (err) {
+  		console.log('*UNABLE TO CONNECT');
   	} else {
   		var collection = db.collection('test');
   		collection.find({}).toArray(function(err, result){
