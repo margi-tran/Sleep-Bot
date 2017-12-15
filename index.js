@@ -34,12 +34,12 @@ app.listen(app.get('port'), function() {
 
 app.get('/', function (req, res) {
   //  res.send('Chatbot is alive!');
-  /*var result = Test.find();
+  var result = Test.find();
   result.exec(function(err, tests) {
   	res.send(tests)
-  });*/
+  });
 
-  var MongoClient = mongodb.MongoClient;
+  /*var MongoClient = mongodb.MongoClient;
   var url = process.env.MONGODB_URI;
 
   MongoClient.connect(url, function(err, db){ 
@@ -59,7 +59,7 @@ app.get('/', function (req, res) {
   			}
   		})
   	}
-  })
+  })*/
 
 });
 
