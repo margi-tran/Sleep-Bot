@@ -19,7 +19,7 @@ var testSchema = mongoose.Schema({
 	first: String,
 	last: String
 });
-var Test = mongoose.model('Test', testSchema);
+var Test = mongoose.model('test', testSchema);
 
 
 
