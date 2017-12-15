@@ -16,21 +16,12 @@ var scope = "profile sleep activity";
 var db = mongoose.connect(process.env.MONGODB_URI);
 
 var testSchema = mongoose.Schema({
-	first: String,
+	name: String,
 	last: String
 });
 var Test = mongoose.model('test', testSchema);*/
 
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
-var db = mongoose.connection;
-//
-var testSchema = mongoose.Schema({
-	name: String, 
-	last: String
-});
-
-var Test = mongoose.model('test', testSchema);
+var mongodb = require('mongodb');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -43,10 +34,33 @@ app.listen(app.get('port'), function() {
 
 app.get('/', function (req, res) {
   //  res.send('Chatbot is alive!');
-  var result = Test.find();
+  /*var result = Test.find();
   result.exec(function(err, tests) {
   	res.send(tests)
-  });
+  });*/
+
+  var MongoClient = mongodb.MongoClient;
+  var url = process.env.MONGODB_URI;
+
+  MongoClient.connect(url, function(err, db){ 
+  	if {
+  		(err) console.log('*UNABLE TO CONNECT');
+  	} else {
+  		var collection = db.collection('test');
+  		collection.find({}).toArray(function(err, result){
+  			if(err) {
+  				res.send(err);
+  			} else if (result.length) {
+  				res.render('studentlist', {
+  					"studentlist": result
+  				});
+  			} else {
+  				res.send('No documents found');
+  			}
+  		})
+  	}
+  })
+
 });
 
 app.get('/', fbVerificationHandler);
