@@ -34,7 +34,7 @@ app.listen(app.get('port'), function() {
 
 app.get('/', function (req, res) {
   //  res.send('Chatbot is alive!');
-  var result = Test.find();
+  var result = Firstcol.find();
   result.exec(function(err, results) {
   	res.send(results);
   });
