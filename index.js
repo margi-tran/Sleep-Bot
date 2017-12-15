@@ -12,15 +12,25 @@ var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_call
 var scope = "profile sleep activity";
 
 
-var mongoose = require('mongoose');
+/*var mongoose = require('mongoose');
 var db = mongoose.connect(process.env.MONGODB_URI);
 
 var testSchema = mongoose.Schema({
 	first: String,
 	last: String
 });
-var Test = mongoose.model('test', testSchema);
+var Test = mongoose.model('test', testSchema);*/
 
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI);
+var db = mongoose.connection;
+
+var testSchema = mongoose.Schema({
+	name: String, 
+	last: String
+});
+
+var Test = mongoose.model('test', testSchema);
 
 
 app.use(bodyParser.urlencoded({extended: false}));
