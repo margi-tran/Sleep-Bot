@@ -15,11 +15,11 @@ var scope = "profile sleep activity";
 var mongoose = require('mongoose');
 var db = mongoose.connect(process.env.MONGODB_URI);
 
-var testSchema = mongoose.Schema({
-	name: String,
+var firstcolSchema = mongoose.Schema({
+	first: String,
 	last: String
 });
-var Test = mongoose.model('test', testSchema);
+var Firstcol = mongoose.model('firstcol', firstcolSchema);
 
 //var mongodb = require('mongodb');
 
@@ -35,8 +35,8 @@ app.listen(app.get('port'), function() {
 app.get('/', function (req, res) {
   //  res.send('Chatbot is alive!');
   var result = Test.find();
-  result.exec(function(err, tests) {
-  	res.send(tests)
+  result.exec(function(err, results) {
+  	res.send(results);
   });
 
   /*var MongoClient = mongodb.MongoClient;
