@@ -18,7 +18,7 @@ var db = mongoose.connect(process.env.MONGODB_URI);
 var firstcolSchema = mongoose.Schema({
 	first: String,
 	last: String
-});
+}, {collection: 'firstcol'});
 var Firstcol = mongoose.model('firstcol', firstcolSchema);
 
 //var mongodb = require('mongodb');
