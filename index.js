@@ -11,7 +11,7 @@ var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT
 var redirect_uri = "https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback";
 var scope = "profile sleep activity";
 
-
+/*
 var mongoose = require('mongoose');
 var db = mongoose.connect(process.env.MONGODB_URI);
 
@@ -20,8 +20,10 @@ var firstcolSchema = mongoose.Schema({
 	last: String
 }, {collection: 'firstcol'});
 var Firstcol = mongoose.model('firstcol', firstcolSchema);
+*/
 
-//var mongodb = require('mongodb');
+
+var MongoClient = require('mongodb').MongoClient;
 
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -32,12 +34,25 @@ app.listen(app.get('port'), function() {
     console.log('Running on port', app.get('port'));
 });
 
+
+app.get('/', async function (req, res) {
+  //  res.send('Chatbot is alive!');
+ /* var result = Firstcol.find();
+  result.exec(function(err, results) {
+  	res.send(results);*/
+
+  	const db = await MongoClient.connect(process.env.MONODB_URI);
+  	const testcollection = db.collection('firstcol');
+  	res.send('nothting');
+  });
+
+/*
 app.get('/', function (req, res) {
   //  res.send('Chatbot is alive!');
   var result = Firstcol.find();
   result.exec(function(err, results) {
   	res.send(results);
-  });
+  });*/
 
   /*var MongoClient = mongodb.MongoClient;
   var url = process.env.MONGODB_URI;
