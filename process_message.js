@@ -9,32 +9,37 @@ var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
 module.exports = async (event) => {
-	userId = event.sender.id;
-	message = event.message.text;
+    try { 
 
+        userId = event.sender.id;
+        message = event.message.text;
 
-    //test
-
-    const db = await MongoClient.connect("mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj");
-    const testcollection = db.collection('firstcol');
-    var query = {};
-    const res1 = await testcollection.find(query).toArray();
-    console.log(res1);
-    var val = res1[1];
-    var username = val.first;
-    sendMessage(userId, JSON.stringify(val.first));
-    return;
+        if (message === '!fitbit_username') {
+            const db = await MongoClient.connect('mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj');
+            const testcollection = await db.collection('firstcol');
+            var query = {};
+            const res1 = await testcollection.find(query).toArray();
+            console.log(res1);
+            var val = res1[1];
+            var username = val.first;
+            sendMessage(userId, JSON.stringify(val.first));
+            db.close();
+            return;
+        }
     
+        if (message === '!fb_id') {
+            sendMessage(userId, 'Your fb_id: ' + userId);
+            return;
+        }
 
+        if (message === '!multiple') 
+            sendMultipleMessages(userId, [1, 2, 3], 0); 
 
-    if(message === 'id') {
-        sendMessage(userId, 'Your userId: ' + userId);
-        return;
+        sendMessage(userId, "[OK] Text received! Echoing: " + message.substring(0, 200));
+        
+    } catch (err) {
+        console.log('ERROR: ', err);
     }
-
-    if(message === '!multiple') sendMultipleMessages(userId, [1, 2, 3], 0); 
-
-    sendMessage(userId, "[OK] Text received! Echoing: " + message.substring(0, 200));
 };
 
 function sendMessage(userId, message) {
@@ -71,7 +76,7 @@ function sendMultipleMessages(userId, messageArray, i) {
                 recipient: {id: userId},
                 message: {text: messageArray[i]},
             }
-        }, function(error, response, body) {
+        }, function (error, response, body) {
             if (error) {
                 console.log('Error sending messages: ', error);
             } else if (response.body.error) {

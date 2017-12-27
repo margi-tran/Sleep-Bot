@@ -5,11 +5,11 @@
 
 var processMessage = require('./process_message');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
     if (req.body.object === 'page') {
         req.body.entry.forEach(entry => {
             entry.messaging.forEach(event => {
-				if(event.message)
+				if (event.message)
 					processMessage(event);
          	});
     	});
