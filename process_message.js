@@ -9,7 +9,6 @@ var MongoClient = require('mongodb').MongoClient;
 
 module.exports = async (event) => {
     try { 
-
         userId = event.sender.id;
         message = event.message.text;
 
@@ -35,7 +34,6 @@ module.exports = async (event) => {
             sendMultipleMessages(userId, [1, 2, 3], 0); 
 
         sendMessage(userId, "[OK] Text received! Echoing: " + message.substring(0, 200));
-        
     } catch (err) {
         console.log('ERROR: ', err);
     }
@@ -50,7 +48,7 @@ function sendMessage(userId, message) {
             recipient: {id: userId},
             message: {text: message}
         }
-    }, function(error, response, body) {
+    }, (error, response, body) => {
         if (error) {
             console.log('Error sending messages: ', error);
         } else if (response.body.error) {
@@ -83,27 +81,4 @@ function sendMultipleMessages(userId, messageArray, i) {
             }
             sendMultipleMessages(userId, messageArray, i+1);
         });
-}
-
-// NOT WORKING: MESSAGES ARENT SENT IN ORDER WITH PROMISES
-function sendWithPromise(userId, message) {
-    return new Promise((resolve, reject) => {
-        request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
-            method: 'POST',
-            json: {
-                recipient: {id: userId},
-                message: {text: message}
-            }
-        }, function(error, response, body) {
-            if (error) {
-                console.log('Error sending messages: ', error);
-            } else if (response.body.error) {
-                console.log('Error: ', response.body.error);
-            }
-            console.log('Message sent successfully to ' + userId); 
-            return resolve(response);
-        });
-    });
 }
