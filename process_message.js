@@ -23,7 +23,7 @@ module.exports = async (event) => {
     var val = res1[1];
     var v = JSON.stringify(val);
     console.log("STRING: " + val);
-
+    console.log("STRING: " + v);
     sendMessage(userId, "ok");
     return;
     
