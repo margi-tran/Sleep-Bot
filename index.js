@@ -43,7 +43,7 @@ app.get('/', async function (req, res) {
   		const testcollection = db.collection('firstcol');
   		res.send('nothting');
   	} catch (err) {
-  		console.log("ERROR: " + error);
+  		console.log("ERROR: " + err);
   	}
   });
 
