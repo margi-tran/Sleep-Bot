@@ -39,7 +39,8 @@ app.listen(app.get('port'), function() {
 
 app.get('/', async function (req, res) {
   	try {
-  		const db = await MongoClient.connect(process.env.MONODB_URI);
+  		//mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj
+  		const db = await MongoClient.connect("mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj");
   		const testcollection = db.collection('firstcol');
   		res.send('nothting');
   	} catch (err) {
