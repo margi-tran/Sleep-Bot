@@ -43,8 +43,8 @@ app.get('/', async function (req, res) {
   		const db = await MongoClient.connect("mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj");
   		const testcollection = db.collection('firstcol');
 
-  		var query = "{}";
-  		const res1 = await testcollection.findOne({});
+  		var query = {};
+  		const res1 = await testcollection.find(query);
   		//const res1 = await
 
   		res.send(res1);
