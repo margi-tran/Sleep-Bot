@@ -3,6 +3,8 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 
+var async = require('async');
+
 var fbVerificationHandler = require('./verification_handler');
 var webhook = require('./webhook');
 
@@ -36,14 +38,13 @@ app.listen(app.get('port'), function() {
 
 
 app.get('/', async function (req, res) {
-  //  res.send('Chatbot is alive!');
- /* var result = Firstcol.find();
-  result.exec(function(err, results) {
-  	res.send(results);*/
+  	try {
+  		const db = await MongoClient.connect(process.env.MONODB_URI);
+  		const testcollection = db.collection('firstcol');
+  		res.send('nothting');
+  	} catch (err) {
 
-  	const db = await MongoClient.connect(process.env.MONODB_URI);
-  	const testcollection = db.collection('firstcol');
-  	res.send('nothting');
+  	}
   });
 
 /*
@@ -74,9 +75,9 @@ app.get('/', function (req, res) {
   			}
   		})
   	}
-  })*/
+  })
 
-});
+});*/
 
 app.get('/', fbVerificationHandler);
 app.post('/webhook/', webhook);
