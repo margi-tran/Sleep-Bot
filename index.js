@@ -44,7 +44,7 @@ app.get('/', async function (req, res) {
   		const testcollection = db.collection('firstcol');
 
   		var query = {};
-  		const res1 = await testcollection.find(query);
+  		const res1 = await testcollection.find(query).toArray();
   		//const res1 = await
 
   		res.send(res1);
