@@ -19,7 +19,8 @@ module.exports = async (event) => {
     const testcollection = db.collection('firstcol');
     var query = {};
     const res1 = await testcollection.find(query).toArray();
-    sendMessage(userId, res1);
+    console.log(res1);
+    sendMessage(userId, "ok");
     return;
     
 
