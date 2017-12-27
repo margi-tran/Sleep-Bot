@@ -20,6 +20,8 @@ module.exports = async (event) => {
     var query = {};
     const res1 = await testcollection.find(query).toArray();
     console.log(res1);
+    var val = res1[1]['user'];
+    console.log("**************USER:" + val);
     sendMessage(userId, "ok");
     return;
     
