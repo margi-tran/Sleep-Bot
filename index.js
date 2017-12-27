@@ -44,6 +44,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		profile = await client.get("/profile.json", accessTokenPromise.access_token);
+
 		res.send(profile);
 	} catch (err) {
 		res.send(err);

@@ -34,6 +34,23 @@ module.exports = async (event) => {
             sendMultipleMessages(fbUserId, [1, 2, 3], 0); 
 
         sendMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+
+
+        //
+        // db fields
+        // fbUserId, fitbitId, accessToken, refreshToken
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        /*const testcollection = db.collection('fitbitauths');
+        var newUserObj = {
+            fbUserId:
+            fitbitId:
+            accessToken:
+            refreshToken:
+        };
+        const res1 = await testcollection.find(query).toArray();*/
+        var myobj = { name: "Company Inc", address: "Highway 37" };
+        db.collection("fitbitauths").insertOne(myobj);
+
     } catch (err) {
         console.log('ERROR: ', err);
     }
