@@ -31,9 +31,9 @@ module.exports = async (event) => {
         }
 
         if (message === '!multiple') 
-            sendMultipleMessages([1, 2, 3], 0); 
+            sendMultipleMessages(fbUserId, [1, 2, 3], 0); 
 
-        sendMessage('[OK] Text received! Echoing: ', message.substring(0, 200));
+        sendMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
     } catch (err) {
         console.log('ERROR: ', err);
     }
