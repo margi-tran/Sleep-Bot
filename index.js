@@ -42,7 +42,12 @@ app.get('/', async function (req, res) {
   		//mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj
   		const db = await MongoClient.connect("mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj");
   		const testcollection = db.collection('firstcol');
-  		res.send('nothting');
+
+  		var query = "{}";
+  		const res1 = await testcollection.find(query).toArray();
+  		//const res1 = await
+
+  		res.send(res1);
   	} catch (err) {
   		console.log("ERROR: " + err);
   	}
