@@ -10,14 +10,14 @@ var webhook = require('./webhook');
 
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
-var redirect_uri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
+var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'profile sleep activity';
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), () => {
     console.log('Running on port', app.get('port'));
 });
 
@@ -38,7 +38,7 @@ app.get('/', async (req, res) => {
 app.get('/', fbVerificationHandler);
 
 app.get('/fitbit', function(req, res) {
-	res.redirect(client.getAuthorizeUrl(scope, redirect_uri));
+	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
 });
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
