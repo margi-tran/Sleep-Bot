@@ -6,9 +6,22 @@
 
 var request = require('request');
 
-module.exports = (event) => {
+var MongoClient = require('mongodb').MongoClient;
+
+module.exports = async (event) => {
 	userId = event.sender.id;
 	message = event.message.text;
+
+
+    //test
+
+    const db = await MongoClient.connect("mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj");
+    const testcollection = db.collection('firstcol');
+    var query = {};
+    const res1 = await testcollection.find(query).toArray();
+    sendMessage(userId, res1);
+    return;
+    
 
 
     if(message === 'id') {
