@@ -5,7 +5,6 @@
 
 
 var request = require('request');
-
 var MongoClient = require('mongodb').MongoClient;
 
 module.exports = async (event) => {
@@ -15,7 +14,7 @@ module.exports = async (event) => {
         message = event.message.text;
 
         if (message === '!fitbit_id') {
-            const db = await MongoClient.connect('mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj');
+            const db = await MongoClient.connect(process.env.MONGODB_URI);
             const testcollection = await db.collection('firstcol');
             var query = {};
             const res1 = await testcollection.find(query).toArray();

@@ -23,8 +23,6 @@ app.listen(app.get('port'), () => {
 
 app.get('/', async (req, res) => {
   	try {
-  		//mongodb://admin_margi:pw_margi@ds139436.mlab.com:39436/honours_proj
-  		//MONGODB_URI
   		const db = await MongoClient.connect(process.env.MONGODB_URI);
   		const testcollection = db.collection('firstcol');
 
