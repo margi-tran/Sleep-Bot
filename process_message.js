@@ -9,7 +9,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 module.exports = async (event) => {
     try { 
-        userId = event.sender.id;
+        fbUserId = event.sender.id;
         message = event.message.text;
 
         if (message === '!fitbit_id') {
@@ -20,32 +20,32 @@ module.exports = async (event) => {
             console.log(res1);
             var val = res1[1];
             var username = val.first;
-            sendMessage(userId, JSON.stringify(val.first));
+            sendMessage(fbUserId, JSON.stringify(val.first));
             db.close();
             return;
         }
     
         if (message === '!fb_id') {
-            sendMessage(userId, 'Your fb_id: ' + userId);
+            sendMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
 
         if (message === '!multiple') 
-            sendMultipleMessages(userId, [1, 2, 3], 0); 
+            sendMultipleMessages(fbUserId, [1, 2, 3], 0); 
 
-        sendMessage(userId, "[OK] Text received! Echoing: " + message.substring(0, 200));
+        sendMessage(fbUserId, "[OK] Text received! Echoing: " + message.substring(0, 200));
     } catch (err) {
         console.log('ERROR: ', err);
     }
 };
 
-function sendMessage(userId, message) {
+function sendMessage(fbUserId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
         method: 'POST',
         json: {
-            recipient: {id: userId},
+            recipient: {id: fbUserId},
             message: {text: message}
         }
     }, (error, response, body) => {
@@ -63,14 +63,14 @@ function sendMessage(userId, message) {
  * it was by Le Hoang Dieu.
  * Seems to be only work around for sendin multiple messages in order
  */
-function sendMultipleMessages(userId, messageArray, i) {
+function sendMultipleMessages(fbUserId, messageArray, i) {
     if (i < messageArray.length) 
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
             qs: {access_token:process.env.FB_PAGE_ACCESS_TOKEN},
             method: 'POST',
             json: {
-                recipient: {id: userId},
+                recipient: {id: fbUserId},
                 message: {text: messageArray[i]},
             }
         }, function (error, response, body) {
@@ -79,6 +79,6 @@ function sendMultipleMessages(userId, messageArray, i) {
             } else if (response.body.error) {
                 console.log('Error: ', response.body.error);
             }
-            sendMultipleMessages(userId, messageArray, i+1);
+            sendMultipleMessages(fbUserId, messageArray, i+1);
         });
 }
