@@ -25,7 +25,7 @@ module.exports = async (event) => {
     console.log("STRING: " + val);
     console.log("STRING: " + v);
     console.log("USERNAME:" + val.first);
-    sendMessage(userId, "ok");
+    sendMessage(userId, JSON.stringify(val.first));
     return;
     
 
