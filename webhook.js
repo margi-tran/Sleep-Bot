@@ -4,6 +4,7 @@
 
 
 var processMessage = require('./process_message');
+var processPostback = require('./process_postback');
 
 
 module.exports = async (req, res) => {
@@ -13,9 +14,8 @@ module.exports = async (req, res) => {
             entry.messaging.forEach(event => {
 				if (event.message)
 					processMessage(event);
-
 				if(event.postback) {
-					console.log("get started was pressed");
+					processPostback(event);
 				}
          	});
     	});
