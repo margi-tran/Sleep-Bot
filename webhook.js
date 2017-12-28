@@ -36,6 +36,12 @@ try{
     // Iterate over each entry
     // There may be multiple if batched
     data.entry.forEach(function(pageEntry) {
+
+    if (pageEntry === null || pageEntry === undefined) {
+      		console.log("GOTCHA");
+      		return;
+      	}
+      	
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
 
