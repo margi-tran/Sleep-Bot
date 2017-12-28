@@ -39,10 +39,16 @@ module.exports = async (req, res) => {
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
+      	if (messagingEvent === null || messagingEvent === undefined) {
+      		console.log("GOTCHA");
+      		return;
+      	}
+
          if (messagingEvent.message) {
           processMessage(event);
         } else if (messagingEvent.postback) {
-          console.log("WOW");
+        	console.log("WOW");
+        	receivedPostback(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
         }
