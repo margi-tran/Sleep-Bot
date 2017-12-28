@@ -11,8 +11,14 @@ module.exports = async (req, res) => {
             entry.messaging.forEach(event => {
 				if (event.message)
 					processMessage(event);
+
+				if(event.postback) {
+					console.log("get started was pressed");
+				}
          	});
     	});
     	res.status(200).end();
     }
 };
+
+
