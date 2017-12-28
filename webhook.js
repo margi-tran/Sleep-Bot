@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
           processMessage(event);
         } else if (messagingEvent.postback) {
         	console.log("WOW");
-        	receivedPostback(messagingEvent);
+        	//receivedPostback(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
         }
