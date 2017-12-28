@@ -12,12 +12,22 @@ module.exports = async (event) => {
         fbUserId = event.sender.id;
         message = event.message.text;
 
-    
+        // check whether the user exists in the database
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        var myobj = { fbId: fbUserId };
+        res = await db.collection('fitbitauths').find(query).toArray();
+        console.log(res);
+        db.close(); 
+              
+
+        // example on to insert some documents
+        /*
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         var myobj = { name: "Company Inc", 
                       address: "lappen" };
         await db.collection("fitbitauths").insertOne(myobj);
         db.close();
+        */
 
         // example on how to find some documents
         /*
