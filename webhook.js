@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
 
 
 module.exports = async (req, res) => {
+	try {
   var data = req.body;
   // Make sure this is a page subscription
   if (data.object == 'page') {
@@ -42,6 +43,11 @@ module.exports = async (req, res) => {
     data.entry.forEach(function(pageEntry) {
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
+
+      if(pageEntry === undefined) {
+    	console.log("err first");
+    	return;
+    }
 
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
@@ -68,7 +74,9 @@ module.exports = async (req, res) => {
     // successfully received the callback. Otherwise, the request will time out.
     res.sendStatus(200);
   }
-} 
+} catch (err) {
+	console.log('find it:', err);
+}
 
 
 
