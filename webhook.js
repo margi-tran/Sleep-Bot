@@ -47,8 +47,8 @@ module.exports = async (req, res) => {
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
 
-      if(pageEntry.messaing === undefined) {
-    	console.log("err first");
+      if(pageEntry.messaging === undefined) {
+    	console.log("err second");
     	return;
     }
 
