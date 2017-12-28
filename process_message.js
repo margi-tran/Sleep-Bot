@@ -22,7 +22,7 @@ module.exports = async (event) => {
         if(res.length == 0) { // user is not in database
             var newUser = { fbUserId_: fbUserId, 
                             fitbitId_: "raise",
-                            accessToken: "kappa"
+                            accessToken: "kappa",
                             refreshAccessToken: "123" };
             await db.collection('fitbitauths').insertOne(newUser);
             db.close();
