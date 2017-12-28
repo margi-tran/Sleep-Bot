@@ -35,18 +35,19 @@ module.exports = async (req, res) => {
   if (data.object == 'page') {
     // Iterate over each entry
     // There may be multiple if batched
+
+
     if(data.entry === undefined) {
     	console.log("err first");
     	return;
     }
-
-console.log('***************************8data.entry', data.entry);
+	console.log('***************************data.entry:', data.entry);
 
     data.entry.forEach(function(pageEntry) {
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
 
-      if(pageEntry === undefined) {
+      if(pageEntry.messaing === undefined) {
     	console.log("err first");
     	return;
     }
