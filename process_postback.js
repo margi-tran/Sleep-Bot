@@ -10,7 +10,7 @@ var MongoClient = require('mongodb').MongoClient;
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
-        message = event.message.text;
+        //message = event.message.text;
 
         sendMessage(fbUserId, 'postback');
     } catch (err) {
