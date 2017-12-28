@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
       	}
 
          if (messagingEvent.message) {
-          processMessage(event);
+          processMessage(messagingEvent);
         } else if (messagingEvent.postback) {
         	console.log("WOW");
         	//receivedPostback(messagingEvent);
