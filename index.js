@@ -25,10 +25,9 @@ app.get('/', async (req, res) => {
   	try {
   		const db = await MongoClient.connect(process.env.MONGODB_URI);
   		const testcollection = db.collection('firstcol');
-
   		var query = {};
-  		const res1 = await testcollection.find(query).toArray();
-  		res.send(res1);
+  		const res = await testcollection.find(query).toArray();
+  		res.send(res);
   	} catch (err) {
   		console.log('ERROR: ', err);
   	}

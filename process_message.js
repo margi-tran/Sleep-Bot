@@ -13,34 +13,29 @@ module.exports = async (event) => {
         message = event.message.text;
 
     
-
-        // fbUserId, fitbitId, accessToken, refreshToken
         const db = await MongoClient.connect(process.env.MONGODB_URI);
-        /*const testcollection = db.collection('fitbitauths');
-        var newUserObj = {
-            fbUserId:
-            fitbitId:
-            accessToken:
-            refreshToken:
-        };
-        const res1 = await testcollection.find(query).toArray();*/
-        var myobj = { name: "Company Inc", address: "Highway 37" };
+        var myobj = { name: "Company Inc", 
+                      address: "lappen" };
         await db.collection("fitbitauths").insertOne(myobj);
+        db.close();
 
-        var addr = 'Highway 37';
+        // example on how to find some documents
+        /*
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        var addr = 'lappen';
         var query = { address: addr };
         res = await db.collection("fitbitauths").find(query).toArray();
         console.log(res);
-
         db.close();
+        */
 
         if (message === '!fitbit_id') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const testcollection = await db.collection('firstcol');
             var query = {};
-            const res1 = await testcollection.find(query).toArray();
-            console.log(res1);
-            var val = res1[1];
+            const res = await testcollection.find(query).toArray();
+            console.log(res);
+            var val = res[1];
             var username = val.first;
             sendMessage(fbUserId, JSON.stringify(val.first));
             db.close();
