@@ -14,7 +14,7 @@ module.exports = async (event) => {
 
         // check whether the user exists in the database
         const db = await MongoClient.connect(process.env.MONGODB_URI);
-        query = { fbId: fbUserId };
+        query = { fbUserId_: fbUserId };
         res = await db.collection('fitbitauths').find(query).toArray();
         console.log(res);
 
