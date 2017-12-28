@@ -9,30 +9,33 @@ var processPostback = require('./process_postback');
 
 module.exports = async (req, res) => {
 	try {
-    if (req.body.object === 'page') {
+    	if (req.body.object === 'page') {
 
-    	if(req.body.entry === undefined) {
+    		if(req.body.entry === undefined) {
     			console.log('ERROR: req.body.entry is a NULL object');
-    			return;
-    	}
-
-        req.body.entry.forEach(entry => {
-
-        	if(entry.messaging === undefined) {
-    			console.log('ERROR: entry.messaging is a NULL object.');
     			return;
     		}
 
-            entry.messaging.forEach(event => {
-				if (event.message)
-					processMessage(event);
-				if(event.postback) {
-					processPostback(event);
-				}
-         	});
-    	});
-    	res.status(200).end();
-    }
+       		req.body.entry.forEach(entry => {
+
+        		if(entry.messaging === undefined) {
+    				console.log('ERROR: entry.messaging is a NULL object.');
+    				return;
+    			}
+
+            	entry.messaging.forEach(event => {
+					if (event.message) {
+						processMessage(event);
+					}
+					else if(event.postback) {
+						processPostback(event);
+					} else {
+						console.log('NOT VALID');
+					}
+         		});
+    		});
+    		res.status(200).end();
+    	}
     } catch (err) {
     	console.log('ERROR (at webhook.js): ', err);
     }
