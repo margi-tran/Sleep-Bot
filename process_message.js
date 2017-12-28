@@ -20,8 +20,8 @@ module.exports = async (event) => {
 
 
         if(res.length == 0) { // user is not in database
-            console.log("RES WHAT HAPPENED");
-            console.log(res);
+            console.log('res: ', res);
+            console.log("RES WHAT HAPPENED", res.length);
             var newUser = { fbUserId_: fbUserId, 
                             fitbitId_: "raise",
                             accessToken: "kappa",
