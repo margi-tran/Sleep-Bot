@@ -25,7 +25,7 @@ module.exports = async (event) => {
                             accessToken: "kappa",
                             refreshAccessToken: "123" }; */
 
-        var myobj = { name: "xd", 
+            var newUser = { name: "xd", 
                       address: "xdd" };
             await db.collection('fitbitauths').insertOne(newUser);
             db.close();
