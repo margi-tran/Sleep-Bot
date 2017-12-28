@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
   	} catch (err) {
   		console.log('ERROR: ', err);
   	}
-  	setupGetStartedButton(res);
+  	//setupGetStartedButton(res);
 });
 
 app.get('/', fbVerificationHandler);
@@ -67,8 +67,9 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
 
 app.post('/webhook/', webhook);
 
+
 // taken from https://www.techiediaries.com/messenger-bot-get-started-button/
-function setupGetStartedButton(res) {
+/*function setupGetStartedButton(res) {
     var messageData = {
         "get_started":[
             {
@@ -89,4 +90,4 @@ function setupGetStartedButton(res) {
             console.log(error);
         }
     });
-}     
+} */    
