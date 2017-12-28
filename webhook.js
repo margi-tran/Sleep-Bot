@@ -29,19 +29,17 @@ module.exports = async (req, res) => {
 
 
 module.exports = async (req, res) => {
-try{
   var data = req.body;
   // Make sure this is a page subscription
   if (data.object == 'page') {
     // Iterate over each entry
     // There may be multiple if batched
-    data.entry.forEach(function(pageEntry) {
+    if(data.entry === undefined) {
+    	console.log("err first");
+    	return;
+    }
 
-    if (pageEntry === null || pageEntry === undefined) {
-      		console.log("GOTCHA");
-      		return;
-      	}
-      	
+    data.entry.forEach(function(pageEntry) {
       var pageID = pageEntry.id;
       var timeOfEvent = pageEntry.time;
 
@@ -70,10 +68,7 @@ try{
     // successfully received the callback. Otherwise, the request will time out.
     res.sendStatus(200);
   }
-} catch (err) {
-	console.log('find it:', err);
-}
-}
+} 
 
 
 
