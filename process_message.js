@@ -12,6 +12,28 @@ module.exports = async (event) => {
         fbUserId = event.sender.id;
         message = event.message.text;
 
+    
+
+        // fbUserId, fitbitId, accessToken, refreshToken
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        /*const testcollection = db.collection('fitbitauths');
+        var newUserObj = {
+            fbUserId:
+            fitbitId:
+            accessToken:
+            refreshToken:
+        };
+        const res1 = await testcollection.find(query).toArray();*/
+        var myobj = { name: "Company Inc", address: "Highway 37" };
+        await db.collection("fitbitauths").insertOne(myobj);
+
+        var addr = 'Highway 37';
+        var query = { address: addr };
+        res = await db.collection("fitbitauths").find(query).toArray();
+        console.log(res);
+
+        db.close();
+
         if (message === '!fitbit_id') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const testcollection = await db.collection('firstcol');
@@ -34,22 +56,6 @@ module.exports = async (event) => {
             sendMultipleMessages(fbUserId, [1, 2, 3], 0); 
 
         sendMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
-
-
-        //
-        // db fields
-        // fbUserId, fitbitId, accessToken, refreshToken
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
-        /*const testcollection = db.collection('fitbitauths');
-        var newUserObj = {
-            fbUserId:
-            fitbitId:
-            accessToken:
-            refreshToken:
-        };
-        const res1 = await testcollection.find(query).toArray();*/
-        var myobj = { name: "Company Inc", address: "Highway 37" };
-        db.collection("fitbitauths").insertOne(myobj);
 
     } catch (err) {
         console.log('ERROR: ', err);
