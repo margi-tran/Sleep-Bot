@@ -15,13 +15,13 @@ module.exports = async (event) => {
         // check whether the user exists in the database
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         query = { fbUserId_: fbUserId };
-        res = await db.collection('fitbitauths').find(query).toArray();
-        console.log(res);
+        result = await db.collection('fitbitauths').find(query).toArray();
+        db.close();
+        console.log(result);
 
 
-        if(res.length == 0) { // user is not in database
-            console.log('res: ', res);
-            console.log("RES WHAT HAPPENED", res.length);
+        if(result.length == 0) { // user is not in database
+            const db = await MongoClient.connect(process.env.MONGODB_URI);
             var newUser = { fbUserId_: fbUserId, 
                             fitbitId_: "raise",
                             accessToken: "kappa",
@@ -29,37 +29,20 @@ module.exports = async (event) => {
             await db.collection('fitbitauths').insertOne(newUser);
             db.close();
             sendMessage(fbUserId, 'You are not stored in the database. Adding you now!');
+
+            // ask the user to authenticate with fitibit
+            sendMessage(fbUserId, 'I will need you to authenticate with fitbit so that I can have access with your data to analyze.'
+                                    + 'Do so this link: https://calm-scrubland-31682.herokuapp.com/fitbit');
+            return;
         }
-
-        db.close(); 
-              
-
-        // example on to insert some documents
-        /*
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
-        var myobj = { name: "Company Inc", 
-                      address: "lappen" };
-        await db.collection("fitbitauths").insertOne(myobj);
-        db.close();
-        */
-
-        // example on how to find some documents
-        /*
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
-        var addr = 'lappen';
-        var query = { address: addr };
-        res = await db.collection("fitbitauths").find(query).toArray();
-        console.log(res);
-        db.close();
-        */
 
         if (message === '!fitbit_id') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const testcollection = await db.collection('firstcol');
             var query = {};
-            const res = await testcollection.find(query).toArray();
-            console.log(res);
-            var val = res[1];
+            const result = await testcollection.find(query).toArray();
+            console.log(result);
+            var val = result[1];
             var username = val.first;
             sendMessage(fbUserId, JSON.stringify(val.first));
             db.close();
