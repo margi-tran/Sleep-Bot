@@ -14,7 +14,7 @@ module.exports = async (event) => {
 
         sendMessage(fbUserId, 'postback');
     } catch (err) {
-        console.log('ERROR: ', err);
+        console.log('postback ERROR: ', err);
     }
 };
 
