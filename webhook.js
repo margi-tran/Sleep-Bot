@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
     	return;
     }
 
-console.log('data.entry', data.entry);
+console.log('***************************8data.entry', data.entry);
 
     data.entry.forEach(function(pageEntry) {
       var pageID = pageEntry.id;
