@@ -20,13 +20,12 @@ module.exports = async (event) => {
 
 
         if(res.length == 0) { // user is not in database
-            /*var newUser = { fbUserId_: fbUserId, 
+            console.log("RES WHAT HAPPENED");
+            console.log(res);
+            var newUser = { fbUserId_: fbUserId, 
                             fitbitId_: "raise",
                             accessToken: "kappa",
-                            refreshAccessToken: "123" }; */
-
-            var newUser = { name: "xd", 
-                      address: "xdd" };
+                            refreshAccessToken: "123" };
             await db.collection('fitbitauths').insertOne(newUser);
             db.close();
             sendMessage(fbUserId, 'You are not stored in the database. Adding you now!');
