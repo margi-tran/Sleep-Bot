@@ -6,7 +6,7 @@
 var processMessage = require('./process_message');
 var processPostback = require('./process_postback');
 
-
+/*
 module.exports = async (req, res) => {
 	try {
     if (req.body.object === 'page') {
@@ -22,12 +22,12 @@ module.exports = async (req, res) => {
     	res.status(200).end();
     }
     } catch (err) {
-    	console.log('ERROR: ', err);
+    	console.log('ERROR (at webhook.js): ', err);
     }
-};
+};*/
 
 
-/*
+
 module.exports = async (req, res) => {
 
   var data = req.body;
@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
           processMessage(messagingEvent);
         } else if (messagingEvent.postback) {
         	console.log("WOW");
+        	processPostback(messagingEvent);
         	//receivedPostback(messagingEvent);
         } else {
           console.log("Webhook received unknown messagingEvent: ", messagingEvent);
@@ -63,7 +64,7 @@ module.exports = async (req, res) => {
     // successfully received the callback. Otherwise, the request will time out.
     res.sendStatus(200);
   }
-}*/
+}
 
 
 
