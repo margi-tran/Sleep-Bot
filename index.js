@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
-var cookieParser = requie('cookie-parser');
+var cookieParser = require('cookie-parser');
 
 var MongoClient = require('mongodb').MongoClient;
 
