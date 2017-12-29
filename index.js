@@ -93,5 +93,5 @@ try {
     } catch (err) {
     	console.log('ERROR (webhook.js): ', err);
     }
-}
+});
 
