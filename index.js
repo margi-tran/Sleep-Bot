@@ -29,6 +29,8 @@ app.get('/', async (req, res) => {
   		const testcollection = db.collection('firstcol');
   		var query = {};
   		const result = await testcollection.find(query).toArray();
+
+  		res.cookies('mycookie', 'cookievalue');
   		res.send(result);
   	} catch (err) {
   		console.log('ERROR: ', err);
@@ -45,7 +47,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		profile = await client.get("/profile.json", accessTokenPromise.access_token);
-
+		console.log('Cookies: ', req.cookies);
 		res.send(profile);
 	} catch (err) {
 		res.send(err);
