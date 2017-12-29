@@ -70,6 +70,10 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
 
 /*app.post('/webhook/', webhook);*/
 
+
+var processMessage = require('./process_message');
+var processPostback = require('./process_postback');
+
 app.post('/webhook', async (req, res) => {
 	try {
     	if (req.body.object === 'page') {
