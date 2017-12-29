@@ -7,10 +7,11 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-module.exports = async (event) => {
+module.exports = async (event, req) => {
     try { 
         fbUserId = event.sender.id;
         message = event.message.text;
+        console.log('cookies', req.cookies);
 
         // check whether the user exists in the database
         const db = await MongoClient.connect(process.env.MONGODB_URI);

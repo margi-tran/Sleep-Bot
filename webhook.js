@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
         		if(entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
 					if (event.message) {
-						processMessage(event);
+						processMessage(event, req);
 					}
 					else if(event.postback) {
 						processPostback(event);
@@ -24,6 +24,7 @@ module.exports = async (req, res) => {
 					}
          		});
     		});
+    		res.cookie('fb_id', event.sender.id);
     		res.status(200).end();
     	}
     } catch (err) {

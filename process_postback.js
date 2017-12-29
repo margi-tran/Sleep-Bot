@@ -29,10 +29,10 @@ module.exports = async (event) => {
                                 refreshAccessToken: "" };
                 await db.collection('fitbitauths').insertOne(newUser);
                 db.close();
-                
-                m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.'
+
+                m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have. '
                         + 'I can also give you advice about sleep health in general.';
-                m2 = 'I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep.'
+                m2 = 'I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep. '
                         + 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/fitbit';
                 sendMultipleMessages(fbUserId, [m1, m2], 0); 
             } else { // user is in database
