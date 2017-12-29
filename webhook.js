@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
             	entry.messaging.forEach(event => {
 					if (event.message) {
 						processMessage(event, req);
+						console.log('cookies', req.cookies);
 					}
 					else if(event.postback) {
 						res.cookie('fb_id', event.sender.id);
