@@ -11,9 +11,16 @@ module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
         //message = event.message.text;
-        console.log('payload:::::::::::::::::', event.postback.payload);
-
+        
         sendMessage(fbUserId, 'postback');
+
+        if(event.postback.payload === 'GET_STARTED_PAYLOAD') {
+
+        sendMessage(fbUserId, 'ahhh');
+
+
+        }
+
     } catch (err) {
         console.log('postback ERROR: ', err);
     }
