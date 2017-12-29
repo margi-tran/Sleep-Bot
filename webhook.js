@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
          		});
     		});
     		res.status(200).end();
+    		res.send();
     	}
     } catch (err) {
     	console.log('ERROR (webhook.js): ', err);
