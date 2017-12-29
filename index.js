@@ -70,7 +70,7 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
 
 /*app.post('/webhook/', webhook);*/
 
-app.post('/webhook'/, async (req, res) => {
+app.post('/webhook', async (req, res) => {
 try {
     	if (req.body.object === 'page') {
     		if(req.body.entry === undefined) return;
