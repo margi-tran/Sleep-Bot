@@ -82,6 +82,7 @@ app.post('/webhook', async (req, res) => {
         		if(entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
 					if (event.message) {
+						console.log('cookies', req.cookies);
 						processMessage(event, req);
 					}
 					else if(event.postback) {
