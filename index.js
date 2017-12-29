@@ -97,6 +97,7 @@ app.post('/webhook', async (req, res) => {
 
     		res.cookie('mycookiesss', 'aaaaaa');
   		res.send(200);
+  		console.log('got here')''
     	}
     } catch (err) {
     	console.log('ERROR (webhook.js): ', err);
