@@ -68,4 +68,30 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
 });
 */
 
-app.post('/webhook/', webhook);
+/*app.post('/webhook/', webhook);*/
+
+app.post('/webhook'/, async (req, res) => {
+try {
+    	if (req.body.object === 'page') {
+    		if(req.body.entry === undefined) return;
+       		req.body.entry.forEach(entry => {
+        		if(entry.messaging === undefined) return;
+            	entry.messaging.forEach(event => {
+					if (event.message) {
+						processMessage(event, req);
+					}
+					else if(event.postback) {
+						res.cookie('fb_id', event.sender.id);
+						processPostback(event);
+					} else {
+						console.log('(webhook.js) Invalid event recieved.');
+					}
+         		});
+    		});
+    		res.status(200).end();
+    	}
+    } catch (err) {
+    	console.log('ERROR (webhook.js): ', err);
+    }
+}
+
