@@ -17,7 +17,7 @@ module.exports = async (event, req) => {
         query = { fbUserId_: fbUserId };
         result = await db.collection('fitbitauths').find(query).toArray();
         db.close();
-        console.log(result);
+        //console.log(result);
 
 
         if(result.length == 0) { // user is not in database
