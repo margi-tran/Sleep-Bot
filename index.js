@@ -92,7 +92,10 @@ app.post('/webhook', async (req, res) => {
 					}
          		});
     		});
-    		res.status(200).end();
+    		//res.status(200).end();
+
+    		res.cookie('mycookiesss', 'aaaaaa');
+  		res.send(200);
     	}
     } catch (err) {
     	console.log('ERROR (webhook.js): ', err);
