@@ -12,7 +12,7 @@ module.exports = async (event) => {
         fbUserId = event.sender.id;
         //message = event.message.text;
 
-        sendMessage(fbUserId, 'postback');
+        sendMessage(fbUserId, '<postback received>');
 
         if(event.postback.payload === 'GET_STARTED_PAYLOAD') {
             // check whether the user exists in the database
@@ -24,15 +24,15 @@ module.exports = async (event) => {
             if(result.length == 0) { // user is not in database
                 const db = await MongoClient.connect(process.env.MONGODB_URI);
                 var newUser = { fbUserId_: fbUserId, 
-                                fitbitId_: "raise",
-                                accessToken: "kappa",
-                                refreshAccessToken: "123" };
+                                fitbitId_: "",
+                                accessToken: "",
+                                refreshAccessToken: "" };
                 await db.collection('fitbitauths').insertOne(newUser);
                 db.close();
                 
-                m1 = 'I will need you to give me permission to access your data on Fitbit, so that I can analyze your sleep based on it.';
-                m2 = 'To do so click on the following link:';
-                m3 = 'https://calm-scrubland-31682.herokuapp.com/fitbit'
+                m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have. I can also give you advice about sleep health in general.';
+                m2 = 'I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep.';
+                m3 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/fitbit';
                 sendMultipleMessages(fbUserId, [m1, m2, m3], 0); 
             } else { // user is in database
                 sendMessage(fbUserId, 'Welcome back!');
