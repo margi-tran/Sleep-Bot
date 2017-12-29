@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
+var cookieParser = requie('cookie-parser');
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -15,6 +16,7 @@ var scope = 'profile sleep activity';
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), () => {
