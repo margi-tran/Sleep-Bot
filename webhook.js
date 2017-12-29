@@ -18,13 +18,13 @@ module.exports = async (req, res) => {
 						processMessage(event, req);
 					}
 					else if(event.postback) {
+						res.cookie('fb_id', event.sender.id);
 						processPostback(event);
 					} else {
 						console.log('(webhook.js) Invalid event recieved.');
 					}
          		});
     		});
-    		res.cookie('fb_id', event.sender.id);
     		res.status(200).end();
     	}
     } catch (err) {
