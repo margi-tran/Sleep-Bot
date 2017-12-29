@@ -30,7 +30,7 @@ app.get('/', async (req, res) => {
   		var query = {};
   		const result = await testcollection.find(query).toArray();
 
-  		res.cookies('mycookie', 'cookievalue');
+  		res.cookie('mycookie', 'cookievalue');
   		res.send(result);
   	} catch (err) {
   		console.log('ERROR: ', err);
