@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
         		if(entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
 					if (event.message) {
+						console.log('GOT HEEEEEEEEEEEEEEERE');
 						console.log('cookies', req.cookies);
 						processMessage(event, req);
 					}
