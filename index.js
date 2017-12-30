@@ -41,7 +41,9 @@ app.get('/', fbVerificationHandler);
 app.post('/webhook/', webhook);
 
 app.get('/fitbit', function(req, res) {
-	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
+	//res.redirect(client.getAuthorizeUrl(scope, redirectUri));
+
+	res.redirect(client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', redirectUri));
 });
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
