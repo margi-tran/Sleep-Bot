@@ -10,7 +10,6 @@ var MongoClient = require('mongodb').MongoClient;
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
-        //message = event.message.text;
 
         sendMessage(fbUserId, '<postback received>');
 
@@ -33,7 +32,8 @@ module.exports = async (event) => {
                 m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have. '
                         + 'I can also give you advice about sleep health in general.';
                 m2 = 'I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep. '
-                        + 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/fitbit';
+                        + 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
+                        + fbUserId;
                 sendMultipleMessages(fbUserId, [m1, m2], 0); 
             } else { // user is in database
                 sendMessage(fbUserId, 'Welcome back!');

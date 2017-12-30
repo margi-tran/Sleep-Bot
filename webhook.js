@@ -6,7 +6,6 @@
 var processMessage = require('./process_message');
 var processPostback = require('./process_postback');
 
-
 module.exports = async (req, res) => {
 	try {
     	if (req.body.object === 'page') {
