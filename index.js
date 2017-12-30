@@ -56,7 +56,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 app.get('/prepare_fitbit_auth', (req, res) => {
 	fbUserId = req.query.fbUserId;
-	res.send('Hello!', fbUserId);
+	res.send('Hello! ' + fbUserId);
 });
 
 /*
