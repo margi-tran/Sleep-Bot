@@ -57,9 +57,9 @@ function sendMessage(fbUserId, message) {
         }
     }, (error, response, body) => {
         if (error) {
-            console.log('Error sending messages: ', error);
+            console.log('[ERROR] (sendMessage) ', error);
         } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
+            console.log('[ERROR] (sendMessage) ', response.body.error);
         }
     });
 }

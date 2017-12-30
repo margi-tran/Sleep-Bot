@@ -12,13 +12,12 @@ module.exports = async (event, req) => {
         fbUserId = event.sender.id;
         message = event.message.text;
 
+        /*
         // check whether the user exists in the database
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         query = { fbUserId_: fbUserId };
         result = await db.collection('fitbitauths').find(query).toArray();
         db.close();
-        //console.log(result);
-
 
         if(result.length == 0) { // user is not in database
             const db = await MongoClient.connect(process.env.MONGODB_URI);
@@ -35,6 +34,7 @@ module.exports = async (event, req) => {
                                     + 'Do so this link: https://calm-scrubland-31682.herokuapp.com/fitbit');
             return;
         }
+        */
 
         if (message === '!fitbit_id') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
@@ -60,7 +60,7 @@ module.exports = async (event, req) => {
         sendMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
-        console.log('ERROR: ', err);
+        console.log('[ERROR] (process_message.js) ', err);
     }
 };
 
@@ -75,9 +75,9 @@ function sendMessage(fbUserId, message) {
         }
     }, (error, response, body) => {
         if (error) {
-            console.log('Error sending messages: ', error);
+            console.log('[ERROR] (sendMessage) ', error);
         } else if (response.body.error) {
-            console.log('Error: ', response.body.error);
+            console.log('[ERROR] (sendMessage) ', response.body.error);
         }
     });
 }

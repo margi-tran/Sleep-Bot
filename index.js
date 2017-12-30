@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
-
 var MongoClient = require('mongodb').MongoClient;
 
 var fbVerificationHandler = require('./verification_handler');
@@ -25,18 +24,21 @@ app.listen(app.get('port'), () => {
 
 app.get('/', async (req, res) => {
   	try {
-  		const db = await MongoClient.connect(process.env.MONGODB_URI);
+  		/*const db = await MongoClient.connect(process.env.MONGODB_URI);
   		const testcollection = db.collection('firstcol');
   		var query = {};
   		const result = await testcollection.find(query).toArray();
 
-  		res.send(result);
+  		res.send(result);*/
+  		res.send('Margi\'s project');
   	} catch (err) {
-  		console.log('ERROR: ', err);
+  		console.log('[ERROR] ', err);
   	}
 });
 
 app.get('/', fbVerificationHandler);
+
+app.post('/webhook/', webhook);
 
 app.get('/fitbit', function(req, res) {
 	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
@@ -47,6 +49,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		profile = await client.get("/profile.json", accessTokenPromise.access_token);
 		console.log('Cookies: ', req.cookies);
+		console.log('fb user id is:', req.cookies.fbUserId);
 
 		res.send(profile);
 	} catch (err) {
@@ -54,6 +57,10 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 	}
 });
 
+/*
+ * On the user's first time chatting to the bot, they are directed to this route.
+ * This allows the user's Facebook ID to be correctly linked their Fibit ID.
+ */
 app.get('/prepare_fitbit_auth', (req, res) => {
 	fbUserId = req.query.fbUserId;
 	res.cookie('fbUserId', fbUserId);
@@ -73,6 +80,4 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
     });
 });
 */
-
-app.post('/webhook/', webhook);
 
