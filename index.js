@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
 
   		res.send(result);*/
   		//res.send('Margi\'s project');
-  		res.send('STRING IS: ', '/foods/water/date/' + convertDate(new Date()) + '.json');
+  		res.send('STRING IS: ', '/foods/water/date/' + new Date() + '.json');
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
