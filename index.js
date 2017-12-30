@@ -31,11 +31,24 @@ app.get('/', async (req, res) => {
 
   		res.send(result);*/
   		//res.send('Margi\'s project');
-  		res.send('STRING IS: ', '/foods/water/date/' + new Date() + '.json');
+  		res.send('STRING IS: ' + '/foods/water/date/' + convertDate(new Date()) + '.json');
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
 });
+
+/*
+ * This function was taken from view-source:http://www.template-tuners.com/fitbit/
+ */
+function convertDate(date) {
+	var yyyy = date.getFullYear().toString();
+	var mm = (date.getMonth()+1).toString();
+	var dd  = date.getDate().toString();
+	var mmChars = mm.split('');
+	var ddChars = dd.split('');
+	return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
+
 
 app.get('/', fbVerificationHandler);
 
