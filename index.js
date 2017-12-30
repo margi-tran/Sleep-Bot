@@ -30,7 +30,6 @@ app.get('/', async (req, res) => {
   		var query = {};
   		const result = await testcollection.find(query).toArray();
 
-  		res.cookie('mycookie', 'cookievalue');
   		res.send(result);
   	} catch (err) {
   		console.log('ERROR: ', err);
@@ -48,6 +47,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		profile = await client.get("/profile.json", accessTokenPromise.access_token);
 		console.log('Cookies: ', req.cookies);
+
 		res.send(profile);
 	} catch (err) {
 		res.send(err);
@@ -56,6 +56,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 app.get('/prepare_fitbit_auth', (req, res) => {
 	fbUserId = req.query.fbUserId;
+	res.cookie('fbUserId', fbUserId);
 	res.send('Hello! ' + fbUserId);
 });
 
@@ -74,39 +75,4 @@ app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
 */
 
 app.post('/webhook/', webhook);
-
-
-/*
-var processMessage = require('./process_message');
-var processPostback = require('./process_postback');
-
-app.post('/webhook', async (req, res) => {
-	try {
-    	if (req.body.object === 'page') {
-    		if(req.body.entry === undefined) return;
-       		req.body.entry.forEach(entry => {
-        		if(entry.messaging === undefined) return;
-            	entry.messaging.forEach(event => {6
-					if (event.message) {
-						console.log('cookies', req.cookies);
-						processMessage(event, req);
-					}
-					else if(event.postback) {
-						res.cookie('fb_id', event.sender.id);
-						processPostback(event);
-					} else {
-						console.log('(webhook.js) Invalid event recieved.');
-					}
-         		});
-    		});
-    		//res.status(200).end();
-
-    		res.cookie('mycookiesss', 'aaaaaa');
-  		res.send(200);
-  		console.log('got here');
-    	}
-    } catch (err) {
-    	console.log('ERROR (webhook.js): ', err);
-    }
-});*/
 
