@@ -30,7 +30,8 @@ app.get('/', async (req, res) => {
   		const result = await testcollection.find(query).toArray();
 
   		res.send(result);*/
-  		res.send('Margi\'s project');
+  		//res.send('Margi\'s project');
+  		res.send('STRING IS: ', '/foods/water/date/' + convertDate(new Date()) + '.json');
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
