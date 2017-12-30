@@ -54,7 +54,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		
 		//water = await client.get('/foods/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		//console.log('STRING IS: ', water);
+		console.log('STRING IS: ', '/foods/water/date/' + convertDate(new Date()) + '.json');
 		console.log('Cookies: ', req.cookies);
 		console.log('fb user id is:', req.cookies.fbUserId);
 
