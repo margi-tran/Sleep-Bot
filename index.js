@@ -30,25 +30,11 @@ app.get('/', async (req, res) => {
   		const result = await testcollection.find(query).toArray();
 
   		res.send(result);*/
-  		//res.send('Margi\'s project');
-  		res.send('STRING IS: ' + '/foods/water/date/' + convertDate(new Date()) + '.json');
+  		res.send('Margi\'s project');
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
 });
-
-/*
- * This function was taken from view-source:http://www.template-tuners.com/fitbit/
- */
-function convertDate(date) {
-	var yyyy = date.getFullYear().toString();
-	var mm = (date.getMonth()+1).toString();
-	var dd  = date.getDate().toString();
-	var mmChars = mm.split('');
-	var ddChars = dd.split('');
-	return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
-}
-
 
 app.get('/', fbVerificationHandler);
 
@@ -66,7 +52,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
 		
-		//water = await client.get('/foods/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		water = await client.get('/foods/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
 		console.log('STRING IS: ', '/foods/water/date/' + convertDate(new Date()) + '.json');
 		console.log('Cookies: ', req.cookies);
@@ -88,6 +74,18 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.cookie('fbUserId', fbUserId);
 	res.send('Hello! ' + fbUserId);
 });
+
+/*
+ * This function was taken from view-source:http://www.template-tuners.com/fitbit/
+ */
+function convertDate(date) {
+	var yyyy = date.getFullYear().toString();
+	var mm = (date.getMonth()+1).toString();
+	var dd  = date.getDate().toString();
+	var mmChars = mm.split('');
+	var ddChars = dd.split('');
+	return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
 
 /*
 app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
