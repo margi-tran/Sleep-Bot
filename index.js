@@ -47,9 +47,13 @@ app.get('/fitbit', function(req, res) {
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
-		profile = await client.get("/profile.json", accessTokenPromise.access_token);
-		console.log('Cookies: ', req.cookies);
-		console.log('fb user id is:', req.cookies.fbUserId);
+		//profile = await client.get("/profile.json", accessTokenPromise.access_token);
+		var str = '/sleep/date/' + convertDate(new Date()) + '.json';
+		console.log('REQ FOR: ' + str);
+		profile = await client.get(str, accessTokenPromise.access_token);
+
+		//console.log('Cookies: ', req.cookies);
+		//console.log('fb user id is:', req.cookies.fbUserId);
 
 		res.send(profile);
 	} catch (err) {
