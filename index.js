@@ -58,8 +58,8 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		console.log('Cookies: ', req.cookies);
 		console.log('fb user id is:', req.cookies.fbUserId);
 
-		//res.send(water);
-		res.send('xd');
+		res.send(water);
+		//res.send('xd');
 	} catch (err) {
 		res.send(err);
 	}
