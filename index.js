@@ -55,7 +55,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 });
 
 app.get('/prepare_fitbit_auth', (req, res) => {
-
+	res.send('Hello!');
 });
 
 /*
