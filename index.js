@@ -52,14 +52,12 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
 		
-		water = await client.get('/foods/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		console.log('STRING IS: ', '/foods/water/date/' + convertDate(new Date()) + '.json');
 		console.log('Cookies: ', req.cookies);
 		console.log('fb user id is:', req.cookies.fbUserId);
 
 		res.send(water);
-		//res.send('xd');
 	} catch (err) {
 		res.send(err);
 	}
