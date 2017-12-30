@@ -41,10 +41,10 @@ module.exports = async (event, req) => {
             const testcollection = await db.collection('firstcol');
             var query = {};
             const result = await testcollection.find(query).toArray();
-            console.log(result);
+            //console.log(result);
             var val = result[1];
             var username = val.first;
-            sendMessage(fbUserId, JSON.stringify(val.first));
+            sendMessage(fbUserId, val.first);
             db.close();
             return;
         }
