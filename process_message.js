@@ -7,7 +7,7 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var sendTextMessage = require('./facebook/send_text_message.js');
+//var sendTextMessage = require('./facebook/send_text_message.js');
 var sendMultipleTextMessages = require('./facebook/send_multiple_text_messages.js');
 
 module.exports = async (event, req) => {
@@ -66,3 +66,21 @@ module.exports = async (event, req) => {
         console.log('[ERROR] (process_message.js) ', err);
     }
 };
+
+function sendTextMessage (fbUserId, message) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
+        method: 'POST',
+        json: {
+            recipient: {id: fbUserId},
+            message: {text: message}
+        }
+    }, (error, response, body) => {
+        if (error) {
+            console.log('[ERROR] ', error);
+        } else if (response.body.error) {
+            console.log('[ERROR] ', response.body.error);
+        }
+    });
+}
