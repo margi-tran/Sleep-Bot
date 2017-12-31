@@ -3,6 +3,8 @@
  */
 
 
+var request = require('request');
+
 module.exports = (fbUserId, message) => {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',

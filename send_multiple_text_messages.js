@@ -3,6 +3,8 @@
  */
 
 
+var request = require('request');
+
 module.exports = (fbUserId, messageArray, i) => {
     if (i < messageArray.length) 
         request({
