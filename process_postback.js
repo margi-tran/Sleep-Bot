@@ -68,7 +68,7 @@ function sendTextMessage(fbUserId, message) {
 /*
  * Taken from https://developers.facebook.com/bugs/565416400306038
  * it was by Le Hoang Dieu.
- * Seems to be only work around for sendin multiple messages in order
+ * Seems to be only work around for sending multiple messages in order
  */
 function sendMultipleTextMessages(fbUserId, messageArray, i) {
     if (i < messageArray.length) 

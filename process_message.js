@@ -59,7 +59,7 @@ module.exports = async (event, req) => {
         }
 
         if (message === '!multiple') 
-            messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
+            sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
 
         messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
@@ -67,3 +67,23 @@ module.exports = async (event, req) => {
         console.log('[ERROR] (process_message.js) ', err);
     }
 };
+
+function sendMultipleTextMessages(fbUserId, messageArray, i) {
+    if (i < messageArray.length) 
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messages',
+            qs: {access_token:process.env.FB_PAGE_ACCESS_TOKEN},
+            method: 'POST',
+            json: {
+                recipient: {id: fbUserId},
+                message: {text: messageArray[i]},
+            }
+        }, function (error, response, body) {
+            if (error) {
+                console.log('Error sending messages: ', error);
+            } else if (response.body.error) {
+                console.log('Error: ', response.body.error);
+            }
+            sendMultipleTextMessages(fbUserId, messageArray, i+1);
+        });
+}
