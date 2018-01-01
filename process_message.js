@@ -1,13 +1,13 @@
 /**
  * Module for processing messages recieved from the webhook.
-   Messages recieved from users are sent a reply.
+ * Messages recieved from users are sent a reply.
  */
 
 
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var messageSender = require('./facebook/message_sender.js');
+var messageSender = require('./facebook/message_sender');
 
 module.exports = async (event, req) => {
     try { 

@@ -5,8 +5,8 @@ var app = express();
 var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
 
-var fbVerificationHandler = require('./verification_handler');
-var webhook = require('./webhook');
+var fbVerificationHandler = require('./facebook/verification_handler');
+var webhook = require('./facebook/webhook');
 var convertDate = require('./utility/convert_date')
 
 var Fitbit = require('fitbit-node');
@@ -31,8 +31,8 @@ app.get('/', async (req, res) => {
   		const result = await testcollection.find(query).toArray();
 
   		res.send(result);*/
-  		//res.send('Margi\'s project');
-  		res.send(convertDate(new Date()));
+
+  		res.send('Margi\'s project');
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
