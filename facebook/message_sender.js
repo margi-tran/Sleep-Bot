@@ -51,6 +51,6 @@ function sendMultipleTextMessagesRecursively (fbUserId, messageArray, i) {
             } else if (response.body.error) {
                 console.log('Error: ', response.body.error);
             }
-            sendMultipleTextMessages(fbUserId, messageArray, i+1);
+            sendMultipleTextMessagesRecursively(fbUserId, messageArray, i+1);
         });
 }
