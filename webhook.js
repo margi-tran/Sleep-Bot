@@ -3,7 +3,7 @@
  */
 
 
-var processMessage = require('./process_message.js');
+var processMessage = require('./process_message');
 var processPostback = require('./process_postback');
 
 module.exports = async (req, res) => {
@@ -30,3 +30,5 @@ module.exports = async (req, res) => {
     	console.log('ERROR (webhook.js): ', err);
     }
 };
+
+
