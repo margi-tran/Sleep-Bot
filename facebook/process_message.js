@@ -7,7 +7,7 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var messageSender = require('./facebook/message_sender');
+var messageSender = require('./message_sender');
 
 module.exports = async (event, req) => {
     try { 
