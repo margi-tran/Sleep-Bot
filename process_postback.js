@@ -1,5 +1,5 @@
 /**
- * Module for processing messages recieved from the webhook.
+ * Module for processing postbacks recieved from the webhook.
    Messages recieved from users are sent a reply.
  */
 
@@ -7,11 +7,13 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
+var messageSender = require('./facebook/message_sender.js');
+
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
 
-        sendTextMessage(fbUserId, '<postback received>');
+        messageSender.sendTextMessage(fbUserId, '<postback received>');
 
         if(event.postback.payload === 'GET_STARTED_PAYLOAD') {
             // check whether the user exists in the database
@@ -34,9 +36,9 @@ module.exports = async (event) => {
                 m2 = 'I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep. '
                         + 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                         + fbUserId;
-                sendMultipleTextMessages(fbUserId, [m1, m2], 0); 
+                messageSender.sendMultipleTextMessages(fbUserId, [m1, m2], 0); 
             } else { // user is in database
-                sendTextMessage(fbUserId, 'Welcome back!');
+                messageSender.sendTextMessage(fbUserId, 'Welcome back!');
             }
             return;
         }
@@ -45,47 +47,3 @@ module.exports = async (event) => {
         console.log('ERROR: (process_postback.js)', err);
     }
 };
-
-function sendTextMessage(fbUserId, message) {
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: fbUserId},
-            message: {text: message}
-        }
-    }, (error, response, body) => {
-        if (error) {
-            console.log('[ERROR] (sendMessage) ', error);
-        } else if (response.body.error) {
-            console.log('[ERROR] (sendMessage) ', response.body.error);
-        }
-    });
-}
-
-
-/*
- * Taken from https://developers.facebook.com/bugs/565416400306038
- * it was by Le Hoang Dieu.
- * Seems to be only work around for sending multiple messages in order
- */
-function sendMultipleTextMessages(fbUserId, messageArray, i) {
-    if (i < messageArray.length) 
-        request({
-            url: 'https://graph.facebook.com/v2.6/me/messages',
-            qs: {access_token:process.env.FB_PAGE_ACCESS_TOKEN},
-            method: 'POST',
-            json: {
-                recipient: {id: fbUserId},
-                message: {text: messageArray[i]},
-            }
-        }, function (error, response, body) {
-            if (error) {
-                console.log('Error sending messages: ', error);
-            } else if (response.body.error) {
-                console.log('Error: ', response.body.error);
-            }
-            sendMultipleTextMessages(fbUserId, messageArray, i+1);
-        });
-}

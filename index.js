@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var fbVerificationHandler = require('./verification_handler');
 var webhook = require('./webhook');
+var convertDate = require('./utility/convert_date')
 
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
@@ -30,7 +31,8 @@ app.get('/', async (req, res) => {
   		const result = await testcollection.find(query).toArray();
 
   		res.send(result);*/
-  		res.send('Margi\'s project');
+  		//res.send('Margi\'s project');
+  		res.send(convertDate(new Date()));
   	} catch (err) {
   		console.log('[ERROR] ', err);
   	}
@@ -74,17 +76,6 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.send('Hello! ' + fbUserId);
 });
 
-/*
- * This function was taken from view-source:http://www.template-tuners.com/fitbit/
- */
-function convertDate(date) {
-	var yyyy = date.getFullYear().toString();
-	var mm = (date.getMonth()+1).toString();
-	var dd  = date.getDate().toString();
-	var mmChars = mm.split('');
-	var ddChars = dd.split('');
-	return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
-}
 
 /*
 app.get("/fitbit_oauth_callback", function (req, res) { // this line from lynda
