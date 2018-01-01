@@ -44,6 +44,6 @@ module.exports = async (event) => {
         }
 
     } catch (err) {
-        console.log('ERROR: (process_postback.js)', err);
+        console.log('[ERROR]', err);
     }
 };

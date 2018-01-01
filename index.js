@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
 
   		res.send('Margi\'s project');
   	} catch (err) {
-  		console.log('[ERROR] ', err);
+  		console.log('[ERROR]', err);
   	}
 });
 

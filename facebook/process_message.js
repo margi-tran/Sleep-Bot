@@ -64,6 +64,6 @@ module.exports = async (event, req) => {
         messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
-        console.log('[ERROR] (process_message.js) ', err);
+        console.log('[ERROR]', err);
     }
 };

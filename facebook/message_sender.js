@@ -19,9 +19,9 @@ exports.sendTextMessage = (fbUserId, message) => {
         }
     }, (error, response, body) => {
         if (error) {
-            console.log('[ERROR] ', error);
+            console.log('[ERROR]', error);
         } else if (response.body.error) {
-            console.log('[ERROR] ', response.body.error);
+            console.log('[ERROR]', response.body.error);
         }
     });
 }
@@ -47,9 +47,9 @@ function sendMultipleTextMessagesRecursively (fbUserId, messageArray, i) {
             }
         }, function (error, response, body) {
             if (error) {
-                console.log('Error sending messages: ', error);
+                console.log('[ERROR]', error);
             } else if (response.body.error) {
-                console.log('Error: ', response.body.error);
+                console.log('[ERROR]', response.body.error);
             }
             sendMultipleTextMessagesRecursively(fbUserId, messageArray, i+1);
         });
