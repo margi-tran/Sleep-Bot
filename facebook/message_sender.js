@@ -1,7 +1,9 @@
 /**
  * Module for sending a facebook message to a user.
  */
+ 
 
+var request = require('request');
 
 exports.sendTextMessage = (fbUserId, message) => {
     request({
