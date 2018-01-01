@@ -4,6 +4,7 @@ var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
+var path = require('path');
 
 var fbVerificationHandler = require('./facebook/verification_handler');
 var webhook = require('./facebook/webhook');
@@ -66,7 +67,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		console.log('Cookies: ', req.cookies);
 		console.log('fb user id is:', req.cookies.fbUserId);
 
-		res.send('ok');
+		res.send(req.cookies.fbUserId);
 	} catch (err) {
 		res.send(err);
 	}
@@ -79,7 +80,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 app.get('/prepare_fitbit_auth', (req, res) => {
 	fbUserId = req.query.fbUserId;
 	res.cookie('fbUserId', fbUserId);
-	res.send('Hello! ' + fbUserId);
+	res.sendFile(path.join(__dirname+ '/html_files/prepare_fitbit_auth.html'));
 });
 
 
