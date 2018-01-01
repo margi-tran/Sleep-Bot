@@ -6,7 +6,7 @@
 var request = require('request');
 
 module.exports = (fbUserId, message) => {
-    request({
+	request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
         method: 'POST',
@@ -21,4 +21,4 @@ module.exports = (fbUserId, message) => {
             console.log('[ERROR] ', response.body.error);
         }
     });
-}
+};
