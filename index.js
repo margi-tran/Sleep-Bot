@@ -57,6 +57,12 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
+
+		/*var newUser = { fbUserId_: fbUserId, 
+                                fitbitId_: "",
+                                accessToken: "",
+                                refreshAccessToken: "" };*/
+
 		console.log('Cookies: ', req.cookies);
 		console.log('fb user id is:', req.cookies.fbUserId);
 

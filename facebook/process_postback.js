@@ -19,16 +19,13 @@ module.exports = async (event) => {
             // check whether the user exists in the database
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             query = { fbUserId_: fbUserId };
-            result = await db.collection('fitbitauths').find(query).toArray();
+            result = await db.collection('users').find(query).toArray();
             db.close();
 
             if(result.length == 0) { // user is not in database
                 const db = await MongoClient.connect(process.env.MONGODB_URI);
-                var newUser = { fbUserId_: fbUserId, 
-                                fitbitId_: "",
-                                accessToken: "",
-                                refreshAccessToken: "" };
-                await db.collection('fitbitauths').insertOne(newUser);
+                var newUser = { fbUserId_: fbUserId }
+                await db.collection('users').insertOne(newUser);
                 db.close();
 
                 m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have. '
