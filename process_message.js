@@ -66,6 +66,7 @@ module.exports = async (event, req) => {
     }
 };
 
+/*
 function sendMultipleTextMessages(fbUserId, messageArray, i) {
     if (i < messageArray.length) 
         request({
@@ -84,4 +85,4 @@ function sendMultipleTextMessages(fbUserId, messageArray, i) {
             }
             sendMultipleTextMessages(fbUserId, messageArray, i+1);
         });
-}
+}*/

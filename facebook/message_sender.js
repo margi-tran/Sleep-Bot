@@ -26,12 +26,16 @@ exports.sendTextMessage = (fbUserId, message) => {
     });
 }
 
+exports.sendMultipleTextMessages = (fbUserId, messageArray, i) => {
+    sendMultipleTextMessagesRecursively(fbUserId, messageArray, i);
+}
+
 /*
  * This function was adapted from from https://developers.facebook.com/bugs/565416400306038
  * and it was by Le Hoang Dieu. This function allows multiple facebook messages
  * to be sent in order to a user.
  */
-exports.sendMultipleTextMessages = (fbUserId, messageArray, i) => {
+function sendMultipleTextMessagesRecursively (fbUserId, messageArray, i) {
     if (i < messageArray.length) 
         request({
             url: 'https://graph.facebook.com/v2.6/me/messages',
