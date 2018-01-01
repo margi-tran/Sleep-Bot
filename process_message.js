@@ -57,7 +57,7 @@ module.exports = async (event, req) => {
         }
 
         if (message === '!multiple') 
-            sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
+            messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
 
         messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
