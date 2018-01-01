@@ -9,6 +9,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 //var sendTextMessage = require('./facebook/send_text_message.js');
 var sendMultipleTextMessages = require('./facebook/send_multiple_text_messages.js');
+var messageSender = require('./facebook/messageSender.js');
 
 module.exports = async (event, req) => {
     try { 
@@ -47,40 +48,22 @@ module.exports = async (event, req) => {
             //console.log(result);
             var val = result[1];
             var username = val.first;
-            sendTextMessage(fbUserId, val.first);
+            messageSender.sendTextMessage(fbUserId, val.first);
             db.close();
             return;
         }
     
         if (message === '!fb_id') {
-            sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
+            messageSender.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
 
         if (message === '!multiple') 
-            sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
+            messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
 
-        sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+        messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
         console.log('[ERROR] (process_message.js) ', err);
     }
 };
-
-function sendTextMessage (fbUserId, message) {
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.FB_PAGE_ACCESS_TOKEN},
-        method: 'POST',
-        json: {
-            recipient: {id: fbUserId},
-            message: {text: message}
-        }
-    }, (error, response, body) => {
-        if (error) {
-            console.log('[ERROR] ', error);
-        } else if (response.body.error) {
-            console.log('[ERROR] ', response.body.error);
-        }
-    });
-}
