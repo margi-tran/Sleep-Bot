@@ -10,6 +10,10 @@ var MongoClient = require('mongodb').MongoClient;
 var FBPlatform = require('node-messenger-platform')
 var Bot = FBPlatform.Bot(process.env.FB_PAGE_ACCESS_TOKEN);
 
+
+var fbMessengerBot = require('fb-messenger-bot-api');
+var botClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
+
 var messageSender = require('./message_sender');
 
 module.exports = async (event, req) => {
@@ -65,8 +69,8 @@ module.exports = async (event, req) => {
         }
 
         if (message === '!multi') {
-            await Bot.send(fbUserId, 'wow this works');
-            await Bot.send(fbUserId, 'awesome');
+            await botClient.sendTextMessage(fbUserId, 'wow this works');
+            await botClient.sendTextMessage(fbUserId, 'awesome');
         }
 
         messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
