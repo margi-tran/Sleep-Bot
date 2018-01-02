@@ -69,7 +69,9 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		
 		fbUserId = req.cookies.fbUserId;
 		res.send('done');
-		messageSender.sendTextMessage(fbUserId, 'Fitbit auth done!');
+		messageSender.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
+		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
+		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
 	} catch (err) {
 		res.send(err);
 	}
@@ -82,7 +84,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 app.get('/prepare_fitbit_auth', (req, res) => {
 	fbUserId = req.query.fbUserId;
 	res.cookie('fbUserId', fbUserId);
-	res.sendFile(path.join(__dirname+ '/html_files/prepare_fitbit_auth.html'));
+	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
 
 
