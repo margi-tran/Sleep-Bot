@@ -13,7 +13,7 @@ var Bot = FBPlatform.Bot(process.env.FB_PAGE_ACCESS_TOKEN);
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 
-module.exports = async (event, req) => {
+module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
         message = event.message.text;
