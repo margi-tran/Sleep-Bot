@@ -68,11 +68,11 @@ module.exports = async (event) => {
         }
 
         if (message === '!multi') {
-            await botClient.sendTextMessage(fbUserId, 'wow this works');
-            await botClient.sendTextMessage(fbUserId, 'awesome');
+            await fbMessengerBotClient.sendTextMessage(fbUserId, 'wow this works');
+            await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
         }
 
-       await botClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+       await fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
         console.log('[ERROR]', err);
