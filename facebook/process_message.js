@@ -7,7 +7,7 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var FBPlatform = require('node-messanger-platform')
+var FBPlatform = require('node-messenger-platform')
 var Bot = FBPlatform.Bot(process.env.FB_PAGE_ACCESS_TOKEN);
 
 var messageSender = require('./message_sender');
