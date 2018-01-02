@@ -17,6 +17,8 @@ module.exports = async (event) => {
 
         fbMessengerBotClient.toggleTyping(fbUserId, true);
 
+        setTimeout(function2, 5000);
+
         /*
         // check whether the user exists in the database
         const db = await MongoClient.connect(process.env.MONGODB_URI);
