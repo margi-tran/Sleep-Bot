@@ -13,21 +13,13 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var Bot = require('messenger-bot');
 bot = new Bot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
         message = event.message.text;
 
-        //fbMessengerBotClient.toggleTyping(fbUserId, true);
         await fbMessengerBotClient.markSeen(fbUserId);
         await bot.sendSenderAction(fbUserId, 'typing_on');
-        await sleep(5000);
-
 
         /*
         // check whether the user exists in the database
@@ -73,7 +65,9 @@ module.exports = async (event) => {
 
         if (message === '!numbers') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, '1');
+            await bot.sendSenderAction(fbUserId, 'typing_on');
             await fbMessengerBotClient.sendTextMessage(fbUserId, '2');
+            await bot.sendSenderAction(fbUserId, 'typing_on');
             await fbMessengerBotClient.sendTextMessage(fbUserId, '3');
             return;
         }
