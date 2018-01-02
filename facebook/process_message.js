@@ -64,7 +64,7 @@ module.exports = async (event, req) => {
             return;
         }
 
-        if (messager === '!multi') {
+        if (message === '!multi') {
             await Bot.send(fbUserId, 'wow this works');
             await Bot.send(fbUserId, 'awesome');
         }
