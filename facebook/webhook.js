@@ -13,14 +13,16 @@ module.exports = async (req, res) => {
        		req.body.entry.forEach(entry => {
         		if(entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
-                    console.log('EVENT TYPE:', event);
 					if (event.message) {
 						processMessage(event);
 					}
-					else if(event.postback) {
+					else if (event.postback) {
 						res.cookie('fb_id', event.sender.id);
 						processPostback(event);
-					} else {
+					} else if (event.delivery) {
+                        console.log('REEEEEEEEEEEEAD');
+                    }
+                    else {
 						console.log('Invalid event recieved.');
 					}
          		});
