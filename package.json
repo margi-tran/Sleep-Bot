@@ -15,6 +15,7 @@
     "express": "^4.16.2",
     "fb-messenger-bot-api": "^1.1.0",
     "fitbit-node": "^2.0.5",
+    "messenger-bot": "^2.4.0",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.7",
     "node-messenger-platform": "0.0.4",

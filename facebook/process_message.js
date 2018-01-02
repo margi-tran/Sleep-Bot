@@ -10,18 +10,17 @@ var MongoClient = require('mongodb').MongoClient;
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+var Bot = require('messenger-bot');
+bot = new Bot({token:process.env.FB_PAGE_ACCESS_TOKEN});
+
 
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
         message = event.message.text;
 
-        fbMessengerBotClient.toggleTyping(fbUserId, true);
-
-        sleep(5000);
+        //fbMessengerBotClient.toggleTyping(fbUserId, true);
+        await bot.sendSenderAction(fbUserId, 'typing_on');
 
         /*
         // check whether the user exists in the database
