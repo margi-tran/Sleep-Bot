@@ -7,9 +7,6 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var FBPlatform = require('node-messenger-platform')
-var Bot = FBPlatform.Bot(process.env.FB_PAGE_ACCESS_TOKEN);
-
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 
@@ -17,6 +14,8 @@ module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
         message = event.message.text;
+
+        fbMessengerBotClient.toggleTyping(fbUserId, true);
 
         /*
         // check whether the user exists in the database
@@ -56,7 +55,6 @@ module.exports = async (event) => {
         }
     
         if (message === '!fb_id') {
-            await fbMessengerBotClient.toggleTyping(fbUserId, true);
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
