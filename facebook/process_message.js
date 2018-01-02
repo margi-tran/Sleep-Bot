@@ -14,6 +14,10 @@ var Bot = require('messenger-bot');
 bot = new Bot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;
@@ -21,6 +25,8 @@ module.exports = async (event) => {
 
         //fbMessengerBotClient.toggleTyping(fbUserId, true);
         await bot.sendSenderAction(fbUserId, 'typing_on');
+        await sleep(5000);
+
 
         /*
         // check whether the user exists in the database
