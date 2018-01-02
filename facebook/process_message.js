@@ -10,11 +10,8 @@ var MongoClient = require('mongodb').MongoClient;
 var FBPlatform = require('node-messenger-platform')
 var Bot = FBPlatform.Bot(process.env.FB_PAGE_ACCESS_TOKEN);
 
-
 var fbMessengerBot = require('fb-messenger-bot-api');
-var botClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
-
-var messageSender = require('./message_sender');
+var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 
 module.exports = async (event, req) => {
     try { 
@@ -53,22 +50,20 @@ module.exports = async (event, req) => {
             //console.log(result);
             var val = result[1];
             var username = val.first;
-            await botClient.sendTextMessage(fbUserId, val.first);
+            await fbMessengerBotClient.sendTextMessage(fbUserId, val.first);
             db.close();
             return;
         }
     
         if (message === '!fb_id') {
-            await botClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
+            await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
 
         if (message === '!numbers') {
-            //messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
-            await botClient.sendTextMessage(fbUserId, '1');
-            await botClient.sendTextMessage(fbUserId, '2');
-            await botClient.sendTextMessage(fbUserId, '3');
-
+            await fbMessengerBotClient.sendTextMessage(fbUserId, '1');
+            await fbMessengerBotClient.sendTextMessage(fbUserId, '2');
+            await fbMessengerBotClient.sendTextMessage(fbUserId, '3');
             return;
         }
 
