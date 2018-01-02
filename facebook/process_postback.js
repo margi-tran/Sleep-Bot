@@ -38,10 +38,10 @@ module.exports = async (event) => {
                         + fbUserId;
                 //messageSender.sendMultipleTextMessages(fbUserId, [m1, m2], 0); 
 
-                await botClient.sendTextMessages(fbUserId, m1);
-                await botClient.sendTextMessages(fbUserId, m2);
+                await botClient.sendTextMessage(fbUserId, m1);
+                await botClient.sendTextMessage(fbUserId, m2);
             } else { // user is in database
-                await botClient.sendTextMessages(fbUserId, 'Welcome back! :)');
+                await botClient.sendTextMessage(fbUserId, 'Welcome back! :)');
             }
             return;
         }
