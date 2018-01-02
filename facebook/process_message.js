@@ -56,6 +56,7 @@ module.exports = async (event) => {
         }
     
         if (message === '!fb_id') {
+            await fbMessengerBotClient.toggleTyping(fbUserId, true);
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
