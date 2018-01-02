@@ -10,6 +10,9 @@ var fbVerificationHandler = require('./facebook/verification_handler');
 var webhook = require('./facebook/webhook');
 var convertDate = require('./utility/convert_date')
 
+var fbMessengerBot = require('fb-messenger-bot-api');
+var botClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
+
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
@@ -69,7 +72,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		
 		fbUserId = req.cookies.fbUserId;
 		res.send('done');
-		messageSender.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
+		botClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
 		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
 		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
 	} catch (err) {

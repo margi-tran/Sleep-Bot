@@ -53,18 +53,22 @@ module.exports = async (event, req) => {
             //console.log(result);
             var val = result[1];
             var username = val.first;
-            messageSender.sendTextMessage(fbUserId, val.first);
+            await botClient.sendTextMessage(fbUserId, val.first);
             db.close();
             return;
         }
     
         if (message === '!fb_id') {
-            messageSender.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
+            await botClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
 
-        if (message === '!multiple') {
-            messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
+        if (message === '!numbers') {
+            //messageSender.sendMultipleTextMessages(fbUserId, [1, 2, 3], 0); 
+            await botClient.sendTextMessage(fbUserId, '1');
+            await botClient.sendTextMessage(fbUserId, '2');
+            await botClient.sendTextMessage(fbUserId, '3');
+
             return;
         }
 
@@ -73,7 +77,7 @@ module.exports = async (event, req) => {
             await botClient.sendTextMessage(fbUserId, 'awesome');
         }
 
-        messageSender.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+       await botClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
         console.log('[ERROR]', err);
