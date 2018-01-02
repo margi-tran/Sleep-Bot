@@ -7,6 +7,9 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
+var fbMessengerBot = require('fb-messenger-bot-api');
+var botClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
+
 var messageSender = require('./message_sender');
 
 module.exports = async (event) => {
@@ -33,9 +36,12 @@ module.exports = async (event) => {
                 m2 = ' I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep.'
                         + ' To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                         + fbUserId;
-                messageSender.sendMultipleTextMessages(fbUserId, [m1, m2], 0); 
+                //messageSender.sendMultipleTextMessages(fbUserId, [m1, m2], 0); 
+
+                await botClient.sendTextMessages(fbUserId, m1);
+                await botClient.sendTextMessages(fbUserId, m2);
             } else { // user is in database
-                messageSender.sendTextMessage(fbUserId, 'Welcome back!');
+                await botClient.sendTextMessages(fbUserId, 'Welcome back! :)');
             }
             return;
         }
