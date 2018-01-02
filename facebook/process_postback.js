@@ -10,8 +10,6 @@ var MongoClient = require('mongodb').MongoClient;
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 
-var messageSender = require('./message_sender');
-
 module.exports = async (event) => {
     try { 
         fbUserId = event.sender.id;

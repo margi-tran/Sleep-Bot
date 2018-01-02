@@ -18,8 +18,6 @@ var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT
 var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'profile sleep activity';
 
-var messageSender = require('./facebook/message_sender');
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
