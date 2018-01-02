@@ -24,6 +24,7 @@ module.exports = async (event) => {
         message = event.message.text;
 
         //fbMessengerBotClient.toggleTyping(fbUserId, true);
+        await fbMessengerBotClient.markSeen(fbUserId);
         await bot.sendSenderAction(fbUserId, 'typing_on');
         await sleep(5000);
 
