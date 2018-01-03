@@ -21,7 +21,7 @@ module.exports = async (event) => {
         if(event.postback.payload === 'GET_STARTED_PAYLOAD') {
             // check whether the user exists in the database
             const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const result = await db.collection({ fbUserId_: fbUserId }).find(query).toArray();
+            const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
             db.close();
 
             if(result.length == 0) { // user is not in database
