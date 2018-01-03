@@ -95,17 +95,11 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 });
 
 app.get('/fitbit_webhook', (req, res) => {
-	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
+	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) 
         //reply().code(404);
-        res.status(404);
-        res.send('it was 404');
-	}
-    else {
-        //reply().code(204);
-        res.status(204);
-        res.send('it was 204');
-    }
-            
+        res.sendStatus(404);    
+    else 
+        res.sendStatus(204);          
 });
 
 app.post('fitbit_webhook', (req, res) => {
