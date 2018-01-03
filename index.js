@@ -108,5 +108,4 @@ app.get('/fitbit_webhook', (req, res) => {
 app.post('/fitbit_webhook', (req, res) => {
 	console.log(req.body);
     res.sendStatus(204);
-    res.send('it was 204');
 });
