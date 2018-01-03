@@ -94,15 +94,28 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
 
-app.get('/fitbit_webhook', (req, res) => {
+/*app.get('/fitbit_webhook', (req, res) => {
 	if (req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
-		res.sendStatus(404); 
 		console.log('cant verify');
+		res.sendStatus(404); 
 	} 
     else {
-        res.sendStatus(204); 
-        console.log('yay verified');         
+    	console.log('cant verify');
+        res.sendStatus(204);         
     }
+});*/
+
+// the webhook GET is the endpoint to verify the endpoint by the fitbit servers
+app.get("/fitbit_webhook", function (req, res) {
+	if( req.query.verify === process.env.FITBIT_VERIFICATION_CODE ){
+		// should return 204 if the verify query matches
+		console.log("WEBHOOK-VERIFY - OK");
+		res.sendStatus( 204 );
+	}else{
+		// should return 404 if the code will not match
+		console.log("WEBHOOK-VERIFY - Failed");
+		res.sendStatus( 404 );
+	}
 });
 
 app.post('fitbit_webhook', (req, res) => {
