@@ -52,7 +52,8 @@ module.exports = async (event) => {
         }
 
         if (message = 'kappa') {
-            test.sendTextMessage(fbUserId, 'leeel');
+            await test.sendTextMessage(fbUserId, 'leeel');
+            await test.sendTextMessage(fbUserId, 'leeel 2');
         }
 
        await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
