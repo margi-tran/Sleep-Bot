@@ -24,7 +24,8 @@ module.exports = async (event) => {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const testcollection = await db.collection('fitbit_auths');
             const result = await testcollection.find({ fbUserId_: fbUserId }).toArray();
-            await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
+            console.log(result);
+            //await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
             db.close();
             return;
         }
