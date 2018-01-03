@@ -73,7 +73,7 @@ module.exports = async (event) => {
             await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
         }
 
-       await messengerApisfbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+       await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {
         console.log('[ERROR]', err);
