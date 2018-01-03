@@ -97,7 +97,7 @@ function subscribeTo(tok) {
     console.log(requestUrl);
     client.post(requestUrl, tok).then(function(results) {
         console.log('subscribeTo()');
-        console.log(results[0], results[1]);
+        console.log(results[0].response);
     }).catch(function(results) {
         console.log(results[0].errors);
     })
