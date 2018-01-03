@@ -8,7 +8,7 @@ var path = require('path');
 
 var fbVerificationHandler = require('./facebook/verification_handler');
 var webhook = require('./facebook/webhook');
-var convertDate = require('./utility/convert_date')
+var convertDate = require('./utility/convert_date');
 
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
@@ -54,15 +54,15 @@ app.get('/fitbit', function(req, res) {
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
-		accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
-		//profile = await client.get("/profile.json", accessTokenPromise.access_token);
-		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
-		//water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
+		//const profile = await client.get("/profile.json", accessTokenPromise.access_token);
+		//const sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		//const water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		db = await MongoClient.connect(process.env.MONGODB_URI);
-        newUser = { fbUserId_: fbUserId, 
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+        var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
                     accessToken: accessTokenPromise.access_token,
                     refreshAccessToken: accessTokenPromise.refresh_token };
@@ -84,7 +84,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
  * This allows the user's Facebook ID to be correctly linked their Fibit ID.
  */
 app.get('/prepare_fitbit_auth', (req, res) => {
-	fbUserId = req.query.fbUserId;
+	var fbUserId = req.query.fbUserId;
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });

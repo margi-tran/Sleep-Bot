@@ -14,19 +14,17 @@ var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKE
 
 module.exports = async (event) => {
     try { 
-        fbUserId = event.sender.id;
-        message = event.message.text;
+        var fbUserId = event.sender.id;
+        var message = event.message.text;
 
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
 
         if (message === '!fitbitId') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const testcollection = await db.collection('fitbitauths');
-            query = { fbUserId_: fbUserId };
-            const result = await testcollection.find(query).toArray();
-            result_fitbitId = result[0].fitbitId_;
-            await fbMessengerBotClient.sendTextMessage(fbUserId, result_fitbitId);
+            const testcollection = await db.collection('fitbit_auths');
+            const result = await testcollection.find({ fbUserId_: fbUserId }).toArray();
+            await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
             db.close();
             return;
         }
