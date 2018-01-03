@@ -107,6 +107,7 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 
 // the webhook GET is the endpoint to verify the endpoint by the fitbit servers
 app.get("/fitbit_webhook", function (req, res) {
+	console.log('HELLLLLLO');
 	if( req.query.verify === process.env.FITBIT_VERIFICATION_CODE ){
 		// should return 204 if the verify query matches
 		console.log("WEBHOOK-VERIFY - OK");
