@@ -10,7 +10,10 @@ var fbVerificationHandler = require('./facebook/verification_handler');
 var webhook = require('./facebook/webhook');
 var convertDate = require('./utility/convert_date')
 
-var messengerApis = require('./facebook/messenger_apis')
+var fbMessengerBot = require('fb-messenger-bot-api');
+var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
+var MessengerBot = require('messenger-bot');
+var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 var Fitbit = require('fitbit-node');
 var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
@@ -67,7 +70,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		
 		fbUserId = req.cookies.fbUserId;
 		res.send('done');
-		messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
+		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
 		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
 		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
 	} catch (err) {
