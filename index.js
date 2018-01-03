@@ -92,12 +92,12 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
 
-function subscribeTo(tok) {
+function subscribeToFoods(accessToken) {
     requestUrl = "/foods/apiSubscriptions/1.json";
     console.log(requestUrl);
-    client.post(requestUrl, tok).then(function(results) {
-        console.log('subscribeTo()');
-        console.log(results[0].response);
+    client.post(requestUrl, accessToken).then(function(results) {
+        console.log('subscribeToFoods():', results);
+        console.log(results[0]);
     }).catch(function(results) {
         console.log(results[0].errors);
     })
