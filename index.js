@@ -20,6 +20,8 @@ var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT
 var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'activity heartrate location nutrition profile settings sleep social weight';
 
+var subscribeToFoods = require('./fitbit/subscribe_to_foods');
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -71,7 +73,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
-        subscribeTo(accessTokenPromise.access_token);
+        subscribeToFoods(accessTokenPromise.access_token);
 
 		res.send("ok");
 		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
@@ -91,14 +93,3 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
-
-function subscribeToFoods(accessToken) {
-    requestUrl = "/foods/apiSubscriptions/1.json";
-    console.log(requestUrl);
-    client.post(requestUrl, accessToken).then(function(results) {
-        console.log('subscribeToFoods():', results);
-        console.log(results[0]);
-    }).catch(function(results) {
-        console.log(results[0].errors);
-    })
-}    
