@@ -25,8 +25,8 @@ module.exports = async (event) => {
             const testcollection = await db.collection('fitbitauths');
             query = { fbUserId_: fbUserId };
             const result = await testcollection.find(query).toArray();
-            console.log('KAPPA: ', result);
-            //await fbMessengerBotClient.sendTextMessage(fbUserId, result);
+            result_fitbitId = result[0].fitbitId_;
+            await fbMessengerBotClient.sendTextMessage(fbUserId, result_fitbitId);
             db.close();
             return;
         }
