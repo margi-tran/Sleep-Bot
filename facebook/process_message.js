@@ -9,9 +9,8 @@ var MongoClient = require('mongodb').MongoClient;
 
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
-
-var Bot = require('messenger-bot');
-bot = new Bot({token:process.env.FB_PAGE_ACCESS_TOKEN});
+var MessengerBot = require('messenger-bot');
+var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 module.exports = async (event) => {
     try { 
@@ -19,7 +18,7 @@ module.exports = async (event) => {
         message = event.message.text;
 
         await fbMessengerBotClient.markSeen(fbUserId);
-        await bot.sendSenderAction(fbUserId, 'typing_on');
+        await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
 
         /*
         // check whether the user exists in the database
@@ -65,9 +64,9 @@ module.exports = async (event) => {
 
         if (message === '!numbers') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, '1');
-            await bot.sendSenderAction(fbUserId, 'typing_on');
+            await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
             await fbMessengerBotClient.sendTextMessage(fbUserId, '2');
-            await bot.sendSenderAction(fbUserId, 'typing_on');
+            await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
             await fbMessengerBotClient.sendTextMessage(fbUserId, '3');
             return;
         }
