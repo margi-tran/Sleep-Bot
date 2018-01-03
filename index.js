@@ -96,7 +96,7 @@ function subscribeTo(tok) {
     requestUrl = "/foods/apiSubscriptions/1.json";
     console.log(requestUrl);
     client.post(requestUrl, tok).then(function(results) {
-        console.log('subscribeTo() ' + results);
+        console.log('subscribeTo() ' + results[0]);
     }).catch(function(results) {
         console.log(results[0].errors);
     })
