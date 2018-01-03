@@ -66,7 +66,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
                     fitbitId_: accessTokenPromise.user_id,
                     accessToken: accessTokenPromise.access_token,
                     refreshAccessToken: accessTokenPromise.refresh_token };
-        await db.collection('fitbitauths').insertOne(newUser);
+        await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
 
