@@ -7,7 +7,9 @@
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 
-var messengerApis = require('./messenger_apis')
+var messengerApis = require('./messenger_apis');
+
+var test = require('./test');
 
 module.exports = async (event) => {
     try { 
@@ -16,30 +18,6 @@ module.exports = async (event) => {
 
         await messengerApis.fbMessengerBotClient.markSeen(fbUserId);
         await messengerApis.messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
-
-        /*
-        // check whether the user exists in the database
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
-        query = { fbUserId_: fbUserId };
-        result = await db.collection('fitbitauths').find(query).toArray();
-        db.close();
-
-        if(result.length == 0) { // user is not in database
-            const db = await MongoClient.connect(process.env.MONGODB_URI);
-            var newUser = { fbUserId_: fbUserId, 
-                            fitbitId_: "raise",
-                            accessToken: "kappa",
-                            refreshAccessToken: "123" };
-            await db.collection('fitbitauths').insertOne(newUser);
-            db.close();
-            sendTextMessage(fbUserId, 'You are not stored in the database. Adding you now!');
-
-            // ask the user to authenticate with fitibit
-            sendTextMessage(fbUserId, 'I will need you to authenticate with fitbit so that I can have access with your data to analyze.'
-                                    + 'Do so this link: https://calm-scrubland-31682.herokuapp.com/fitbit');
-            return;
-        }
-        */
 
         if (message === '!fitbit_id') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
@@ -71,6 +49,10 @@ module.exports = async (event) => {
         if (message === '!multi') {
             await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, 'wow this works');
             await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
+        }
+
+        if (message = 'kappa') {
+            test.sendTextMessage(fbUserId, 'leeel');
         }
 
        await messengerApis.fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
