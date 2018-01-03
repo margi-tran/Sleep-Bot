@@ -95,12 +95,13 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 });
 
 app.get('/fitbit_webhook', (req, res) => {
-	res.status('whats in here:' + req.query.verify);
-	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) 
-        //reply().code(404);
-        res.sendStatus(404);    
-    else 
-        res.sendStatus(204);          
+	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
+		res.sendStatus(404); 
+	} 
+    else {
+        res.sendStatus(204); 
+        console.log('sucesssss');         
+    }
 });
 
 app.post('fitbit_webhook', (req, res) => {
