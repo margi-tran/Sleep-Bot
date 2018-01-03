@@ -59,17 +59,18 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 		//water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		//sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+
+		db = await MongoClient.connect(process.env.MONGODB_URI);
+        newUser = { fbUserId_: fbUserId, 
+                    fitbitId_: accessTokenPromise.user_id,
+                    accessToken: accessTokenPromise.access_token,
+                    refreshAccessToken: accessTokenPromise.refresh_token };
+        await db.collection('fitbitauth').insertOne(newUser);
+        db.close();
 
 
-		/*var newUser = { fbUserId_: fbUserId, 
-                                fitbitId_: "",
-                                accessToken: "",
-                                refreshAccessToken: "" };*/
-
-		
-		fbUserId = req.cookies.fbUserId;
-		res.send(accessTokenPromise);
+		res.send("ok");
 		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
 		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
 		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
