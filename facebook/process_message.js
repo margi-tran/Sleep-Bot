@@ -20,20 +20,16 @@ module.exports = async (event) => {
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
 
-        if (message === '!fitbit_id') {
+        if (message === '!fitbitId') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const testcollection = await db.collection('firstcol');
-            var query = {};
-            const result = await testcollection.find(query).toArray();
-            //console.log(result);
-            var val = result[1];
-            var username = val.first;
-            await fbMessengerBotClient.sendTextMessage(fbUserId, val.first);
+            const testcollection = await db.collection('fitbitauths');
+            const result = await testcollection.find({'fbUserId_': fbUserId}).toArray();
+            await fbMessengerBotClient.sendTextMessage(fbUserId, result);
             db.close();
             return;
         }
     
-        if (message === '!fb_id') {
+        if (message === '!fbUserId') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
             return;
         }
