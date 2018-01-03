@@ -54,7 +54,7 @@ app.get('/fitbit', function(req, res) {
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
-		var accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
+		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		//const profile = await client.get("/profile.json", accessTokenPromise.access_token);
 		//const sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 		//const water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
