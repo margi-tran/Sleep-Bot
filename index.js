@@ -73,7 +73,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
-        subscribeToFoods(accessTokenPromise.access_token);
+        subscribeToFoods(client, accessTokenPromise.access_token);
 
 		res.send("ok");
 		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');

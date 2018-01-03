@@ -1,9 +1,9 @@
 /*
  *
  */
- 
 
-module.exports = (accessToken) => {
+
+module.exports = (client, accessToken) => {
     requestUrl = "/foods/apiSubscriptions/1.json";
     console.log(requestUrl);
     client.post(requestUrl, accessToken).then(function(results) {
