@@ -55,7 +55,7 @@ app.get('/fitbit', function(req, res) {
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		fbUserId = req.cookies.fbUserId;
-		
+
 		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		//const profile = await client.get("/profile.json", accessTokenPromise.access_token);
 		//const sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
@@ -77,7 +77,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
 		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
 	} catch (err) {
-		res.send('[ERROR]' + err);
+		res.send('[ERROR]: ' + err);
 	}
 });
 
