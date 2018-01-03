@@ -93,3 +93,23 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
+
+app.get('/fitbit_webhook', (req, res) => {
+	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
+        //reply().code(404);
+        res.status(404);
+        res.send('it was 404');
+	}
+    else {
+        //reply().code(204);
+        res.status(204);
+        res.send('it was 204');
+    }
+            
+});
+
+app.post('fitbit_webhook', (req, res) => {
+	console.log(req.payload);
+    res.status(204);
+    res.send('it was 204');
+});
