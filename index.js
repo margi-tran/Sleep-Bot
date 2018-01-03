@@ -95,6 +95,7 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 });
 
 app.get('/fitbit_webhook', (req, res) => {
+	res.status('whats in here:' + req.query.verify);
 	if (req.query.verify && req.query.verify != process.env.FITBIT_VERIFICATION_CODE) 
         //reply().code(404);
         res.sendStatus(404);    
