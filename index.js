@@ -71,6 +71,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
+        subscribeTo(accessTokenPromise.access_token);
 
 		res.send("ok");
 		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
@@ -90,3 +91,13 @@ app.get('/prepare_fitbit_auth', (req, res) => {
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
+
+function subscribeTo(tok) {
+    requestUrl = "/foods/apiSubscriptions/1.json";
+    console.log(requestUrl);
+    client.post(requestUrl, tok).then(function(results) {
+        console.log('subscribeTo() ' + results);
+    }).catch(function(results) {
+        console.log(results[0].errors);
+    })
+}    
