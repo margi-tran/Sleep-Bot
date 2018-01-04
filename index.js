@@ -112,8 +112,8 @@ app.get('/seedata', async (req, res) => {
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const testcollection = await db.collection('fitbit_auths');
     	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
-   
-    	const profile = await client.get("/profile.json", access_token, fitbitId);
+   		var accessToken = result[0].accessToken;
+    	const profile = await client.get("/profile.json", accessToken, fitbitId);
     	res.send(profile);
 	} catch (err) {
 		res.send('hm: ' + err);
