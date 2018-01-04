@@ -30,8 +30,7 @@ module.exports = async (event) => {
                 await db.collection('users').insertOne(newUser);
                 db.close();
 
-                var m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.'
-                        + ' I can also give you advice about sleep health in general.';
+                var m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
                 var m2 = ' I will need you to give me permission to access your health data on Fitbit, to help me analyze your sleep.'
                         + ' To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                         + fbUserId;

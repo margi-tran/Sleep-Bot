@@ -61,7 +61,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		// Handle the case where the url to this route does not have the parameter fbUserId set
 		if(fbUserId === undefined) {
 			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
-						+ '\'[ERROR] fbUserId is undefined.');
+						+ '\n[ERROR] fbUserId is undefined.');
 			return;
 		} 
 
@@ -76,6 +76,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		console.log(sleepData);
 
         var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
