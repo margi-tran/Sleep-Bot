@@ -107,6 +107,7 @@ app.get('/fitbit_webhook', (req, res) => {
 });
 
 app.get('/view', async (req, res) => {
+	fitbitId =' 649QPD';
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const testcollection = await db.collection('fitbit_auths');
     const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
