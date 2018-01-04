@@ -38,7 +38,11 @@ module.exports = async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
-        fitbitClient.client.subscribeToFoods(accessTokenPromise.access_token);
+        fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessToken).then( (results) => {
+       		console.log('subscribeToFoods:', results[0]);
+    	}).catch( (results) => {
+        	console.log(results[0].errors);
+    	});
 
         res.send(sleepData);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
