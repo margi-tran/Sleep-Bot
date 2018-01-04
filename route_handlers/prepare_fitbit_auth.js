@@ -19,5 +19,5 @@ module.exports = async (req, res) => {
     } 
 
 	res.cookie('fbUserId', fbUserId);
-	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
+	res.sendFile(path.join(__dirname + '../html_files/prepare_fitbit_auth.html'));
 };
