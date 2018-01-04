@@ -7,4 +7,4 @@ module.exports = (req, res) => {
     	console.log('Fitbit webhook verified.');
         res.sendStatus(204);         
     }
-}
+};

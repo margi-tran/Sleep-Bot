@@ -6,10 +6,6 @@ var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
 var path = require('path');
 
-var fbVerificationHandler = require('./facebook/verification_handler');
-var facebookWebhook = require('./facebook/facebook_webhook');
-var convertDate = require('./utility/convert_date');
-
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
@@ -21,8 +17,13 @@ var fitbitClient = require('./fitbit/fitbit_client');
 var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'activity heartrate location nutrition profile settings sleep social weight';
 
-var subscribeToFoods = require('./fitbit/subscribe_to_foods');
+//var subscribeToFoods = require('./fitbit/subscribe_to_foods');
+
+var fbVerificationHandler = require('./facebook/verification_handler');
+var facebookWebhook = require('./facebook/facebook_webhook');
+var convertDate = require('./utility/convert_date');
 var fitbitWebhookGet = require('./fitbit/fitbit_webhook_get');
+var fitbitOAuthCallback = require('./fitbit/oauth_callback');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -49,7 +50,9 @@ app.get('/fitbit', (req, res) => {
 	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, redirectUri));
 });
 
-app.get('/fitbit_oauth_callback', async (req, res) => {
+app.get('/fitbit_oauth_callback', fitbitOAuthCallback)
+
+/*app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		fbUserId = req.cookies.fbUserId;
 
@@ -70,7 +73,6 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, redirectUri);
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
-		console.log(sleepData);
 
         var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
@@ -90,7 +92,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 		console.log(err);
 		res.send('[ERROR]: ' + err);
 	}
-});
+});*/
 
 /*
  * On the user's first time chatting to the bot, they are directed to this route.
@@ -149,7 +151,7 @@ app.get('/view', async (req, res) => {
 		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
 								{ $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken} });
 
-		res.send(refreshAccessTokenPromise); //
+		res.send(refreshAccessTokenPromise); 
 	} catch (err) {
 		res.send('[ERROR]' + err);
 		console.log('[ERROR]', err);
