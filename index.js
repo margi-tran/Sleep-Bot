@@ -14,7 +14,6 @@ var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKE
 //var Fitbit = require('fitbit-node');
 //var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var fitbitClient = require('./fitbit/fitbit_client');
-var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'activity heartrate location nutrition profile settings sleep social weight';
 
 //var subscribeToFoods = require('./fitbit/subscribe_to_foods');

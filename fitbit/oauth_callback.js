@@ -5,8 +5,8 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-
 var fitbitClient = require('./fitbit_client');
+var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 
 module.exports = async (req, res) => {
 	console.log('WAS CALLED YEP');
