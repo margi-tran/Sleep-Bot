@@ -101,7 +101,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
  * On the user's first time chatting to the bot, they are directed to this route.
  * This allows the user's Facebook ID to be correctly linked their Fibit ID.
  */
-app.get('/prepare_fitbit_auth', (req, res) => {
+app.get('/prepare_fitbit_auth', async (req, res) => {
 	var fbUserId = req.query.fbUserId;
 	// If this cookie is not set then this route is being accessed illegally
 	if(fbUserId === undefined) {
