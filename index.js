@@ -128,20 +128,16 @@ app.get('/view', async (req, res) => {
     	var oldAccessToken = result[0].accessToken;
     	var oldRefreshAccessToken = result[0].refreshAccessToken;
 
-		console.log('accessToken:', oldAccessToken);
-		console.log('refresh tok:', oldRefreshAccessToken);
-
-
 		refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
-								{ accessToken: "INTING", refreshAccessToken: "kek" });
+								{ accessToken: newAccessToken, refreshAccessToken: newRefreshToken});
 
 		res.send(refreshAccessTokenPromise);
 	} catch (err) {
-		res.send('err:');
-		console.log(err);
+		res.send('[ERROR]' + err);
+		console.log('[ERROR]', err);
 	}
 });
 
