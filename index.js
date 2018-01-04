@@ -15,8 +15,9 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-var Fitbit = require('fitbit-node');
-var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
+//var Fitbit = require('fitbit-node');
+//var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
+var fitbitClient = require('./fitbit/fitbit_client');
 var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 var scope = 'activity heartrate location nutrition profile settings sleep social weight';
 
@@ -45,7 +46,7 @@ app.post('/webhook/', facebookWebhook);
 app.get('/fitbit_webhook', fitbitWebhookGet);
 
 app.get('/fitbit', (req, res) => {
-	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
+	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, redirectUri));
 });
 
 
@@ -68,8 +69,8 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         	return;
         }
 
-		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
-		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, redirectUri);
+		const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 		console.log(sleepData);
 
         var newUser = { fbUserId_: fbUserId, 
@@ -79,7 +80,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
-        subscribeToFoods(client, accessTokenPromise.access_token);
+        //subscribeToFoods(client, accessTokenPromise.access_token);
 
         res.send(sleepData);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
