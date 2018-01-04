@@ -11,8 +11,7 @@ var convertDate = require('../../utility/convert_date');
 module.exports = async (req, res) => {
 	try {
 		fbUserId = req.cookies.fbUserId;
-
-		// If this cookie is not set then this route is being accessed illegally
+		// If the fbUserId cookie is not set then this route is being accessed illegally
 		if(fbUserId === undefined) {
 			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
 						+ '\n[ERROR] (/fitbit_oauth_callback) fbUserId is undefined.');
