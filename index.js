@@ -65,7 +65,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		console.log(accessTokenPromise);
+		//console.log(accessTokenPromise);
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
@@ -111,11 +111,13 @@ app.post('/fitbit_webhook', (req, res) => {
 	console.log(req.body);
 	fitbitId = req.body[0].ownerId;
 	date = req.body[0].date;
-	console.log('daaaaaa', fitbitId, date)
+	console.log('daaaaaa', fitbitId, date);
+
+	accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NDlRUEQiLCJhdWQiOiIyMkNHWEwiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJwcm8gcm51dCByc2xlIiwiZXhwIjoxNTE1MDUzODQ4LCJpYXQiOjE1MTUwMjUwNDh9.ZBd0p6UvPrEdWMqboGiVm0UnDwGqTqw4a2d64YMik-0";
+	refreshToken = "01fe48b706b905c356588e46e11f3466107b233a13d8919ded086530493fd04c";
+	prom = await client.refreshAccessToken(accessToken, refreshToken);
+	console.log(prom);
 	
-
-
-
     res.sendStatus(204);
 } catch (err) {
 	console.log('[ERROR]', err)
