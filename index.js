@@ -11,12 +11,7 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-//var Fitbit = require('fitbit-node');
-//var client = new Fitbit(process.env.FITBIT_CLIENT_ID , process.env.FITBIT_CLIENT_SECRET);
 var fitbitClient = require('./fitbit/fitbit_client');
-var scope = 'activity heartrate location nutrition profile settings sleep social weight';
-
-//var subscribeToFoods = require('./fitbit/subscribe_to_foods');
 
 var fbVerificationHandler = require('./facebook/verification_handler');
 var facebookWebhook = require('./facebook/facebook_webhook');
@@ -46,7 +41,7 @@ app.post('/webhook/', facebookWebhook);
 app.get('/fitbit_webhook', fitbitWebhookGet);
 
 app.get('/fitbit', (req, res) => {
-	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, fitbitClient.redirectUri));
+	res.redirect(fitbitClient.client.getAuthorizeUrl(fitbitClient.scope, fitbitClient.redirectUri));
 });
 
 app.get('/fitbit_oauth_callback', fitbitOAuthCallback);
