@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         db.close();
 
-        fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessToken).then( (results) => {
+        fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
        		console.log('subscribeToFoods:', results[0]);
     	}).catch( (results) => {
         	console.log(results[0].errors);
