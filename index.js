@@ -21,6 +21,7 @@ var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callb
 var scope = 'activity heartrate location nutrition profile settings sleep social weight';
 
 var subscribeToFoods = require('./fitbit/subscribe_to_foods');
+var fitbitWebhookGet = require('./fitbit/fitbit_webhook_get');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -41,8 +42,9 @@ app.get('/', (req, res) => {
 
 app.get('/', fbVerificationHandler);
 app.post('/webhook/', facebookWebhook);
+app.get('/fitbit_webhook', fitbitWebhookGet);
 
-app.get('/fitbit', function(req, res) {
+app.get('/fitbit', (req, res) => {
 	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
 });
 
@@ -115,6 +117,7 @@ app.get('/prepare_fitbit_auth', async (req, res) => {
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
 
+/*
 app.get('/fitbit_webhook', (req, res) => {
 	if (req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
 		console.log('Cannot verify Fitbit webhook.');
@@ -124,7 +127,8 @@ app.get('/fitbit_webhook', (req, res) => {
     	console.log('Fitbit webhook verified.');
         res.sendStatus(204);         
     }
-});
+});*/
+
 
 app.post('/fitbit_webhook', async (req, res) => {
 	try {
