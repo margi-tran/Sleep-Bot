@@ -56,32 +56,27 @@ app.get('/fitbit', function(req, res) {
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
-
 		fbUserId = req.cookies.fbUserId;
-		console.log('the val is ', fbUserId);
 
-		if(fbUserId === undefined) res.send('wow');
-		else res.send('xd');
-		return;
+		// Handle the case where the url to this route does not have the parameter fbUserId set
+		if(fbUserId === undefined) {
+			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
+						+ '\'[ERROR] fbUserId is undefined.');
+			return;
+		} 
 
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
         
-        // check whether or not the user exists in the database
-        if(result != 0) 
+        // Check whether or not the user has already authenticated their Fitbit with the server
+        if(result != 0) {
         	res.send('You have already authenticated your Fitibit with me.');
-
-		
+        	return;
+        }
 
 		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
-		//const profile = await client.get("/profile.json", accessTokenPromise.access_token);
-		//const sleep = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
-		//const water = await client.get('/foods/log/water/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
-
 		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		//console.log(accessTokenPromise);
-		//const db = await MongoClient.connect(process.env.MONGODB_URI);
         var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
                     accessToken: accessTokenPromise.access_token,
@@ -91,8 +86,8 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
         subscribeToFoods(client, accessTokenPromise.access_token);
 
-		res.send("ok");
-		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to fitbit');
+		res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
+		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to you Fitbit data.');
 		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
 		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
 	} catch (err) {
