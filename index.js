@@ -56,6 +56,11 @@ app.get('/fitbit', function(req, res) {
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
+
+		fbUserId = req.cookies.fbUserId;
+		console.log('the val is ', fbUserId);
+		res.send('xd');
+
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
         
@@ -63,10 +68,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
         if(result != 0) 
         	res.send('You have already authenticated your Fitibit with me.');
 
-		fbUserId = req.cookies.fbUserId;
-
-		console.log('the val is ', fbUserId);
-		return;
+		
 
 		const accessTokenPromise = await client.getAccessToken(req.query.code, redirectUri);
 		//const profile = await client.get("/profile.json", accessTokenPromise.access_token);
