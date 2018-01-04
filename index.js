@@ -106,6 +106,18 @@ app.get('/fitbit_webhook', (req, res) => {
     }
 });
 
+app.get('/test', async (req, res) => {
+	try {
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+		var myquery = { first: "margi" };
+		var newValues = { last: "INTING" };
+		await db.collection('firstcol').updateOne(myquery, newValues);
+		res.send('done');
+	} catch (err) {
+		res.send('hm: ' + err);
+	}
+});
+
 app.get('/view', async (req, res) => {
  	try {
 		fitbitId = '649QPD';
@@ -121,7 +133,11 @@ app.get('/view', async (req, res) => {
 
 
 		refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
-		console.log(refreshAccessTokenPromise);
+		var newAccessToken = refreshAccessTokenPromise.access_token;
+		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
+
+		//await db.
+
 		res.send(refreshAccessTokenPromise);
 	} catch (err) {
 		res.send('err:');
