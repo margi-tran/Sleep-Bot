@@ -125,7 +125,7 @@ app.post('/fitbit_webhook', async (req, res) => {
 app.get('/view', async (req, res) => {
  	try {
 		//fitbitId = '649QPD';
-		var fbUserId = req.query.fbUserId;
+		var fitbitId = req.query.fitbitId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const testcollection = await db.collection('fitbit_auths');
     	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
@@ -150,7 +150,7 @@ app.get('/view', async (req, res) => {
 app.get('/seedata', async (req, res) => {
 	try {
 		//fitbitId = '649QPD';
-		var fbUserId = req.query.fbUserId;
+		var fitbitId = req.query.fitbitId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const testcollection = await db.collection('fitbit_auths');
     	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
