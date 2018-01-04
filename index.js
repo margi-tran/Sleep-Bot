@@ -115,7 +115,7 @@ app.post('/fitbit_webhook', async (req, res) => {
 
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const testcollection = await db.collection('fitbit_auths');
-    const result = await testcollection.find({ fbUserId_: fbUserId }).toArray();
+    const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
    
     var accessToken = result[0].accessToken;
     var refreshAccessToken = result[0].accessToken;
