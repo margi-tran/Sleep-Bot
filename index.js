@@ -31,15 +31,8 @@ app.listen(app.get('port'), () => {
     console.log('Running on port', app.get('port'));
 });
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   	try {
-  		/*const db = await MongoClient.connect(process.env.MONGODB_URI);
-  		const testcollection = db.collection('firstcol');
-  		var query = {};
-  		const result = await testcollection.find(query).toArray();
-
-  		res.send(result);*/
-
   		res.send('Margi\'s project');
   	} catch (err) {
   		console.log('[ERROR]', err);
@@ -47,12 +40,12 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/', fbVerificationHandler);
-
 app.post('/webhook/', facebookWebhook);
 
 app.get('/fitbit', function(req, res) {
 	res.redirect(client.getAuthorizeUrl(scope, redirectUri));
 });
+
 
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
