@@ -59,7 +59,10 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		fbUserId = req.cookies.fbUserId;
 		console.log('the val is ', fbUserId);
-		res.send('xd');
+
+		if(fbUserId === undefined) res.send('wow');
+		else res.send('xd');
+		return;
 
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
