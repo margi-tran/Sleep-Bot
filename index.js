@@ -135,7 +135,7 @@ app.get('/view', async (req, res) => {
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
-								{ accessToken: newAccessToken, refreshAccessToken: newRefreshToken});
+								{ $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken} });
 
 		res.send(refreshAccessTokenPromise);
 	} catch (err) {
