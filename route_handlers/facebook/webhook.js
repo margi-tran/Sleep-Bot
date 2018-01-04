@@ -3,8 +3,8 @@
  */
 
 
-var processMessage = require('./process_message');
-var processPostback = require('./process_postback');
+var processMessage = require('../../utility/process_message');
+var processPostback = require('../../utility/process_postback');
 
 module.exports = async (req, res) => {
 	try {

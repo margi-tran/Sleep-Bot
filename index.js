@@ -17,7 +17,7 @@ var fitbitWebhookGet = require('./route_handlers/fitbit_webhook_get');
 var fitbitOAuthCallback = require('./route_handlers/fitbit/oauth_callback');
 var fitbitRedirect = require('./route_handler/fitbit/redirect');
 
-var fitbitClient = require('./fitbit/fitbit_client');
+var fitbitClient = require('./utility/fitbit_client');
 var convertDate = require('./utility/convert_date');
 
 app.use(bodyParser.urlencoded({extended: false}));
