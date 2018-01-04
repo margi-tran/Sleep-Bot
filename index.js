@@ -124,7 +124,7 @@ app.post('/fitbit_webhook', async (req, res) => {
 	console.log('refresh tok:', oldRefreshAccessToken);
 
 
-	refreshAccessTokenPromise = await client.refreshAccessToken(accessToken, refreshToken);
+	refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 	console.log(prom);
 	
     res.sendStatus(204);
