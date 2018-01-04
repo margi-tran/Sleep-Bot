@@ -4,7 +4,6 @@ var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
-var path = require('path');
 
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
@@ -43,13 +42,11 @@ app.get('/fitbit_webhook', fitbitWebhookGet);
 app.get('/fitbit', fitbitRedirect);
 app.get('/fitbit_oauth_callback', fitbitOAuthCallback);
 
-/*
- * On the user's first time chatting to the bot, they are directed to this route.
- * This allows the user's Facebook ID to be correctly linked their Fibit ID.
- */
-app.get('/prepare_fitbit_auth', async (req, res) => {
+app.get('/prepare_fitbit_auth', prepareFitbitAuth);
+
+/*app.get('/prepare_fitbit_auth', async (req, res) => {
 	var fbUserId = req.query.fbUserId;
-	// If this cookie is not set then this route is being accessed illegally
+	// If fbUserId is not present in the URI, then assume access to this route is illegal
 	if(fbUserId === undefined) {
 		res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
 					+ '\n[ERROR] (/prepare_fitbit_auth) fbUserId is undefined.');
@@ -66,7 +63,7 @@ app.get('/prepare_fitbit_auth', async (req, res) => {
 
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
-});
+});*/
 
 app.post('/fitbit_webhook', async (req, res) => {
 	try {

@@ -9,7 +9,6 @@ var fitbitClient = require('../../utility/fitbit_client');
 var convertDate = require('../../utility/convert_date');
 
 module.exports = async (req, res) => {
-	console.log('WAS CALLED YEP');
 	try {
 		fbUserId = req.cookies.fbUserId;
 
