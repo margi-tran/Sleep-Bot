@@ -49,7 +49,7 @@ app.get('/fitbit', (req, res) => {
 	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, redirectUri));
 });
 
-app.get('/fitbit_oauth_callback', fitbitOAuthCallback)
+app.get('/fitbit_oauth_callback', fitbitOAuthCallback);
 
 /*app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
