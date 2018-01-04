@@ -106,21 +106,20 @@ app.get('/fitbit_webhook', (req, res) => {
     }
 });
 
-app.get('/seedata', async (req, res) => {
+app.post('/fitbit_webhook', async (req, res) => {
 	try {
-		fitbitId = '649QPD';
-		const db = await MongoClient.connect(process.env.MONGODB_URI);
-    	const testcollection = await db.collection('fitbit_auths');
-    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
-   		var accessToken = result[0].accessToken;
-   		res.send(result);
-    	const profile = await client.get("/profile.json", accessToken, fitbitId);
-    	res.send(profile);
-	} catch (err) {
-		res.send('hm: ' + err);
-	}
+	console.log(req.body);
+	fitbitId = req.body[0].ownerId;
+	date = req.body[0].date;
+	console.log('daaaaaa', fitbitId, date);
+	
+    res.sendStatus(204);
+} catch (err) {
+	console.log('[ERROR]', err)
+}
 });
 
+// test able to refresh token
 app.get('/view', async (req, res) => {
  	try {
 		fitbitId = '649QPD';
@@ -144,15 +143,17 @@ app.get('/view', async (req, res) => {
 	}
 });
 
-app.post('/fitbit_webhook', async (req, res) => {
+// test if i can do anythin with new token
+app.get('/seedata', async (req, res) => {
 	try {
-	console.log(req.body);
-	fitbitId = req.body[0].ownerId;
-	date = req.body[0].date;
-	console.log('daaaaaa', fitbitId, date);
-	
-    res.sendStatus(204);
-} catch (err) {
-	console.log('[ERROR]', err)
-}
+		fitbitId = '649QPD';
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+    	const testcollection = await db.collection('fitbit_auths');
+    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
+   		var accessToken = result[0].accessToken;
+    	const profile = await client.get("/profile.json", accessToken, fitbitId);
+    	res.send(profile);
+	} catch (err) {
+		res.send('hm: ' + err);
+	}
 });
