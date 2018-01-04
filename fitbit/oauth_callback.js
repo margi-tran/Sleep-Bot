@@ -44,8 +44,8 @@ module.exports = async (req, res) => {
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to your health data on Fitbit.');
-		//m1 = 'Great! You have given me permission to access your health data on Fitbit.';
-		//m2 = 'First, I would like to get an idea about your current sleep health so I\' going to ask you a few questions.';
+		fbMessengerBotClient.sendTextMessage(fbUserId, 
+			'First, I would like to get an idea about your current sleep health so I\'m going to ask you a few questions.');
 	} catch (err) {
 		console.log(err);
 		res.send('[ERROR]: ' + err);
