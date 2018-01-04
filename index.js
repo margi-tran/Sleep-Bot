@@ -46,7 +46,7 @@ app.post('/webhook/', facebookWebhook);
 app.get('/fitbit_webhook', fitbitWebhookGet);
 
 app.get('/fitbit', (req, res) => {
-	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, redirectUri));
+	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, fitbitClient.redirectUri));
 });
 
 app.get('/fitbit_oauth_callback', fitbitOAuthCallback);

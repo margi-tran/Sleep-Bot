@@ -6,7 +6,6 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 var fitbitClient = require('./fitbit_client');
-var redirectUri = 'https://calm-scrubland-31682.herokuapp.com/fitbit_oauth_callback';
 
 module.exports = async (req, res) => {
 	console.log('WAS CALLED YEP');
@@ -28,7 +27,7 @@ module.exports = async (req, res) => {
         	return;
         }
 
-		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, redirectUri);
+		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
         var newUser = { fbUserId_: fbUserId, 
