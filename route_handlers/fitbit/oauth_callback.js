@@ -5,8 +5,8 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-var fitbitClient = require('./fitbit_client');
-var convertDate = require('../utility/convert_date');
+var fitbitClient = require('../../fitbit/fitbit_client');
+var convertDate = require('../../utility/convert_date');
 
 module.exports = async (req, res) => {
 	console.log('WAS CALLED YEP');
