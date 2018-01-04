@@ -107,21 +107,25 @@ app.get('/fitbit_webhook', (req, res) => {
 });
 
 app.get('/view', async (req, res) => {
-	fitbitId =' 649QPD';
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const testcollection = await db.collection('fitbit_auths');
-    const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
+ 	try {
+		fitbitId =' 649QPD';
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+    	const testcollection = await db.collection('fitbit_auths');
+    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
    
-    var oldAccessToken = result[0].accessToken;
-    var oldRefreshAccessToken = result[0].refreshAccessToken;
+    	var oldAccessToken = result[0].accessToken;
+    	var oldRefreshAccessToken = result[0].refreshAccessToken;
 
-	console.log('accessToken:', oldAccessToken);
-	console.log('refresh tok:', oldRefreshAccessToken);
+		console.log('accessToken:', oldAccessToken);
+		console.log('refresh tok:', oldRefreshAccessToken);
 
 
-	refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
-	console.log(refreshAccessTokenPromise);
-	res.send(refreshAccessTokenPromise);
+		refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
+		console.log(refreshAccessTokenPromise);
+		res.send(refreshAccessTokenPromise);
+	} catch (err) {
+		res.send('err:', err);
+	}
 });
 
 app.post('/fitbit_webhook', async (req, res) => {
