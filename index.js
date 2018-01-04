@@ -106,13 +106,15 @@ app.get('/fitbit_webhook', (req, res) => {
     }
 });
 
-app.get('/test', async (req, res) => {
+app.get('/seedata', async (req, res) => {
 	try {
+		fitbitId = '649QPD';
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
-		var myquery = { first: "margi" };
-		var newValues = { last: "INTING" };
-		await db.collection('firstcol').updateOne(myquery, newValues);
-		res.send('done');
+    	const testcollection = await db.collection('fitbit_auths');
+    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
+   
+    	const profile = await client.get("/profile.json", access_token, fitbitId);
+    	res.send(profile);
 	} catch (err) {
 		res.send('hm: ' + err);
 	}
