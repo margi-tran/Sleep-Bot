@@ -124,7 +124,8 @@ app.get('/view', async (req, res) => {
 		console.log(refreshAccessTokenPromise);
 		res.send(refreshAccessTokenPromise);
 	} catch (err) {
-		res.send('err:', err);
+		res.send('err:');
+		console.log(err);
 	}
 });
 
