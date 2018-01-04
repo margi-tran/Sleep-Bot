@@ -65,7 +65,7 @@ app.get('/fitbit_oauth_callback', async (req, res) => {
 
 		const sleepData = await client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 
-		console.log(acessTokenPromise);
+		console.log(accessTokenPromise);
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         var newUser = { fbUserId_: fbUserId, 
                     fitbitId_: accessTokenPromise.user_id,
