@@ -135,7 +135,8 @@ app.get('/view', async (req, res) => {
 		refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
-		await db.collection('fitbit_auths').updateOne(fitbitId, { accessToken: "INTING", refreshAccessToken: "kek" });
+		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
+								{ accessToken: "INTING", refreshAccessToken: "kek" });
 
 		res.send(refreshAccessTokenPromise);
 	} catch (err) {
