@@ -117,13 +117,15 @@ app.post('/fitbit_webhook', async (req, res) => {
     const testcollection = await db.collection('fitbit_auths');
     const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
    
-    var accessToken = result[0].accessToken;
-    var refreshAccessToken = result[0].accessToken;
+    var oldAccessToken = result[0].accessToken;
+    var oldRefreshAccessToken = result[0].refreshAccessToken;
 
-	console.log('accessToken:', accessToken);
-	console.log('refresh tok:', refreshAccessToken);
-	//prom = await client.refreshAccessToken(accessToken, refreshToken);
-	//console.log(prom);
+	console.log('accessToken:', oldAccessToken);
+	console.log('refresh tok:', oldRefreshAccessToken);
+
+
+	refreshAccessTokenPromise = await client.refreshAccessToken(accessToken, refreshToken);
+	console.log(prom);
 	
     res.sendStatus(204);
 } catch (err) {
