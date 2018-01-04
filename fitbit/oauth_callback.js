@@ -8,7 +8,7 @@ var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKE
 
 var fitbitClient = require('./fitbit/fitbit_client');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
 	console.log('WAS CALLED YEP');
 	try {
 		fbUserId = req.cookies.fbUserId;
