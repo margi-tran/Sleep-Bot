@@ -106,13 +106,7 @@ app.get('/fitbit_webhook', (req, res) => {
     }
 });
 
-app.post('/fitbit_webhook', async (req, res) => {
-	try {
-	console.log(req.body);
-	fitbitId = req.body[0].ownerId;
-	date = req.body[0].date;
-	console.log('daaaaaa', fitbitId, date);
-
+app.get('/view', async (req, res) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const testcollection = await db.collection('fitbit_auths');
     const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
@@ -126,6 +120,15 @@ app.post('/fitbit_webhook', async (req, res) => {
 
 	refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 	console.log(refreshAccessTokenPromise);
+	res.send(refreshAccessTokenPromise);
+});
+
+app.post('/fitbit_webhook', async (req, res) => {
+	try {
+	console.log(req.body);
+	fitbitId = req.body[0].ownerId;
+	date = req.body[0].date;
+	console.log('daaaaaa', fitbitId, date);
 	
     res.sendStatus(204);
 } catch (err) {
