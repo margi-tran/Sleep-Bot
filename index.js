@@ -113,6 +113,8 @@ app.post('/fitbit_webhook', async (req, res) => {
 	date = req.body[0].date;
 	console.log('daaaaaa', fitbitId, date);
 	
+	// refresh the access token so that the user's fitbit data can be accessed
+
     res.sendStatus(204);
 } catch (err) {
 	console.log('[ERROR]', err)
@@ -122,7 +124,8 @@ app.post('/fitbit_webhook', async (req, res) => {
 // test able to refresh token
 app.get('/view', async (req, res) => {
  	try {
-		fitbitId = '649QPD';
+		//fitbitId = '649QPD';
+		var fbUserId = req.query.fbUserId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const testcollection = await db.collection('fitbit_auths');
     	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
@@ -146,7 +149,8 @@ app.get('/view', async (req, res) => {
 // test if i can do anythin with new token
 app.get('/seedata', async (req, res) => {
 	try {
-		fitbitId = '649QPD';
+		//fitbitId = '649QPD';
+		var fbUserId = req.query.fbUserId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const testcollection = await db.collection('fitbit_auths');
     	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
