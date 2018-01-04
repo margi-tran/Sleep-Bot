@@ -15,7 +15,7 @@ var fbVerificationHandler = require('./route_handlers/facebook/verification_hand
 var fbWebhook = require('./route_handlers/facebook/webhook');
 var fitbitWebhookGet = require('./route_handlers/fitbit/webhook_get');
 var fitbitOAuthCallback = require('./route_handlers/fitbit/oauth_callback');
-var fitbitRedirect = require('./route_handler/fitbit/redirect');
+var fitbitRedirect = require('./route_handlers/fitbit/redirect');
 
 var fitbitClient = require('./utility/fitbit_client');
 var convertDate = require('./utility/convert_date');
