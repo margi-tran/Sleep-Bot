@@ -49,7 +49,6 @@ app.get('/fitbit', (req, res) => {
 	res.redirect(fitbitClient.client.getAuthorizeUrl(scope, redirectUri));
 });
 
-
 app.get('/fitbit_oauth_callback', async (req, res) => {
 	try {
 		fbUserId = req.cookies.fbUserId;
@@ -118,19 +117,6 @@ app.get('/prepare_fitbit_auth', async (req, res) => {
 	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
 });
 
-/*
-app.get('/fitbit_webhook', (req, res) => {
-	if (req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
-		console.log('Cannot verify Fitbit webhook.');
-		res.sendStatus(404); 
-	} 
-    else {
-    	console.log('Fitbit webhook verified.');
-        res.sendStatus(204);         
-    }
-});*/
-
-
 app.post('/fitbit_webhook', async (req, res) => {
 	try {
 		console.log(req.body);
@@ -146,19 +132,18 @@ app.post('/fitbit_webhook', async (req, res) => {
 	}
 });
 
-// test able to refresh token
+
+// Test able to refresh token
 app.get('/view', async (req, res) => {
  	try {
-		//fitbitId = '649QPD';
 		var fitbitId = req.query.fitbitId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
-    	const testcollection = await db.collection('fitbit_auths');
-    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
+    	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
    
     	var oldAccessToken = result[0].accessToken;
     	var oldRefreshAccessToken = result[0].refreshAccessToken;
 
-		refreshAccessTokenPromise = await client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
+		refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
@@ -171,16 +156,14 @@ app.get('/view', async (req, res) => {
 	}
 });
 
-// test if i can do anythin with new token
+// Test if I can do anything with new token
 app.get('/seedata', async (req, res) => {
 	try {
-		//fitbitId = '649QPD';
 		var fitbitId = req.query.fitbitId;
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
-    	const testcollection = await db.collection('fitbit_auths');
-    	const result = await testcollection.find({ fitbitId_: fitbitId }).toArray();
+    	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
    		var accessToken = result[0].accessToken;
-    	const profile = await client.get("/profile.json", accessToken, fitbitId);
+    	const profile = await fitbitClient.client.get("/profile.json", accessToken, fitbitId);
     	res.send(profile);
 	} catch (err) {
 		res.send('hm: ' + err);
