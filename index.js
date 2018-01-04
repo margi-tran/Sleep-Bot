@@ -106,7 +106,7 @@ app.get('/fitbit_webhook', (req, res) => {
     }
 });
 
-app.post('/fitbit_webhook', (req, res) => {
+app.post('/fitbit_webhook', async (req, res) => {
 	try {
 	console.log(req.body);
 	fitbitId = req.body[0].ownerId;
