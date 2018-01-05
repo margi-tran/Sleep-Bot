@@ -27,10 +27,9 @@ module.exports = async (event) => {
             db.close();
 
             if(result.length == 0) { // user is not in database
-                console.log('hm', constants.FITBIT_AUTH);
                 const db = await MongoClient.connect(process.env.MONGODB_URI);
                 var newUser = { fbUserId_: fbUserId, 
-                                botRequested: constants.FITBT_AUTH };
+                                botRequested: constants.FITBIT_AUTH };
                 await db.collection('users').insertOne(newUser);
                 db.close();
 
