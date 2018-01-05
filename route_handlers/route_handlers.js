@@ -8,7 +8,7 @@ var fitbitRedirect = require('./fitbit/redirect');
 var fitbitOAuthCallback = require('./fitbit/oauth_callback');
 
 module.exports = {
-	homehandler,
+	homeHandler,
 	fbVerificationHandler,
 	fbWebhook,
 	fitbitWebhookGet,
