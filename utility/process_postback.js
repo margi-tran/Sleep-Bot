@@ -27,13 +27,15 @@ module.exports = async (event) => {
             db.close();
 
             if(result.length == 0) { // user is not in database
+                console.log('hm', constants.FITBIT_AUTH);
                 const db = await MongoClient.connect(process.env.MONGODB_URI);
-                var newUser = { fbUserId_: fbUserId, botRequested: constants.FITBT_AUTH };
+                var newUser = { fbUserId_: fbUserId, 
+                                botRequested: constants.FITBT_AUTH };
                 await db.collection('users').insertOne(newUser);
                 db.close();
 
                 var m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
-                var m2 = ' Please give me permission to access your health data on Fitbit, to help me analyze your sleep.'
+                var m2 = ' Please give me permission to access your data on Fitbit, to help me analyze your sleep.'
                         + ' To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                         + fbUserId;
 
