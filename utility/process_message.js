@@ -47,6 +47,11 @@ module.exports = async (event) => {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
         }
 
+
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+        console.log(result);
+
        await fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
 
     } catch (err) {

@@ -12,6 +12,8 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
+var constants = require('./constants');
+
 module.exports = async (event) => {
     try { 
         var fbUserId = event.sender.id;
@@ -26,7 +28,7 @@ module.exports = async (event) => {
 
             if(result.length == 0) { // user is not in database
                 const db = await MongoClient.connect(process.env.MONGODB_URI);
-                var newUser = { fbUserId_: fbUserId }
+                var newUser = { fbUserId_: fbUserId, botRequested: constants.FITBT_AUTH };
                 await db.collection('users').insertOne(newUser);
                 db.close();
 
