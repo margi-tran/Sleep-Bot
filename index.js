@@ -4,21 +4,21 @@ var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
 var MongoClient = require('mongodb').MongoClient;
-
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-var fbVerificationHandler = require('./route_handlers/facebook/verification_handler');
+var routes = require('./route_handlers/routes');
+var fitbitClient = require('./utility/fitbit_client');
+var convertDate = require('./utility/convert_date');
+
+/*var fbVerificationHandler = require('./route_handlers/facebook/verification_handler');
 var fbWebhook = require('./route_handlers/facebook/webhook');
 var fitbitWebhookGet = require('./route_handlers/fitbit/webhook_get');
 var fitbitOAuthCallback = require('./route_handlers/fitbit/oauth_callback');
 var fitbitRedirect = require('./route_handlers/fitbit/redirect');
-var prepareFitbitAuth = require('./route_handlers/prepare_fitbit_auth');
-
-var fitbitClient = require('./utility/fitbit_client');
-var convertDate = require('./utility/convert_date');
+var prepareFitbitAuth = require('./route_handlers/prepare_fitbit_auth');*/
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -37,34 +37,12 @@ app.get('/', (req, res) => {
   	}
 });
 
-app.get('/', fbVerificationHandler);
-app.post('/webhook/', fbWebhook);
-app.get('/fitbit_webhook', fitbitWebhookGet);
-app.get('/fitbit', fitbitRedirect);
-app.get('/fitbit_oauth_callback', fitbitOAuthCallback);
-
-app.get('/prepare_fitbit_auth', prepareFitbitAuth);
-
-/*app.get('/prepare_fitbit_auth', async (req, res) => {
-	var fbUserId = req.query.fbUserId;
-	// If fbUserId is not present in the URI, then assume access to this route is illegal
-	if(fbUserId === undefined) {
-		res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
-					+ '\n[ERROR] (/prepare_fitbit_auth) fbUserId is undefined.');
-			return;
-	}
-
-	// Check whether or not the user has already authenticated their Fitbit with the server
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
-	if(result != 0) {
-        res.send('You have already authenticated Fitbit with SleepBot.');
-        return;
-    } 
-
-	res.cookie('fbUserId', fbUserId);
-	res.sendFile(path.join(__dirname + '/html_files/prepare_fitbit_auth.html'));
-});*/
+app.get('/', routes.fbVerificationHandler);
+app.post('/webhook/', routes.fbWebhook);
+app.get('/fitbit_webhook', routes.fitbitWebhookGet);
+app.get('/fitbit', routes.fitbitRedirect);
+app.get('/fitbit_oauth_callback', routes.fitbitOAuthCallback);
+app.get('/prepare_fitbit_auth', routes.prepareFitbitAuth);
 
 app.post('/fitbit_webhook', async (req, res) => {
 	try {
