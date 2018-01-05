@@ -24,7 +24,7 @@ module.exports = async (event) => {
 
         if (message === '!fitbitId') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
+            const result = await db.collection('fitbit_auths').find( { fbUserId_: fbUserId } ).toArray();
             await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
             db.close();
             return;
@@ -49,13 +49,19 @@ module.exports = async (event) => {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
         }
 
+        if (message === '!buttons') {
+            var txt = ['yes', 'no'];
+            fbMessengerBotClient.sendButtonsMessage(fbUserId, txt);
+        }
 
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
         console.log(result);
         botRequested = result[0].botRequested;
 
-        switch(botRequested) {
+        // Check whether the bot asked anything from the user, if this is the case, 
+        // then the bot is expecting a reply
+        switch (botRequested) {
             case constants.FITBIT_AUTH:
                 var m1 = 'You haven\'t given me permission to access your Fitbit yet.'
                             + ' Please do that first before we proceed with anything else.';
@@ -63,6 +69,10 @@ module.exports = async (event) => {
                             + fbUserId;
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
+                break;
+            case constants.PRELIMINARY_QUESTIONS;
+                console.log('here');
+                break;
             default:
                 await fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
         }        
