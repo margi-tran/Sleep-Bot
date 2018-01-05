@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
 						+ '\n[ERROR] (/fitbit_oauth_callback) fbUserId is undefined.');
 			return;
-		}*/
+		}
 
 		// Check whether or not the user has already authenticated their Fitbit with the server
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         if(result != 0) {
         	res.send('You have already authenticated Fitbit with SleepBot.');
         	return;
-        }
+        }*/
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
 		//const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
