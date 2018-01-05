@@ -11,12 +11,12 @@ module.exports = async (req, res) => {
 	}*/
 
 	// Check whether or not the user has already authenticated their Fitbit with the server
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
+	/*const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
 	if(result != 0) {
         res.send('You have already authenticated Fitbit with SleepBot.');
         return;
-    } 
+    } */
 
 	res.cookie('fbUserId', fbUserId);
 	res.sendFile(path.join(__dirname + '/../html_files/prepare_fitbit_auth.html'));
