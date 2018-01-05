@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
                     refreshAccessToken: accessTokenPromise.refresh_token };
         await db.collection('fitbit_auths').insertOne(newUser);
         await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
-								{ $set: { botRequested: null } } )
+								{ $set: { botRequested: null } } );
         db.close();
 
         fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
