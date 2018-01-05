@@ -9,7 +9,7 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-var routes = require('./route_handlers/routes');
+var routeHandlers = require('./route_handlers/route_handlers');
 var fitbitClient = require('./utility/fitbit_client');
 var convertDate = require('./utility/convert_date');
 
@@ -21,14 +21,14 @@ app.listen(app.get('port'), () => {
     console.log('Running on port', app.get('port'));
 });
 
-app.get('/', routes.homeHandler);
-app.get('/', routes.fbVerificationHandler);
-app.post('/webhook/', routes.fbWebhook);
-app.get('/fitbit_webhook', routes.fitbitWebhookGet);
-app.post('/fitbit_webhook', routes.fitbitWebhookPost);
-app.get('/prepare_fitbit_auth', routes.prepareFitbitAuth);
-app.get('/fitbit', routes.fitbitRedirect);
-app.get('/fitbit_oauth_callback', routes.fitbitOAuthCallback);
+app.get('/', routeHandlers.homeHandler);
+app.get('/', routeHandlers.fbVerificationHandler);
+app.post('/webhook/', routeHandlers.fbWebhook);
+app.get('/fitbit_webhook', routeHandlers.fitbitWebhookGet);
+app.post('/fitbit_webhook', routeHandlers.fitbitWebhookPost);
+app.get('/prepare_fitbit_auth', routeHandlers.prepareFitbitAuth);
+app.get('/fitbit', routeHandlers.fitbitRedirect);
+app.get('/fitbit_oauth_callback', routeHandlers.fitbitOAuthCallback);
 
 
 
