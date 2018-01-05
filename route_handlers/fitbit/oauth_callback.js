@@ -1,3 +1,9 @@
+/**
+ * Module for handling Fitbit OAuth2 callback after the user has given permissions 
+ * for the server to access their Fitbit data.
+ */
+
+
 var MongoClient = require('mongodb').MongoClient;
 
 var fbMessengerBot = require('fb-messenger-bot-api');
@@ -11,10 +17,11 @@ var convertDate = require('../../utility/convert_date');
 module.exports = async (req, res) => {
 	try {
 		fbUserId = req.cookies.fbUserId;
+
 		// If the fbUserId cookie is not set then this route is being accessed illegally
 		/*if(fbUserId === undefined) {
-			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
-						+ '\n[ERROR] (/fitbit_oauth_callback) fbUserId is undefined.');
+			res.send('An error occurred. Please contact admin for assistance.' 
+						+ '\n[ERROR] (/oauth_callback) fbUserId is undefined. );
 			return;
 		}*/
 
@@ -50,7 +57,7 @@ module.exports = async (req, res) => {
 		fbMessengerBotClient.sendTextMessage(fbUserId, 
 			'First I would like to get an idea about your current sleep health, so I\'m going to ask you a few questions.');
 	} catch (err) {
-		console.log(err);
-		res.send('[ERROR] ' + err);
+		console.log('[ERROR]', err);
+		res.send('An error occurred. Please contact admin for assistance.' + '\n[ERROR] (/oauth_callback) ' + err);
 	}
 };

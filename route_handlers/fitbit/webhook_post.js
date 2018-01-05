@@ -1,3 +1,8 @@
+/**
+ * Module for handling subscribed updates to users' Fitbit data. 
+ */
+
+ 
 module.exports = async (req, res) => {
 	try {
 		console.log(req.body);
@@ -9,6 +14,6 @@ module.exports = async (req, res) => {
 
     	res.sendStatus(204);
 	} catch (err) {
-		console.log('[ERROR]', err)
+		console.log('[ERROR]', err);
 	}
 };

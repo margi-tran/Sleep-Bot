@@ -1,14 +1,23 @@
+/**
+ * This module serves up a webpage a user. The purpose of the webpage is to 
+ * store their Facebook user ID as a cookie, so that the when they are redirected
+ * to authenticate the server with Fitbit, their Facebook user ID can be 
+ * stored alongside their Fitbit ID.
+ */
+
+
 var MongoClient = require('mongodb').MongoClient;
 var path = require('path');
 
 module.exports = async (req, res) => {
 	try {
 		var fbUserId = req.query.fbUserId;
-		// If fbUserId is not present in the URL, then assume access to this route was illegal
+
+		// If fbUserId is not present in the URL, then assume that access to this route was illegal
 		/*if(fbUserId === undefined) {
-			res.send('You may not proceed beyond this page. Please contact Margi for assistance.'
+			res.send('An error occurred. Please contact Margi for assistance.' 
 						+ '\n[ERROR] (/prepare_fitbit_auth) fbUserId is undefined.');
-				return;
+			return;
 		}*/
 
 		// Check whether or not the user has already authenticated their Fitbit with the server
@@ -19,9 +28,10 @@ module.exports = async (req, res) => {
         	return;
     	} */
 
-	res.cookie('fbUserId', fbUserId);
-	res.sendFile(path.join(__dirname + '/../html_files/prepare_fitbit_auth.html'));
+		res.cookie('fbUserId', fbUserId);
+		res.sendFile(path.join(__dirname + '/../html_files/prepare_fitbit_auth.html'));
 	} catch (err) {
-		res.send()
+		console.log('[ERROR]', err);
+		res.send('An error occurred. Please contact admin for assistance.' + '\n[ERROR] (/prepare_fitbit_auth) ' + err);
 	}
 };

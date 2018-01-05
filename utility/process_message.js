@@ -1,5 +1,5 @@
 /**
- * Module for processing messages recieved from the webhook.
+ * Module for processing messages recieved from the webhook. 
  * Messages recieved from users are sent a reply.
  */
 

@@ -1,3 +1,8 @@
+/**
+ * Module for Fitbit webhook verification.
+ */
+
+
 module.exports = (req, res) => {
 	if (req.query.verify != process.env.FITBIT_VERIFICATION_CODE) {
 		console.log('Cannot verify Fitbit webhook.');

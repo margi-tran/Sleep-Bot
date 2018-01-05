@@ -1,4 +1,4 @@
-/*
+/**
  * This function was taken from http://www.template-tuners.com/fitbit/
  */
 module.exports = (date) => {
