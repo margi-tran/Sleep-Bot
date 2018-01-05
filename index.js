@@ -16,20 +16,12 @@ var convertDate = require('./utility/convert_date');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), () => {
     console.log('Running on port', app.get('port'));
 });
 
-app.get('/', (req, res) => {
-  	try {
-  		res.send('Margi\'s project');
-  	} catch (err) {
-  		console.log('[ERROR]', err);
-  	}
-});
-
+app.get('/', routes.homeHandler);
 app.get('/', routes.fbVerificationHandler);
 app.post('/webhook/', routes.fbWebhook);
 app.get('/fitbit_webhook', routes.fitbitWebhookGet);
