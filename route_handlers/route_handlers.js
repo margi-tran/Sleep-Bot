@@ -1,4 +1,4 @@
-var homeHandler = require('./homeHandler');
+var homeHandler = require('./home_handler');
 var fbVerificationHandler = require('./facebook/verification_handler');
 var fbWebhook = require('./facebook/webhook');
 var fitbitWebhookGet = require('./fitbit/webhook_get');
