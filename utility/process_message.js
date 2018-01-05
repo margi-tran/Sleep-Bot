@@ -51,8 +51,19 @@ module.exports = async (event) => {
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
         console.log(result);
+        botRequested = result[0].botRequested;
 
-       await fbMessengerBotClient.sendTextMessage(fbUserId, '[OK] Text received! Echoing: ' + message.substring(0, 200));
+        switch(botRequested) {
+            case constants.FITBIT_AUTH:
+                var m1 = 'You haven\'t given me permission to access your Fitbit yet.'
+                            + ' Please do that first before we proceed with anything else.';
+                var m2 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
+                            + fbUserId;
+                await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
+            default:
+                await fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
+        }        
 
     } catch (err) {
         console.log('[ERROR]', err);
