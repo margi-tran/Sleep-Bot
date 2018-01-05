@@ -13,13 +13,6 @@ var routes = require('./route_handlers/routes');
 var fitbitClient = require('./utility/fitbit_client');
 var convertDate = require('./utility/convert_date');
 
-/*var fbVerificationHandler = require('./route_handlers/facebook/verification_handler');
-var fbWebhook = require('./route_handlers/facebook/webhook');
-var fitbitWebhookGet = require('./route_handlers/fitbit/webhook_get');
-var fitbitOAuthCallback = require('./route_handlers/fitbit/oauth_callback');
-var fitbitRedirect = require('./route_handlers/fitbit/redirect');
-var prepareFitbitAuth = require('./route_handlers/prepare_fitbit_auth');*/
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -40,24 +33,11 @@ app.get('/', (req, res) => {
 app.get('/', routes.fbVerificationHandler);
 app.post('/webhook/', routes.fbWebhook);
 app.get('/fitbit_webhook', routes.fitbitWebhookGet);
+app.post('/fitbit_webhook', routes.fitbitWebhookPost);
+app.get('/prepare_fitbit_auth', routes.prepareFitbitAuth);
 app.get('/fitbit', routes.fitbitRedirect);
 app.get('/fitbit_oauth_callback', routes.fitbitOAuthCallback);
-app.get('/prepare_fitbit_auth', routes.prepareFitbitAuth);
 
-app.post('/fitbit_webhook', async (req, res) => {
-	try {
-		console.log(req.body);
-		fitbitId = req.body[0].ownerId;
-		date = req.body[0].date;
-		console.log('daaaaaa', fitbitId, date);
-	
-		// refresh the access token so that the user's fitbit data can be accessed
-
-    	res.sendStatus(204);
-	} catch (err) {
-		console.log('[ERROR]', err)
-	}
-});
 
 
 // Test able to refresh token

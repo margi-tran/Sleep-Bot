@@ -1,15 +1,18 @@
 var fbVerificationHandler = require('./facebook/verification_handler');
 var fbWebhook = require('./facebook/webhook');
 var fitbitWebhookGet = require('./fitbit/webhook_get');
-var fitbitOAuthCallback = require('./fitbit/oauth_callback');
-var fitbitRedirect = require('./fitbit/redirect');
+var fitbitWebhookPost = require('./fitbit/webhook_post');
 var prepareFitbitAuth = require('./prepare_fitbit_auth');
+var fitbitRedirect = require('./fitbit/redirect');
+var fitbitOAuthCallback = require('./fitbit/oauth_callback');
+
 
 module.exports = {
 	fbVerificationHandler,
 	fbWebhook,
 	fitbitWebhookGet,
- 	fitbitOAuthCallback,
- 	fitbitRedirect,
- 	prepareFitbitAuth
+	fitbitWebhookPost,
+	prepareFitbitAuth,
+	fitbitRedirect,
+ 	fitbitOAuthCallback
 };
