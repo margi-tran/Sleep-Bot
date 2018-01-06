@@ -61,7 +61,7 @@ module.exports = async (event) => {
                         "payload": "Payload for first element in a generic bubble",
                     }];
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'uhm');
-            await fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', []);
+            await fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', buttons);
             console.log('huh');
             return;
         } 
