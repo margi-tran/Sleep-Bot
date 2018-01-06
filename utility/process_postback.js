@@ -23,7 +23,7 @@ module.exports = async (event) => {
 
         fbMessengerBotClient.sendTextMessage(fbUserId, '<postback received>');
 
-        if (event.postback.payload === 'GET_STARTED_PAYLOAD') {
+        if (event.postback.payload === constants.GET_STARTED_PAYLOAD) {
             // check whether the user exists in the database
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();

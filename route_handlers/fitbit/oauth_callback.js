@@ -55,9 +55,26 @@ module.exports = async (req, res) => {
         res.send(profileData);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
-		fbMessengerBotClient.sendTextMessage(fbUserId, 'Great, you have given me permission to access to your health data on Fitbit.');
-		fbMessengerBotClient.sendTextMessage(fbUserId, 
-			'First I would like to get an idea about your current sleep health, so I\'m going to ask you a few questions.');
+
+		var m1 = `Great, you have given me permission to access to your health data on Fitbit.`;
+		var m2 = `Before we go any further, I would like to get an idea about your current sleep health, 
+					so I\'m going to ask you a few questions.`;
+		var m3 = 'Are you ready to start answerin';
+		var quickReplies = 
+			[{
+            	"content_type":"text",
+                "title":"yes",
+                "payload":"yes"
+            },
+            {
+            	"content_type":"text",
+            	"title":"no",
+            	"payload":"no"
+            }];
+
+		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
+		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
+		await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m3, quickReplies);
 	} catch (err) {
 		console.log('[ERROR]', err);
 		res.send('An error occurred. Please contact admin for assistance.' + '\n[ERROR] (/oauth_callback) ' + err);

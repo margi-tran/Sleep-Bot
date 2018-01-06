@@ -50,19 +50,7 @@ module.exports = async (event) => {
             return;
         }
 
-        /*if (message === '!buttons') {
-            var buttons = [{
-                        "type": "web_url",
-                        "url": "https://www.messenger.com",
-                        "title": "web url"
-                    }, {
-                        "type": "postback",
-                        "title": "Postback",
-                        "payload": "Payload for first element in a generic bubble",
-                    }];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
-            return;
-        } */
+        } 
 
         if (message === '!buttons') {
             var buttons = 
@@ -94,6 +82,12 @@ module.exports = async (event) => {
             ];
             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', quickReplies);
             return;
+        }
+
+        if(message === 'da') {
+            m1 = `hello
+                            xd`;
+            await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
         }
 
         const db = await MongoClient.connect(process.env.MONGODB_URI);
