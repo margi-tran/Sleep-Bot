@@ -70,7 +70,7 @@ module.exports = async (event) => {
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
                 break;
-            case constants.PRELIMINARY_QUESTIONS;
+            case constants.PRELIMINARY_QUESTIONS:
                 console.log('here');
                 break;
             default:
