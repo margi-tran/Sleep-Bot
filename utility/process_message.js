@@ -76,7 +76,7 @@ module.exports = async (event) => {
                     "title": "Postback",
                     "payload": "Payload for first element in a generic bubble",
                 }];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
+            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'You asked for buttons', buttons);
             return;
         } 
 
