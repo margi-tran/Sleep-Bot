@@ -72,7 +72,11 @@ module.exports = async (req, res) => {
             	"payload":"no"
             }];
 
-            console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
+        console.log('heeeeeeeeeeeeeeey');
+        console.log('heeeeeeeeeeeeeeey');
+        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
+        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
+        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
 
         await db.collection('fitbit_auths').updateOne({fbUserId: fbUserId}, 
 								{$set: {botRequested: constants.BACKGROUND_QUESTIONS}});
