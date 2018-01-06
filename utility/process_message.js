@@ -47,20 +47,39 @@ module.exports = async (event) => {
         if (message === '!multi') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'wow this works');
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
+            return;
         }
 
         if (message === '!buttons') {
-            var buttons = [{
-                        "type": "web_url",
-                        "url": "https://www.messenger.com",
-                        "title": "web url"
-                    }, {
-                        "type": "postback",
-                        "title": "Postback",
-                        "payload": "Payload for first element in a generic bubble",
-                    }];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
+            var buttons = [ {
+                                "type": "postback",
+                                "url": "https://www.messenger.com",
+                                "title": "web url"
+                            }, 
+                            {
+                                "type": "postback",
+                                "title": "Postback",
+                                "payload": "Payload for first element in a generic bubble",
+                            } ];
+            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', buttons);
+            return;
         } 
+
+        if (message === '!quick') {
+            var quickReplies = [{
+                "content_type":"text",
+                "title":"yes",
+                "payload":"yeah"
+            },
+            {
+            "content_type":"text",
+            "title":"no",
+            "payload":"naw"
+            }
+            ];
+            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', buttons);
+            return;
+        }
 
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
