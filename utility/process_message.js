@@ -85,8 +85,7 @@ module.exports = async (event) => {
         }
 
         if(message === 'da') {
-            m1 = `hello
-                            xd`;
+            m1 = 'daa';
             await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
         }
 
