@@ -30,22 +30,21 @@ module.exports = async (event) => {
             db.close();
 
             if(result.length == 0) { // user is not in database
-                const db = await MongoClient.connect(process.env.MONGODB_URI);
                 var newUser = { fbUserId_: fbUserId, 
                                 botRequested: constants.FITBIT_AUTH };
                 await db.collection('users').insertOne(newUser);
-                db.close();
-
-                var m1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
-                var m2 = 'Please give me permission to access your data on Fitbit, to help me analyze your sleep.'
+            
+                var msg1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
+                var msg2 = 'Please give me permission to access your data on Fitbit, to help me analyze your sleep.'
                         + ' To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                         + fbUserId;
 
-                await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
-                await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
             } else { // user is in database
                 await fbMessengerBotClient.sendTextMessage(fbUserId, 'Welcome back! :)');
             }
+            db.close();
             return;
         }
     } catch (err) {

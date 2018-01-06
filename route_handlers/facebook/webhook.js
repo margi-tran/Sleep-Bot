@@ -9,9 +9,9 @@ var processPostback = require('../../utility/process_postback');
 module.exports = async (req, res) => {
 	try {
     	if (req.body.object === 'page') {
-    		if(req.body.entry === undefined) return;
+    		if (req.body.entry === undefined) return;
        		req.body.entry.forEach(entry => {
-        		if(entry.messaging === undefined) return;
+        		if (entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
 					if (event.message) {
 						processMessage(event);

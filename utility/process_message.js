@@ -21,10 +21,9 @@ module.exports = async (event) => {
 
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
 
         if (message === '!fitbitId') {
-            const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const result = await db.collection('fitbit_auths').find( { fbUserId_: fbUserId } ).toArray();
             await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
             db.close();
             return;
@@ -32,6 +31,7 @@ module.exports = async (event) => {
     
         if (message === '!fbUserId') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
+            db.close();
             return;
         }
 
@@ -41,12 +41,14 @@ module.exports = async (event) => {
             await fbMessengerBotClient.sendTextMessage(fbUserId, '2');
             await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
             await fbMessengerBotClient.sendTextMessage(fbUserId, '3');
+            db.close();
             return;
         }
 
         if (message === '!multi') {
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'wow this works');
             await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
+            db.close();
             return;
         }
 
@@ -63,40 +65,23 @@ module.exports = async (event) => {
                     "payload": "Payload for first element in a generic bubble",
                 }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'You asked for buttons', buttons);
+            db.close();
             return;
         } 
 
-        if (message === '!quick') {
-            var quickReplies = [{
-                "content_type":"text",
-                "title":"yes",
-                "payload":"yeah"
-            },
-            {
-            "content_type":"text",
-            "title":"no",
-            "payload":"naw"
-            }
-            ];
-            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', quickReplies);
-            return;
-        }
-
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
-        console.log(result);
         botRequested = result[0].botRequested;
 
         // Check whether the bot asked anything from the user, if this is the case, 
         // then the bot is expecting a reply
         switch (botRequested) {
             case constants.FITBIT_AUTH:
-                var m1 = 'You haven\'t given me permission to access your Fitbit yet.'
+                var msg1 = 'You haven\'t given me permission to access your Fitbit yet.'
                             + ' Please do that first before we proceed with anything else.';
-                var m2 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
+                var msg2 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                             + fbUserId;
-                await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
-                await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message.toLowerCase() === 'yes') {
@@ -105,16 +90,17 @@ module.exports = async (event) => {
                     fbMessengerBotClient.sendTextMessage(fbUserId, '<great this is the first question>');
                 } else {  
                     var msg = 'I need to have some background about your sleep.' 
-                                + ' I have only a couple of questions, could you please answer them first?';
+                                + ' I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
             case constants.BACKGROUND_QUESTION_ONE:
-                fbMessengerBotClient.sendTextMessage(fbUserId, 'gonna answer q1 first');
+                fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
+                break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
         }        
-
+        db.close();
     } catch (err) {
         console.log('[ERROR]', err);
     }
