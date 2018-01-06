@@ -8,3 +8,4 @@ module.exports = {
 	FITBIT_AUTH,
 	BACKGROUND_QUESTIONS
 };
+
