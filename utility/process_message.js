@@ -82,13 +82,6 @@ module.exports = async (event) => {
             return;
         }
 
-        if(message === 'da') {
-            m1 = `daa
-                    a a a                  a
-                    a`;
-            await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
-        }
-
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
         console.log(result);

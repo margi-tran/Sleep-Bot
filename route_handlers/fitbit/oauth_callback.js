@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
 		var m1 = `Great, you have given me permission to access to your health data on Fitbit.`;
 		var m2 = `Before we go any further, I would like to get an idea about your current sleep health, 
 					so I\'m going to ask you a few questions.`;
-		var m3 = 'Are you ready to start answerin';
+		var m3 = 'Are you ready to start answering my questions?';
 		var quickReplies = 
 			[{
             	"content_type":"text",
