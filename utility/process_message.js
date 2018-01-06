@@ -54,24 +54,13 @@ module.exports = async (event) => {
             var buttons = [{
                         "type": "web_url",
                         "url": "https://www.messenger.com",
-                        "title": "web url"
+                        "title": "stuffies url"
                     }, {
                         "type": "postback",
                         "title": "Postback",
                         "payload": "Payload for first element in a generic bubble",
                     }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
-            var buttons = [ {
-                                "type": "postback",
-                                "url": "https://www.messenger.com",
-                                "title": "web url"
-                            }, 
-                            {
-                                "type": "postback",
-                                "title": "Postback",
-                                "payload": "Payload for first element in a generic bubble",
-                            } ];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', buttons);
             return;
          } 
 
