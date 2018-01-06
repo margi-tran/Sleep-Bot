@@ -50,9 +50,17 @@ module.exports = async (event) => {
         }
 
         if (message === '!buttons') {
-            var txt = ['yes', 'no'];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, txt);
-        }
+            var buttons = [{
+                        "type": "web_url",
+                        "url": "https://www.messenger.com",
+                        "title": "web url"
+                    }, {
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for first element in a generic bubble",
+                    }];
+            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
+        } 
 
         const db = await MongoClient.connect(process.env.MONGODB_URI);
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
