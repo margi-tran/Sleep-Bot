@@ -65,16 +65,17 @@ module.exports = async (event) => {
         } */
 
         if (message === '!buttons') {
-            var buttons = [ {
-                                "type": "web_url",
-                                "url": "https://www.messenger.com",
-                                "title": "woo"
-                            }, 
-                            {
-                                "type": "postback",
-                                "title": "Postback",
-                                "payload": "Payload for first element in a generic bubble",
-                            }];
+            var buttons = 
+                [{
+                    "type": "web_url",
+                    "url": "https://www.messenger.com",
+                    "title": "woo"
+                }, 
+                {
+                    "type": "postback",
+                    "title": "Postback",
+                    "payload": "Payload for first element in a generic bubble",
+                }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
             return;
         } 
