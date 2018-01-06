@@ -103,7 +103,7 @@ module.exports = async (event) => {
                     await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
                                 { $set: { botRequested: constants.BACKGROUND_QUESTION_ONE } });
                     fbMessengerBotClient.sendTextMessage(fbUserId, '<great this is the first question>');
-                } else {
+                } else {  
                     var msg = 'I need to have some background about your sleep.' 
                                 + ' I have only a couple of questions, could you please answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
