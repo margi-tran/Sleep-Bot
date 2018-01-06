@@ -100,7 +100,7 @@ module.exports = async (event) => {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message.toLowerCase() === 'yes') {
-
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'great on to next question');
                 } else {
                     var m = 'I need to have some background about your sleep.' 
                                 + 'I have only a couple of questions, could you answer them first?';

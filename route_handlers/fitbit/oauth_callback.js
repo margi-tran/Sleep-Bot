@@ -78,8 +78,8 @@ module.exports = async (req, res) => {
         console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
         console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
 
-        await db.collection('users').updateOne({fbUserId: fbUserId}, 
-								{$set: {botRequested: constants.BACKGROUND_QUESTIONS}});
+        await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
+								{ $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
         db.close();
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
