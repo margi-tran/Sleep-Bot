@@ -50,7 +50,7 @@ module.exports = async (event) => {
             return;
         }
 
-         if (message === '!buttons') {
+        /*if (message === '!buttons') {
             var buttons = [{
                         "type": "web_url",
                         "url": "https://www.messenger.com",
@@ -61,9 +61,23 @@ module.exports = async (event) => {
                         "payload": "Payload for first element in a generic bubble",
                     }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
+            return;
+        } */
+
+        if (message === '!buttons') {
+            var buttons = [ {
+                                "type": "web_url",
+                                "url": "https://www.messenger.com",
+                                "title": "woo"
+                            }, 
+                            {
+                                "type": "postback",
+                                "title": "Postback",
+                                "payload": "Payload for first element in a generic bubble",
+                            }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'question', buttons);
             return;
-         } 
+        } 
 
         if (message === '!quick') {
             var quickReplies = [{
