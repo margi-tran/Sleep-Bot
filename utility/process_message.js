@@ -50,21 +50,21 @@ module.exports = async (event) => {
             return;
         }
 
-        if (message === '!buttons') {
-            var buttons = [{
-                        "type": "postback",
-                        "url": "https://www.messenger.com",
-                        "title": "web url"
-                    }, {
-                        "type": "postback",
-                        "title": "Postback",
-                        "payload": "Payload for first element in a generic bubble",
-                    }];
-            await fbMessengerBotClient.sendTextMessage(fbUserId, 'uhm');
-            await fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', buttons);
-            console.log('huh');
+         if (message === '!quick') {
+            var quickReplies = [{
+                "content_type":"text",
+                "title":"yes",
+                "payload":"yeah"
+            },
+            {
+            "content_type":"text",
+            "title":"no",
+            "payload":"naw"
+            }
+            ];
+            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', buttons);
             return;
-        } 
+        }
 
         if (message === '!quick') {
             var quickReplies = [{
