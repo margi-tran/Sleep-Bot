@@ -98,8 +98,25 @@ module.exports = async (event) => {
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
                 await fbMessengerBotClient.sendTextMessage(fbUserId, m2);
                 break;
-            case constants.PRELIMINARY_QUESTIONS:
-                console.log('here');
+            case constants.BACKGROUND_QUESTIONS:
+                if (message.toLowerCase() === 'yes') {
+
+                } else {
+                    var m = 'I need to have some background about your sleep.' 
+                                + 'I have only a couple of questions, could you answer them first?';
+                    var quickReplies = 
+                    [{
+                        "content_type":"text",
+                        "title":"yes",
+                        "payload":"yes"
+                    },
+                    {
+                        "content_type":"text",
+                        "title":"no",
+                        "payload":"no"
+                    }];
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m, quickReplies);
+                }
                 break;
             default:
                 await fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));

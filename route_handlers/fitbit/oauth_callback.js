@@ -72,6 +72,10 @@ module.exports = async (req, res) => {
             	"payload":"no"
             }];
 
+        const db = await MongoClient.connect(process.env.MONGODB_URI);
+        await db.collection('fitbit_auths').updateOne({fbUserId: fbUserId}, 
+								{$set: {botRequested: constants.PRELIMINARY_QUESTIONS}});
+        db.close();
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
 		await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m3, quickReplies);
