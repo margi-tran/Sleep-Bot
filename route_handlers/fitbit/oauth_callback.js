@@ -11,6 +11,7 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
+var constants = require('../../utility/constants');
 var fitbitClient = require('../../utility/fitbit_client');
 var convertDate = require('../../utility/convert_date');
 
@@ -72,7 +73,7 @@ module.exports = async (req, res) => {
             }];
 
         await db.collection('fitbit_auths').updateOne({fbUserId: fbUserId}, 
-								{$set: {botRequested: constants.PRELIMINARY_QUESTIONS}});
+								{$set: {botRequested: constants.BACKGROUND_QUESTIONS}});
         db.close();
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
