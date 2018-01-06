@@ -56,9 +56,9 @@ module.exports = async (req, res) => {
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 
-		var m1 = `Great, you have given me permission to access to your health data on Fitbit.`;
-		var m2 = `Before we go any further, I would like to get an idea about your current sleep health, 
-					so I\'m going to ask you a few questions.`;
+		var m1 = 'Great, you have given me permission to access to your health data on Fitbit.';
+		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
+					+ ' so I\'m going to ask you a few questions.';
 		var m3 = 'Are you ready to start answering my questions?';
 		var quickReplies = 
 			[{
@@ -71,12 +71,6 @@ module.exports = async (req, res) => {
             	"title":"no",
             	"payload":"no"
             }];
-
-        console.log('heeeeeeeeeeeeeeey');
-        console.log('heeeeeeeeeeeeeeey');
-        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
-        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
-        console.log('heeeeeeeeeeeeeeey', constants.BACKGROUND_QUESTIONS );
 
         await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
 								{ $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );

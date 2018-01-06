@@ -100,26 +100,19 @@ module.exports = async (event) => {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message.toLowerCase() === 'yes') {
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'great on to next question');
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
+                                { $set: { botRequested: constants.BACKGROUND_QUESTION_ONE } });
+                    fbMessengerBotClient.sendTextMessage(fbUserId, '<great this is the first question>');
                 } else {
-                    var m = 'I need to have some background about your sleep.' 
-                                + 'I have only a couple of questions, could you answer them first?';
-                    var quickReplies = 
-                    [{
-                        "content_type":"text",
-                        "title":"yes",
-                        "payload":"yes"
-                    },
-                    {
-                        "content_type":"text",
-                        "title":"no",
-                        "payload":"no"
-                    }];
-                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m, quickReplies);
+                    var msg = 'I need to have some background about your sleep.' 
+                                + ' I have only a couple of questions, could you please answer them first?';
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
+            case constants.BACKGROUND_QUESTION_ONE:
+                fbMessengerBotClient.sendTextMessage(fbUserId, 'gonna answer q1 first');
             default:
-                await fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
+                fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
         }        
 
     } catch (err) {
