@@ -50,8 +50,6 @@ module.exports = async (event) => {
             return;
         }
 
-        } 
-
         if (message === '!buttons') {
             var buttons = 
                 [{
@@ -85,7 +83,9 @@ module.exports = async (event) => {
         }
 
         if(message === 'da') {
-            m1 = 'daa';
+            m1 = `daa
+                    a a a                  a
+                    a`;
             await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
         }
 
