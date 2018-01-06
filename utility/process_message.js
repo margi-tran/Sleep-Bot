@@ -51,16 +51,15 @@ module.exports = async (event) => {
         }
 
         if (message === '!buttons') {
-            var buttons = [ {
-                                "type": "postback",
-                                "url": "https://www.messenger.com",
-                                "title": "web url"
-                            }, 
-                            {
-                                "type": "postback",
-                                "title": "Postback",
-                                "payload": "Payload for first element in a generic bubble",
-                            } ];
+            var buttons = [{
+                        "type": "postback",
+                        "url": "https://www.messenger.com",
+                        "title": "web url"
+                    }, {
+                        "type": "postback",
+                        "title": "Postback",
+                        "payload": "Payload for first element in a generic bubble",
+                    }];
             fbMessengerBotClient.sendButtonsMessage(fbUserId, 'buttons question', buttons);
             return;
         } 
@@ -77,7 +76,7 @@ module.exports = async (event) => {
             "payload":"naw"
             }
             ];
-            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', buttons);
+            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'quick replies', quickReplies);
             return;
         }
 
