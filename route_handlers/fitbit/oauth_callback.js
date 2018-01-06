@@ -44,7 +44,6 @@ module.exports = async (req, res) => {
         await db.collection('fitbit_auths').insertOne(newUser);
         await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
 								{ $set: { botRequested: null } } );
-        db.close();
 
         fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
        		console.log('subscribeToFoods:', results[0]);
@@ -72,7 +71,6 @@ module.exports = async (req, res) => {
             	"payload":"no"
             }];
 
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
         await db.collection('fitbit_auths').updateOne({fbUserId: fbUserId}, 
 								{$set: {botRequested: constants.PRELIMINARY_QUESTIONS}});
         db.close();
