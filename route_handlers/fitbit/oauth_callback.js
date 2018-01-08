@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
         	console.log(results[0].errors);
     	});
 
-        res.send(profileData[0].user);
+        res.send(profileData[0].user.age);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 
