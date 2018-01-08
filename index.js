@@ -68,3 +68,16 @@ app.get('/seedata', async (req, res) => {
 		res.send('hm: ' + err);
 	}
 });
+
+app.get('/haha', async (req, res) => {
+	try {
+		var fitbitId = req.query.fitbitId;
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+    	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
+   		var accessToken = result[0].accessToken;
+    	const profile = await fitbitClient.client.get("/profile.json", accessToken, fitbitId);
+    	res.send(profile);
+	} catch (err) {
+		res.send('hm: ' + err);
+	}
+});

@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
         }*/
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
-		//const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
         var newUser = { fbUserId_: fbUserId, 
@@ -58,7 +58,7 @@ module.exports = async (req, res) => {
         	console.log(results[0].errors);
     	});
 
-        res.send(profileData);
+        res.send(profileData[0].user.age);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 
