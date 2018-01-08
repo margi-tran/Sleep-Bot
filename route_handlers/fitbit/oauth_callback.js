@@ -46,19 +46,19 @@ module.exports = async (req, res) => {
         await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
 								{ $set: { botRequested: null } } );
 
-        fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
+        /*fitbitClient.client.post("/foods/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
        		console.log('subscribeToFoods:', results[0]);
     	}).catch( (results) => {
         	console.log(results[0].errors);
-    	});
+    	});*/
 
     	fitbitClient.client.post("/sleep/apiSubscriptions/1.json", accessTokenPromise.access_token).then( (results) => {
-       		console.log('subscribeToFoods:', results[0]);
+       		console.log('subscribeToSleep:', results[0]);
     	}).catch( (results) => {
         	console.log(results[0].errors);
     	});
 
-        res.send(profileData[0].user.age);
+        res.send(profileData[0].user);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 
