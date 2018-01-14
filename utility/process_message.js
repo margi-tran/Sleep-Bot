@@ -144,9 +144,88 @@ module.exports = async (event) => {
                     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ALCOHOL_NICOTINE } });
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 } else { 
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question!!!.');
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_EAT_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 }
+                break;
+            case constants.BACKGROUND_ALCOHOL_NICOTINE:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { alcohol_nicotine: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_CAFFEINE } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_CAFFEINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_CAFFEINE:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { caffeine: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_LIGHTS } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_LIGHTS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_CAFFEINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_LIGHTS:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { lights: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_NOISE } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_NOISE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_LIGHTS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_NOISE:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { noise: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_EXCERCISE } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_EXCERCISE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_NOISE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_EXCERCISE:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_JOB } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_JOB_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_EXCERCISE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_JOB_TEXT:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
+
+                    if (message.toLowerCase() === 'yes') {
+                        await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_WORK_SCHEDULE } });
+                        await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                    } else {
+                        await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
+                        await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_DONE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                    }
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_JOB_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_WORK_SCHEDULE_TEXT:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_JOB_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else { 
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_DONE:
+                await fbMessengerBotClient.sendTextMessage(fbUserId, 'That\'s enough questions from me.');
                 break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));

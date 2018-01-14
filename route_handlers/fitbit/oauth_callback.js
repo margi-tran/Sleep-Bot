@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
                 noise: null,
                 excercise: null,
                 job: null,
-                job_sched: null
+                work_schedule: null
             };
         await db.collection('background').insertOne(background);
 

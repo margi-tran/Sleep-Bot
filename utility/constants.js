@@ -13,7 +13,8 @@ const BACKGROUND_LIGHTS = 'background question lights';
 const BACKGROUND_NOISE = 'background question noise';
 const BACKGROUND_EXCERCISE = 'background question excercise';
 const BACKGROUND_JOB = 'background question job';
-const BACKGROUND_WORK_SCHED = 'background work sched';
+const BACKGROUND_WORK_SCHEDULE = 'background work sched';
+const BACKGROUND_DONE = 'background done';
 
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday?';
 const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday?';
@@ -26,7 +27,7 @@ const BACKGROUND_LIGHTS_TEXT = 'Do you sleep with the lights on?';
 const BACKGROUND_NOISE_TEXT = 'Is your bedroom quiet when you sleep?';
 const BACKGROUND_EXCERCISE_TEXT = 'Are you exercising regularly?';
 const BACKGROUND_JOB_TEXT = 'Do you have a job?';
-const BACKGROUND_WORK_SCHED_TEXT = 'Is your work schedule irregular?';
+const BACKGROUND_WORK_SCHEDULE_TEXT = 'Is your work schedule irregular?';
 
 const ELECTRONICS = 'electronics';
 const STRESSED = 'stressed';
@@ -35,8 +36,7 @@ const ALCOHOL_NICOTINE = 'alcohol nicotine';
 const CAFFEINE = 'caffeine';
 const LIGHTS = 'lights';
 const NOISE = 'noise';
-////
-const JOB = 'job schedule';
+const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
 
@@ -68,7 +68,8 @@ module.exports = {
     BACKGROUND_NOISE, 
     BACKGROUND_EXCERCISE, 
     BACKGROUND_JOB, 
-    BACKGROUND_WORK_SCHED, 
+    BACKGROUND_WORK_SCHEDULE, 
+    BACKGROUND_DONE,
 
     BACKGROUND_GET_UP_TEXT, 
     BACKGROUND_GO_TO_BED_TEXT,
@@ -81,7 +82,7 @@ module.exports = {
     BACKGROUND_NOISE_TEXT, 
     BACKGROUND_EXCERCISE_TEXT, 
     BACKGROUND_JOB_TEXT, 
-    BACKGROUND_WORK_SCHED_TEXT, 
+    BACKGROUND_WORK_SCHEDULE_TEXT, 
 
     ELECTRONICS, 
     STRESSED,
@@ -90,7 +91,7 @@ module.exports = {
     CAFFEINE,
     LIGHTS,
     NOISE,
-    JOB,
+    WORK_SCHEDULE,
     EXCERCISE,
 
 	QUICK_REPLIES_YES_OR_NO
