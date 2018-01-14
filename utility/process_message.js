@@ -86,27 +86,22 @@ module.exports = async (event) => {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message.toLowerCase() === 'yes') {
-                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
-                                { $set: { botRequested: constants.BACKGROUND_GET_UP } });
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GET_UP } });
+                    fbMessengerBotClient.sendMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT);
                 } else {  
-                    var msg = 'I need to have some background about your sleep.' 
-                                + ' I only have a couple of questions, could you answer them first?';
+                    var msg = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
-                break;await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
-                                { $set: { botRequested: constants.BACKGROUND_GET_UP } });
-                    fbMessengerBotClient.sendMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT);
+                break;
             case constants.BACKGROUND_GET_UP:
                 // need to check its a valid time!!
 
                 //store user answer
-                await db.collection('background').updateOne({ fbUserId_: fbUserId }, 
-                                { $set: { get_up: message } });
+                await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
+                
                 // ask question 2
-                await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
-                                { $set: { botRequested: constants.BACKGROUND_GO_TO_BED } });
-                    fbMessengerBotClient.sendMessage(fbUserId, constants.BACKGROUND_GO_TO_BED);
+                await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GO_TO_BED } });
+                fbMessengerBotClient.sendMessage(fbUserId, constants.BACKGROUND_GO_TO_BED);
 
                 // other reply ask question 1 agaian
                 //fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
