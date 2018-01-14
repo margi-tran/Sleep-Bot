@@ -9,7 +9,7 @@ var MongoClient = require('mongodb').MongoClient;
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
-var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
+var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var constants = require('../../utility/constants');
 var fitbitClient = require('../../utility/fitbit_client');
@@ -60,10 +60,28 @@ module.exports = async (req, res) => {
 
     	var age = profileData[0].user.age;
 
+        var background = 
+            { 
+                fbUserId_: fbUserId, 
+                age: age
+                get_up: null,
+                go_to_bed: null,
+                electronics: null,
+                stressed: null,
+                eat: null,
+                alcohol_nicotine: null,
+                caffeine: null,
+                lights: null,
+                noise: null,
+                excercise: null,
+                job: null,
+                job_sched: null
+            };
+        await db.collection('background').insertOne(background);
+
         res.send('user age ' + age);
 		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
-
 		var m1 = 'Great, you have given me permission to access to your health data on Fitbit.';
 		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
 					+ ' so I\'m going to ask you a few questions.';

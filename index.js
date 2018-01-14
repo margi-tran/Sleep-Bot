@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
-var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
+var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var routeHandlers = require('./route_handlers/route_handlers');
 var fitbitClient = require('./utility/fitbit_client');
@@ -45,8 +45,8 @@ app.get('/view', async (req, res) => {
 		refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
-		await db.collection('fitbit_auths').updateOne({fitbitId_: fitbitId}, 
-								{ $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken} });
+		await db.collection('fitbit_auths').updateOne({ fitbitId_: fitbitId }, 
+								{ $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken } });
 
 		res.send(refreshAccessTokenPromise); 
 	} catch (err) {
