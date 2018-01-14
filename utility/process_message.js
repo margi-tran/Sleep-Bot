@@ -88,14 +88,29 @@ module.exports = async (event) => {
                 if (message.toLowerCase() === 'yes') {
                     await db.collection('users').updateOne({ fbUserId_: fbUserId }, 
                                 { $set: { botRequested: constants.BACKGROUND_QUESTION_ONE } });
-                    fbMessengerBotClient.sendTextMessage(fbUserId, '<great this is the first question>');
+
+                    var background = 
+                        { 
+                            fbUserId_: fbUserId, 
+                            : null,
+                            accessToken: null,
+                            refreshAccessToken: null 
+                        };
+                    await db.collection('background').insertOne(background);
+
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'I need to have some background about your sleep.' 
                                 + ' I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
-            case constants.BACKGROUND_QUESTION_ONE:
+            case constants.BACKGROUND_GET_UP:
+                //store user answer
+
+                // ask question 2
+
+                // other reply ask question 1 agaian
                 fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
                 break;
             default:
