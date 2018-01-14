@@ -128,6 +128,26 @@ module.exports = async (event) => {
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
+            case constants.BACKGROUND_STRESSED:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { stressed: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_EAT } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_EAT_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else {  
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_STRESSED_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.BACKGROUND_EAT:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { eat: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ALCOHOL_NICOTINE } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else {  
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_EAT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
         }        
