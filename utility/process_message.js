@@ -99,12 +99,34 @@ module.exports = async (event) => {
                 //store user answer
                 await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
                 
-                // ask question 2
+                // ask next question
                 await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GO_TO_BED } });
-                fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GO_TO_BED);
+                fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT);
 
-                // other reply ask question 1 agaian
+                // other reply ask question 1 again
                 //fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
+                break;
+            case constants.BACKGROUND_GO_TO_BED:
+                // need to check its a valid time!!
+
+                //store user answer
+                await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { go_to_bed: message } });
+                
+                // ask next question
+                await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ELECTRONICS } });
+                await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                // other reply ask question  again
+                //fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
+                break;
+            case constants.BACKGROUND_ELECTRONICS:
+                if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { electronics: message.toLowerCase() } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_STRESSED } });
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_STRESSED_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                } else {  
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
                 break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
