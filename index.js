@@ -63,7 +63,8 @@ app.get('/seedata', async (req, res) => {
     	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
    		var accessToken = result[0].accessToken;
     	const profile = await fitbitClient.client.get("/profile.json", accessToken, fitbitId);
-    	res.send(profile);
+    	const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessToken, fitbitId);
+    	res.send(sleepData);
 	} catch (err) {
 		res.send('hm: ' + err);
 	}

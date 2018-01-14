@@ -1,23 +1,23 @@
 const GET_STARTED_PAYLOAD = 'GET_STARTED_PAYLOAD';
 const FITBIT_AUTH = 'fitbit auth';
 
-const BACKGROUND_QUESTIONS = 0;
-const BACKGROUND_GET_UP = 1;
-const BACKGROUND_GO_TO_BED = 2;
-const BACKGROUND_ELECTRONICS = 3;
-const BACKGROUND_STRESSED = 4;
-const BACKGROUND_EAT = 5;
-const BACKGROUND_ALCOHOL_NICOTINE = 6;
-const BACKGROUND_CAFFEINE = 7;
-const BACKGROUND_LIGHTS = 8;
-const BACKGROUND_NOISE = 9;
-const BACKGROUND_EXCERCISE = 10;
-const BACKGROUND_JOB = 11;
-const BACKGROUND_WORK_SCHED = 12;
+const BACKGROUND_QUESTIONS = 'background questions';
+const BACKGROUND_GET_UP = 'background question get_up';
+const BACKGROUND_GO_TO_BED = 'background question go_to_bed';
+const BACKGROUND_ELECTRONICS = 'background question electronics';
+const BACKGROUND_STRESSED = 'background question stressed';
+const BACKGROUND_EAT = 'background question eat';
+const BACKGROUND_ALCOHOL_NICOTINE = 'background question alcohol nicotine';
+const BACKGROUND_CAFFEINE = 'background question caffeine';
+const BACKGROUND_LIGHTS = 'background question lights';
+const BACKGROUND_NOISE = 'background question noise';
+const BACKGROUND_EXCERCISE = 'background question excercise';
+const BACKGROUND_JOB = 'background question job';
+const BACKGROUND_WORK_SCHED = 'background work sched';
 
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday?';
 const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday?';
-const BACKGROUND_ELECTRONICS_TEXT = 'Are you using your phone or watching tv before going to bed (or in bed)?';
+const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or use any other electronic devices) before going to bed (or in bed)?';
 const BACKGROUND_STRESSED_TEXT = 'Are you stressed or worried about anything?';
 const BACKGROUND_EAT_TEXT = 'Do you eat before going to bed?';
 const BACKGROUND_ALCOHOL_NICOTINE_TEXT = 'Do you drink alcohol or take nicotine before going to bed?';
