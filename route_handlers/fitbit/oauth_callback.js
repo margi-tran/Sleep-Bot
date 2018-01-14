@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
         var background = 
             { 
                 fbUserId_: fbUserId, 
-                age: age
+                age: age,
                 get_up: null,
                 go_to_bed: null,
                 electronics: null,
