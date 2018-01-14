@@ -145,7 +145,7 @@ module.exports = async (event) => {
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 } else { 
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question!!!.');
-                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_EAT_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
             default:
