@@ -92,9 +92,18 @@ module.exports = async (event) => {
                     var background = 
                         { 
                             fbUserId_: fbUserId, 
-                            : null,
-                            accessToken: null,
-                            refreshAccessToken: null 
+                            get_up: null,
+                            go_to_bed: null,
+                            electronics: null,
+                            stressed: null,
+                            eat: null,
+                            alcohol_nicotine: null,
+                            caffeine: null,
+                            lights: null,
+                            noise: null,
+                            excercise: null,
+                            job: null,
+                            job_sched: null
                         };
                     await db.collection('background').insertOne(background);
 
