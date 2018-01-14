@@ -199,13 +199,14 @@ module.exports = async (event) => {
                 }
                 break;
             case constants.BACKGROUND_JOB:
+                console.log('in here');
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
 
                     if (message.toLowerCase() === 'yes') {
                         await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_WORK_SCHEDULE } });
                         await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
-                    } else { //
+                    } else { 
                         await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
                         await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_DONE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                     }
