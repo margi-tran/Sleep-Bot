@@ -214,7 +214,7 @@ module.exports = async (event) => {
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_JOB_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
-            case constants.BACKGROUND_WORK_SCHEDULE_TEXT:
+            case constants.BACKGROUND_WORK_SCHEDULE:
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
                     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
