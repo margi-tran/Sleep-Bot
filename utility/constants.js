@@ -18,7 +18,7 @@ const BACKGROUND_DONE = 'background done';
 
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday?';
 const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday?';
-const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or use any other electronic devices) before going to bed (or in bed)?';
+const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
 const BACKGROUND_STRESSED_TEXT = 'Are you stressed or worried about anything?';
 const BACKGROUND_EAT_TEXT = 'Do you eat before going to bed?';
 const BACKGROUND_ALCOHOL_NICOTINE_TEXT = 'Do you drink alcohol or take nicotine before going to bed?';
