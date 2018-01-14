@@ -143,9 +143,9 @@ module.exports = async (event) => {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { eat: message.toLowerCase() } });
                     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ALCOHOL_NICOTINE } });
                     await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
-                } else {  
+                } else { 
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
-                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_EAT, constants.QUICK_REPLIES_YES_OR_NO);
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_EAT_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
             default:
