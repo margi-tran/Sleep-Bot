@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 			return;
 		}*/
 
-		// Check whether or not the user has already authenticated their Fitbit with the server
+		// Check whether or not the user has already authenticated Fitbit with the server
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
         /*const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();   
         if(result != 0) {
@@ -73,8 +73,7 @@ module.exports = async (req, res) => {
             };
         await db.collection('background').insertOne(background);
 
-        res.send('user age ' + age);
-		//res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
+        res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 		var m1 = 'Great, you have given me permission to access to your health data on Fitbit.';
 		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
