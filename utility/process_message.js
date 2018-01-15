@@ -91,7 +91,7 @@ module.exports = async (event) => {
 async function getNewUserBackground(fbUserId, message, botRequested) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     // The following regex was by Peter O. and it was taken from https://stackoverflow.com/questions/7536755/regular-expression-for-matching-hhmm-time-format
-    var timeRegex = RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/);
+    var timeRegex = RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
 
     // Check whether the bot asked anything from the user, if this is the case, then the bot is expecting a reply
     /*switch (botRequested) {
@@ -265,14 +265,15 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_GET_UP_TEXT, false);
             break;
         case constants.BACKGROUND_GO_TO_BED:
-                if (timeRegex.test(message)) {
-                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { go_to_bed: message } });
-                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ELECTRONICS } });
-                    fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT);
-                } else {
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
-                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
-                }
+            if (timeRegex.test(message)) {
+                await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { go_to_bed: message } });
+                await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ELECTRONICS } });
+                fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT);
+            } else {
+                await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+            }
+            break;
             case constants.BACKGROUND_ELECTRONICS:
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { electronics: message.toLowerCase() } });
