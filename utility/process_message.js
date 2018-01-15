@@ -72,10 +72,27 @@ module.exports = async (event) => {
 
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
         botRequested = result[0].botRequested;
+        userIsNew = result[0].userIsNew;
+
+        if (userIsNew) {
+            getUserBackground(botRequested);
+            return;
+        }
+
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'not new');
 
         // Check whether the bot asked anything from the user, if this is the case, 
         // then the bot is expecting a reply
-        switch (botRequested) {
+             
+        db.close();
+    } catch (err) {
+        console.log('[ERROR]', err);
+    }
+};
+
+async function getUserBackground(botRequested) {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    switch (botRequested) {
             case constants.FITBIT_AUTH:
                 var msg1 = 'You haven\'t given me permission to access your Fitbit yet.'
                             + ' Please do that first before we proceed with anything else.';
@@ -229,9 +246,5 @@ module.exports = async (event) => {
                 break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
-        }        
-        db.close();
-    } catch (err) {
-        console.log('[ERROR]', err);
-    }
-};
+        }   
+}

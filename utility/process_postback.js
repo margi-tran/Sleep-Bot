@@ -29,8 +29,12 @@ module.exports = async (event) => {
             const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
 
             if(result.length == 0) { // user is not in database
-                var newUser = { fbUserId_: fbUserId, 
-                                botRequested: constants.FITBIT_AUTH };
+                var newUser = 
+                    { 
+                        fbUserId_: fbUserId, 
+                        botRequested: constants.FITBIT_AUTH,
+                        userIsNew: true
+                    };
                 await db.collection('users').insertOne(newUser);
             
                 var msg1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
