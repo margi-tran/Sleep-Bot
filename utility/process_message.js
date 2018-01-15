@@ -94,6 +94,7 @@ module.exports = async (event) => {
 
 async function getNewUserBackground(fbUserId, message, botRequested) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
+    var timeRegex = /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/;
     switch (botRequested) {
             case constants.FITBIT_AUTH:
                 var msg1 = 'You haven\'t given me permission to access your Fitbit yet.'
@@ -114,6 +115,11 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 break;
             case constants.BACKGROUND_GET_UP:
                 // need to check its a valid time!!
+
+                if (message.test(timeRegex)) 
+                    fbMessengerBotClient.sendTextMessage(fbUserId, 'valid time');
+                else 
+                    fbMessengerBotClient.sendTextMessage(fbUserId, 'invalid time');
 
                 //store user answer
                 await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
@@ -226,7 +232,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                         await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_WORK_SCHEDULE } });
                         await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
-                        await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
+                        await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE, userIsNew: false } });
                         // send results of questions
                         await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
                     }
@@ -238,7 +244,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             case constants.BACKGROUND_WORK_SCHEDULE:
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
-                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_DONE, userIsNew: false } });
                     // send results of questions
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
                 } else { 
@@ -248,5 +254,6 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 break;
             default:
                 fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
+                break;
         }   
 }
