@@ -94,7 +94,7 @@ module.exports = async (event) => {
 
 async function getNewUserBackground(fbUserId, message, botRequested) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
-    var timeRegex = /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/;
+    var timeRegex = RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/);
     switch (botRequested) {
             case constants.FITBIT_AUTH:
                 var msg1 = 'You haven\'t given me permission to access your Fitbit yet.'
@@ -116,7 +116,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             case constants.BACKGROUND_GET_UP:
                 // need to check its a valid time!!
 
-                if (message.test(timeRegex)) 
+                if (timeRegex.test(message)) 
                     fbMessengerBotClient.sendTextMessage(fbUserId, 'valid time');
                 else 
                     fbMessengerBotClient.sendTextMessage(fbUserId, 'invalid time');
