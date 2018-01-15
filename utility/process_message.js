@@ -77,7 +77,7 @@ module.exports = async (event) => {
         console.log('aaaaaaaaaaa', userIsNew);
 
         if (userIsNew) {
-            getUserBackground(botRequested);
+            getUserBackground(botRequested, message);
             return;
         }
 
@@ -92,7 +92,7 @@ module.exports = async (event) => {
     }
 };
 
-async function getUserBackground(botRequested) {
+async function getUserBackground(botRequested, message) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     switch (botRequested) {
             case constants.FITBIT_AUTH:
