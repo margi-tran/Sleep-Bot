@@ -74,6 +74,8 @@ module.exports = async (event) => {
         botRequested = result[0].botRequested;
         userIsNew = result[0].userIsNew;
 
+        console.log('aaaaaaaaaaa', userIsNew);
+
         if (userIsNew) {
             getUserBackground(botRequested);
             return;
