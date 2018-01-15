@@ -94,6 +94,7 @@ module.exports = async (event) => {
 
 async function getNewUserBackground(fbUserId, message, botRequested) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
+    // The following regex was by Peter O. and it was taken from https://stackoverflow.com/questions/7536755/regular-expression-for-matching-hhmm-time-format
     var timeRegex = RegExp(/([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]/);
     switch (botRequested) {
             case constants.FITBIT_AUTH:
@@ -114,35 +115,24 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 }
                 break;
             case constants.BACKGROUND_GET_UP:
-                // need to check its a valid time!!
-
-                if (timeRegex.test(message)) 
-                    fbMessengerBotClient.sendTextMessage(fbUserId, 'valid time');
-                else 
-                    fbMessengerBotClient.sendTextMessage(fbUserId, 'invalid time');
-
-                //store user answer
-                await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
-                
-                // ask next question
-                await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GO_TO_BED } });
-                fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT);
-
-                // other reply ask question 1 again
-                //fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
+                if (timeRegex.test(message)) {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GO_TO_BED } });
+                    fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT);
+                } else {
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
                 break;
             case constants.BACKGROUND_GO_TO_BED:
-                // need to check its a valid time!!
-
-                //store user answer
-                await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { go_to_bed: message } });
-                
-                // ask next question
-                await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ELECTRONICS } });
-                await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
-                // other reply ask question  again
-                //fbMessengerBotClient.sendTextMessage(fbUserId, 'gotta answer q1 first');
-                break;
+                if (timeRegex.test(message)) {
+                    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { go_to_bed: message } });
+                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_ELECTRONICS } });
+                    fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT);
+                } else {
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
+                }
             case constants.BACKGROUND_ELECTRONICS:
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { electronics: message.toLowerCase() } });
@@ -224,10 +214,8 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 }
                 break;
             case constants.BACKGROUND_JOB:
-                console.log('in here');
                 if (message.toLowerCase() === 'yes' || message.toLowerCase() === 'no') {
                     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { excercise: message.toLowerCase() } });
-
                     if (message.toLowerCase() === 'yes') {
                         await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_WORK_SCHEDULE } });
                         await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
