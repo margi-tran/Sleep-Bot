@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
             };
         await db.collection('background').insertOne(background);
 
-        res.send("You have successfully authenticated your Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
+        res.send("You have successfully authenticated Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		
 		var m1 = 'Great, you have given me permission to access to your health data on Fitbit.';
 		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
