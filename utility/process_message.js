@@ -390,7 +390,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
 async function updateBackgroundandAskNextQuestion(fbUserId, message, nextQuestion, nextQuestionText, quickReplyMessage) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: { get_up: message } });
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestionText } });
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestion } });
     if (quickReplyMessage) 
         fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
     else 
