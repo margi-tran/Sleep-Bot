@@ -113,5 +113,5 @@ app.get('/time', (req, res) => {
 
 	diff = new Date(date2 - date1);
 
-	res.send(date1 + ' ' + date2 + ' diff: ' diff.getHours() );
+	res.send(date1 + ' ' + date2 + ' diff: ' + diff.getHours() );
 });
