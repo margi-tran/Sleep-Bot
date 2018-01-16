@@ -111,7 +111,7 @@ app.get('/time', (req, res) => {
 	var date1 = new Date(2018, 1, 1, inputHours, inputMinutes);
 	var date2 = new Date(2018, 2, 1, nextHours, nextMinutes);
 
-	diff = date2 - date1;
+	diff = new Date(date2 - date1);
 
-	res.send(date1 + ' ' + date2 + ' diff: ' + diff);
+	res.send(date1 + ' ' + date2 + ' diff: ' diff.getHours() );
 });
