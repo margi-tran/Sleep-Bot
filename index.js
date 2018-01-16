@@ -94,8 +94,8 @@ app.get('/time', (req, res) => {
 	nextHours = nextArr[0] + nextArr[1];
 	nextMinutes = nextArr[3] + nextArr[4];
 
-	var date1 = new Date(0);
-	var date2 = new Date(1)
+	var date1 = new Date(2018, 1, 1, inputHours, inputMinutes);
+	var date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
 
 	res.send(date1 + ' ' + date2);
 });
