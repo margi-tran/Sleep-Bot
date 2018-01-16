@@ -84,9 +84,18 @@ app.get('/haha', async (req, res) => {
 });
 
 app.get('/time', (req, res) => {
-	input = '11:00';
+	input = '23:00';
 	inputArr = input.split('');
 	inputHours = inputArr[0] + inputArr[1];
 	inputMinutes = inputArr[3] + inputArr[4];
-	res.send(inputHours);
+
+	next = '07:00';
+	nextArr = next.split('');
+	nextHours = nextArr[0] + nextArr[1];
+	nextMinutes = nextArr[3] + nextArr[4];
+
+	var date1 = new Date(0);
+	var date2 = new Date(1)
+
+	res.send(date1 + ' ' + date2);
 });
