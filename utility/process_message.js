@@ -59,8 +59,8 @@ module.exports = async (event) => {
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            if(hours > 9) date2 = new Date(2018, 2, 1, inputHours, inputMinutes);
-            else date2 = new Date(2018, 1, 1, nextHours, nextMinutes);
+            if(hours1 < hours2) date2 = new Date(2018, 1, 1, inputHours, inputMinutes);
+            else date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
             
             fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
         }
@@ -91,11 +91,10 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
     // Check whether the bot asked anything from the user, if this is the case, then the bot is expecting a reply
     switch (botRequested) {
         case constants.FITBIT_AUTH:
-            var msg1 = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.';
-            var msg2 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
+            var msg = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.';
+                            + 'To do so click on the following link:\nhttps://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                             + fbUserId;
-            await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
-            fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+            fbMessengerBotClient.sendTextMessage(fbUserId, msg);
             break;
         case constants.BACKGROUND_QUESTIONS:
             if (message.toLowerCase() === 'yes') {

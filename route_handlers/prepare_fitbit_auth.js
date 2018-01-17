@@ -11,7 +11,7 @@ var path = require('path');
 
 module.exports = async (req, res) => {
 	try {
-		var fbUserId = req.query.fbUserId;
+		const fbUserId = req.query.fbUserId;
 
 		// If fbUserId is not present in the URL, then assume that access to this route was illegal
 		/*if(fbUserId === undefined) {

@@ -17,7 +17,7 @@ var convertDate = require('../../utility/convert_date');
 
 module.exports = async (req, res) => {
 	try {
-		fbUserId = req.cookies.fbUserId;
+		const fbUserId = req.cookies.fbUserId;
 
 		// If the fbUserId cookie is not set then this route is being accessed illegally
 		/*if(fbUserId === undefined) {
@@ -52,12 +52,10 @@ module.exports = async (req, res) => {
         	console.log(results[0].errors);
     	});
 
-    	var age = profileData[0].user.age;
-
         var background = 
             { 
                 fbUserId_: fbUserId, 
-                age: age,
+                age: profileData[0].user.age,
                 get_up: null,
                 go_to_bed: null,
                 electronics: null,
@@ -91,8 +89,7 @@ module.exports = async (req, res) => {
             	"payload":"no"
             }];
 
-        await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
-								{ $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
+        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
         db.close();
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
