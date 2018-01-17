@@ -59,8 +59,16 @@ module.exports = async (event) => {
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            if(hours1 < hours2) date2 = new Date(2018, 1, 1, inputHours, inputMinutes);
-            else date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
+            diff= null;
+
+            if(hours1 < hours2) {
+                date2 = new Date(2018, 1, 1, inputHours, inputMinutes);
+                console.log(here);
+            }
+            else {
+                date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
+                console.log(here2);
+            }
             
             diff = new Date(date2 - date1);
 
