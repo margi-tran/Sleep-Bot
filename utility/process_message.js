@@ -62,6 +62,8 @@ module.exports = async (event) => {
             if(hours1 < hours2) date2 = new Date(2018, 1, 1, inputHours, inputMinutes);
             else date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
             
+            diff = new Date(date2 - date1);
+            
             fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
         }
 
