@@ -188,7 +188,6 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
-    }
 }
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
