@@ -192,8 +192,13 @@ async function updateBackgroundandAskNextQuestion(fbUserId, messageObj, nextQues
 
 async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessage) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
-    if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
-    else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
+    if (quickReplyMessage) {
+        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
+        console.log('first case');
+    } 
+    else { fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
+    console.log('second case');
+    }
 }
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
