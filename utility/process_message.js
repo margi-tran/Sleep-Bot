@@ -41,12 +41,12 @@ module.exports = async (event) => {
         } 
 
         if(message === '!date') {
-            input = '23:00';
+            input = '01:00';
             inputArr = input.split('');
             inputHours = inputArr[0] + inputArr[1];
             inputMinutes = inputArr[3] + inputArr[4];
 
-            next = '07:00';
+            next = '13:00';
             nextArr = next.split('');
             nextHours = nextArr[0] + nextArr[1];
             nextMinutes = nextArr[3] + nextArr[4];
@@ -63,7 +63,7 @@ module.exports = async (event) => {
             else date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
             
             diff = new Date(date2 - date1);
-            
+
             fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
         }
 
