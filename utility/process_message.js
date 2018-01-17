@@ -46,7 +46,7 @@ module.exports = async (event) => {
             inputHours = inputArr[0] + inputArr[1];
             inputMinutes = inputArr[3] + inputArr[4];
 
-            next = '13:00';
+            next = '14:00';
             nextArr = next.split('');
             nextHours = nextArr[0] + nextArr[1];
             nextMinutes = nextArr[3] + nextArr[4];
