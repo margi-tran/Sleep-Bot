@@ -59,10 +59,10 @@ module.exports = async (event) => {
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            diff= null;
+            diff = (hours1 - hours2) % 23;
 
-            if(hours1 < hours2) {
-                date2 = new Date(2018, 1, 1, inputHours, inputMinutes);
+            /*if(hours1 < hours2) {
+                date2 = new Date(2018, 1, 1, nextHours, nextMinutes);
                 console.log('here');
             }
             else {
@@ -71,9 +71,12 @@ module.exports = async (event) => {
             }
             
             kak = Math.abs(date1 - date2);
-            diff = new Date(kak);
+            diff = new Date(date1 - date2);*/
 
-            fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
+
+
+
+            fbMessengerBotClient.sendTextMessage(fbUserId, diff;
         }
 
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
