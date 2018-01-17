@@ -76,7 +76,7 @@ module.exports = async (event) => {
 
 
 
-            fbMessengerBotClient.sendTextMessage(fbUserId, diff;
+            fbMessengerBotClient.sendTextMessage(fbUserId, diff);
         }
 
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
