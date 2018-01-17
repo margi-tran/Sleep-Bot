@@ -16,42 +16,12 @@ var constants = require('./constants');
 
 module.exports = async (event) => {
     try { 
-        var fbUserId = event.sender.id;
+        const fbUserId = event.sender.id;
         var message = event.message.text;
 
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
         const db = await MongoClient.connect(process.env.MONGODB_URI);
-
-        if (message === '!fitbitId') {
-            const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
-            await fbMessengerBotClient.sendTextMessage(fbUserId, result[0].fitbitId_);
-            db.close();
-            return;
-        }
-    
-        if (message === '!fbUserId') {
-            await fbMessengerBotClient.sendTextMessage(fbUserId, 'Your fb_id: ' + fbUserId);
-            db.close();
-            return;
-        }
-
-        if (message === '!numbers') {
-            await fbMessengerBotClient.sendTextMessage(fbUserId, '1');
-            await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
-            await fbMessengerBotClient.sendTextMessage(fbUserId, '2');
-            await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
-            await fbMessengerBotClient.sendTextMessage(fbUserId, '3');
-            db.close();
-            return;
-        }
-
-        if (message === '!multi') {
-            await fbMessengerBotClient.sendTextMessage(fbUserId, 'wow this works');
-            await fbMessengerBotClient.sendTextMessage(fbUserId, 'awesome');
-            db.close();
-            return;
-        }
 
         if (message === '!buttons') {
             var buttons = 
@@ -70,9 +40,34 @@ module.exports = async (event) => {
             return;
         } 
 
+        if(message === '!date') {
+            input = '23:00';
+            inputArr = input.split('');
+            inputHours = inputArr[0] + inputArr[1];
+            inputMinutes = inputArr[3] + inputArr[4];
+
+            next = '07:00';
+            nextArr = next.split('');
+            nextHours = nextArr[0] + nextArr[1];
+            nextMinutes = nextArr[3] + nextArr[4];
+
+            var date1 = new Date(2018, 1, 1, inputHours, inputMinutes);
+            var date2 = new Date(2018, 2, 1, nextHours, nextMinutes);
+
+            
+
+            hours1 = parseInt(inputHours);
+            hours2 = parseInt(nextHours);
+
+            if(hours > 9) date2 = new Date(2018, 2, 1, inputHours, inputMinutes);
+            else date2 = new Date(2018, 1, 1, nextHours, nextMinutes);
+            
+            fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
+        }
+
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
-        botRequested = result[0].botRequested;
-        userIsNew = result[0].userIsNew;
+        const botRequested = result[0].botRequested;
+        const userIsNew = result[0].userIsNew;
 
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
@@ -91,13 +86,12 @@ module.exports = async (event) => {
 async function getNewUserBackground(fbUserId, message, botRequested) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     // The following regex was by Peter O. and it was taken from https://stackoverflow.com/questions/7536755/regular-expression-for-matching-hhmm-time-format
-    var timeRegex = RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
+    const timeRegex = RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
 
     // Check whether the bot asked anything from the user, if this is the case, then the bot is expecting a reply
     switch (botRequested) {
         case constants.FITBIT_AUTH:
-            var msg1 = 'You haven\'t given me permission to access your Fitbit yet.'
-                            + ' Please do that first before we proceed with anything else.';
+            var msg1 = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.';
             var msg2 = 'To do so click on the following link: https://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                             + fbUserId;
             await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
@@ -192,12 +186,8 @@ async function updateBackgroundandAskNextQuestion(fbUserId, messageObj, nextQues
 
 async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessage) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
-    if (quickReplyMessage) {
-        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
-        console.log('first case');
-    } 
-    else { fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
-    console.log('second case');
+    if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
     }
 }
 
