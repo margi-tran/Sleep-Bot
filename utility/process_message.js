@@ -70,7 +70,8 @@ module.exports = async (event) => {
                 console.log('here2');
             }
             
-            diff = new Date(date2 - date1);
+            kak = Math.abs(date1 - date2);
+            diff = new Date(kak);
 
             fbMessengerBotClient.sendTextMessage(fbUserId, diff.getHours());
         }
