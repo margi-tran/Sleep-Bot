@@ -66,7 +66,7 @@ module.exports = async (event) => {
             var goToBedHour = convertStringToInteger(result[0].go_to_bed);
             Math.abs('-1');
             //var difference = Maths.abs(getUpHour - goToBedHour) % 23;
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours');
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + 0 + ' hours');
             return;
         }
 
