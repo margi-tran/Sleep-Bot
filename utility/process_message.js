@@ -24,33 +24,6 @@ module.exports = async (event) => {
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
         const db = await MongoClient.connect(process.env.MONGODB_URI);
 
-        if (message === '!buttons') {
-            var buttons = 
-                [{
-                    "type": "web_url",
-                    "url": "https://www.messenger.com",
-                    "title": "woo"
-                }, 
-                {
-                    "type": "postback",
-                    "title": "Postback",
-                    "payload": "Payload for first element in a generic bubble",
-                }];
-            fbMessengerBotClient.sendButtonsMessage(fbUserId, 'You asked for buttons', buttons);
-            db.close();
-            return;
-        } 
-
-        if (message = '!sleeptimes') {
-            const db = await MongoClient.connect(process.env.MONGODB_URI);
-            const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
-            var getUpHour = getHourFromTimeString(result[0].get_up);
-            var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
-            var difference = Math.abs(getUpHour - goToBedHour) % 23;
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours');
-            return;
-        }
-
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
         const botRequested = result[0].botRequested;
         const userIsNew = result[0].userIsNew;
@@ -177,10 +150,18 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
+    
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+    var getUpHour = getHourFromTimeString(result[0].get_up);
+    var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
+    var difference = Math.abs(getUpHour - goToBedHour) % 23;
 
-    var getUpHour = result[0].get_up;
+    if(difference >= 7) {
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
+    } else if (difference < 7 ) {
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
+    }
 
     db.close();
 }
