@@ -53,9 +53,9 @@ module.exports = async (event) => {
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            //diff = Maths.abs(hours1) % 23;
+            diff = Maths.abs(hours1) % 23;
 
-            fbMessengerBotClient.sendTextMessage(fbUserId, hours1);
+            fbMessengerBotClient.sendTextMessage(fbUserId, diff);
         }
 
         if (message = '!sleeptimes') {
