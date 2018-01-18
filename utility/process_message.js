@@ -56,7 +56,7 @@ module.exports = async (event) => {
 
             xd = 5;
 
-            diff = Maths.abs(xd);
+            diff = Maths.abs(6);
 
             fbMessengerBotClient.sendTextMessage(fbUserId, diff);
         }
