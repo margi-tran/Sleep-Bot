@@ -82,3 +82,16 @@ app.get('/haha', async (req, res) => {
 		res.send('hm: ' + err);
 	}
 });
+
+app.get('/time', (req, res) => {
+	var getUpHour = 1;
+    var goToBedHour = 2;
+ 
+
+    var date1 = new Date(2018, 1, 1, getUpHour);
+    var date2 = new Date(2018, 1, 1, goToBedHour);
+
+    diff = new Date(date2 - date1);
+
+    res.send(diff);
+});

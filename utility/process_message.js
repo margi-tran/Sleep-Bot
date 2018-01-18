@@ -157,13 +157,18 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
     var difference = Math.abs(getUpHour - goToBedHour) % 23;
 
+    var date1 = new Date(2018, 1, 1, getUpHour);
+    var date2 = new Date(2018, 1, 1, goToBedHour);
+
+    diff = new Date(date2 - date1);
+
     if(difference >= 7) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
     } else if (difference < 7 ) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
     }
 
-    
+
 
     db.close();
 }
