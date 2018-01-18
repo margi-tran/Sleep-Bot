@@ -84,7 +84,7 @@ app.get('/haha', async (req, res) => {
 });
 
 app.get('/time', (req, res) => {
-	var getUpHour = 1;
+	var getUpHour = 23;
     var goToBedHour = 2;
  
 
