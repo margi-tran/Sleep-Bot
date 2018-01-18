@@ -150,25 +150,21 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
-    
+
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+    
     var getUpHour = getHourFromTimeString(result[0].get_up);
     var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
     var difference = Math.abs(getUpHour - goToBedHour) % 23;
-
     var date1 = new Date(2018, 1, 1, getUpHour);
     var date2 = new Date(2018, 1, 1, goToBedHour);
-
-    diff = new Date(date2 - date1);
-
+    var diff = (new Date(date2 - date1)).getHours();
     if(difference >= 7) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
     } else if (difference < 7 ) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
     }
-
-
 
     db.close();
 }
