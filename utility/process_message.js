@@ -13,6 +13,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 var constants = require('./constants');
+var convertStringToInteger = require('./convert_string_to_integer');
 
 module.exports = async (event) => {
     try { 
@@ -44,39 +45,27 @@ module.exports = async (event) => {
             input = '01:00';
             inputArr = input.split('');
             inputHours = inputArr[0] + inputArr[1];
-            inputMinutes = inputArr[3] + inputArr[4];
 
             next = '14:00';
             nextArr = next.split('');
             nextHours = nextArr[0] + nextArr[1];
-            nextMinutes = nextArr[3] + nextArr[4];
-
-            var date1 = new Date(2018, 1, 1, inputHours, inputMinutes);
-            var date2 = new Date(2018, 2, 1, nextHours, nextMinutes);
-
             
-
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            diff = (hours1 - hours2) % 23;
-
-            /*if(hours1 < hours2) {
-                date2 = new Date(2018, 1, 1, nextHours, nextMinutes);
-                console.log('here');
-            }
-            else {
-                date2 = new Date(2018, 1, 2, nextHours, nextMinutes);
-                console.log('here2');
-            }
-            
-            kak = Math.abs(date1 - date2);
-            diff = new Date(date1 - date2);*/
-
-
-
+            diff = Maths.abs(hours1 - hours2) % 23;
 
             fbMessengerBotClient.sendTextMessage(fbUserId, diff);
+        }
+
+        if (message = 'k') {
+            const db = await MongoClient.connect(process.env.MONGODB_URI);
+            const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+
+            var getUpHour = convertStringToInteger(result[0].get_up);
+            var getUpHour = convertStringToInteger(result[0].go_to_bed);
+            var difference = Maths.abs(hours1 - hours2) % 23;
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours');
         }
 
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
@@ -94,7 +83,7 @@ module.exports = async (event) => {
         db.close();
     } catch (err) {
         console.log('[ERROR]', err);
-    }
+    } 
 };
 
 async function getNewUserBackground(fbUserId, message, botRequested) {
@@ -205,4 +194,10 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+
+    var getUpHour = result[0].get_up;
+
+    db.close();
 }
