@@ -41,42 +41,13 @@ module.exports = async (event) => {
             return;
         } 
 
-        if(message === '!date') {
-            input = '01:00';
-            inputArr = input.split('');
-            inputHours = inputArr[0] + inputArr[1];
-
-            next = '14:00';
-            nextArr = next.split('');
-            nextHours = nextArr[0] + nextArr[1];
-            
-            hours1 = parseInt(inputHours);
-            hours2 = parseInt(nextHours);
-
-
-            xd = new Number(5);
-
-            diff = Maths.abs(754);
-
-            fbMessengerBotClient.sendTextMessage(fbUserId, diff);
-        }
-
         if (message = '!sleeptimes') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
-            
             var getUpHour = getHourFromTimeString(result[0].get_up);
             var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
-
-            console.log(result);
-            console.log('get up: ' + getUpHour);
-            console.log('go to bed: ' + goToBedHour);
-
-            console.log(getUpHour - goToBedHour);
-            
-
             var difference = Math.abs(getUpHour - goToBedHour) % 23;
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + 0 + ' hours');
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours');
             return;
         }
 
