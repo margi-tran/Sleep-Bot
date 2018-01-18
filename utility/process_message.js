@@ -13,7 +13,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 var constants = require('./constants');
-var convertStringToInteger = require('./convert_string_to_integer');
+var getHourFromTimeString = require('./convert_string_to_integer');
 
 module.exports = async (event) => {
     try { 
@@ -65,10 +65,9 @@ module.exports = async (event) => {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
 
-            var getUpHour = convertStringToInteger(result[0].get_up);
-            var goToBedHour = convertStringToInteger(result[0].go_to_bed);
-            Math.abs('-1');
-            //var difference = Maths.abs(getUpHour - goToBedHour) % 23;
+            var getUpHour = getHourFromTimeString(result[0].get_up);
+            var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
+            var difference = Math.abs(getUpHour - goToBedHour) % 23;
             fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + 0 + ' hours');
             return;
         }
