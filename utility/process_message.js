@@ -58,14 +58,15 @@ module.exports = async (event) => {
             fbMessengerBotClient.sendTextMessage(fbUserId, diff);
         }
 
-        if (message = 'k') {
+        if (message = '!sleeptimes') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
 
             var getUpHour = convertStringToInteger(result[0].get_up);
-            var getUpHour = convertStringToInteger(result[0].go_to_bed);
-            var difference = Maths.abs(hours1 - hours2) % 23;
+            var goToBedHour = convertStringToInteger(result[0].go_to_bed);
+            var difference = Maths.abs(getUpHour - goToBedHour) % 23;
             fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours');
+            return;
         }
 
         const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
