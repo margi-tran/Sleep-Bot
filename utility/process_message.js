@@ -13,7 +13,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
 var constants = require('./constants');
-var getHourFromTimeString = require('./convert_string_to_integer');
+var getHourFromTimeString = require('./get_hour_from_time_string');
 
 module.exports = async (event) => {
     try { 
