@@ -69,7 +69,7 @@ module.exports = async (event) => {
             var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
 
             console.log(result);
-            console.log('get up: ' + getUpHour);
+            console.log('get up: ' + result[0].get_up);
             console.log('go to bed: ' + goToBedHour);
 
             var difference = Math.abs(getUpHour - goToBedHour) % 23;
