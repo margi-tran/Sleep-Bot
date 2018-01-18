@@ -53,9 +53,10 @@ module.exports = async (event) => {
             hours1 = parseInt(inputHours);
             hours2 = parseInt(nextHours);
 
-            console.log(typeof hours1);
 
-            diff = Maths.abs(hours1) % 23;
+            xd = 5;
+
+            diff = Maths.abs(xd);
 
             fbMessengerBotClient.sendTextMessage(fbUserId, diff);
         }
