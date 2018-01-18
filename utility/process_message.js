@@ -64,8 +64,10 @@ module.exports = async (event) => {
         if (message = '!sleeptimes') {
             const db = await MongoClient.connect(process.env.MONGODB_URI);
             const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
-
+            console.log(result);
             var getUpHour = getHourFromTimeString(result[0].get_up);
+            console.log(getUpHour);
+            console.log(goToBedHour);
             var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
             var difference = Math.abs(getUpHour - goToBedHour) % 23;
             fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + 0 + ' hours');
