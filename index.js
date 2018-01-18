@@ -30,6 +30,10 @@ app.get('/prepare_fitbit_auth', routeHandlers.prepareFitbitAuth);
 app.get('/fitbit', routeHandlers.fitbitRedirect);
 app.get('/fitbit_oauth_callback', routeHandlers.fitbitOAuthCallback);
 
+var schedule = require('node-schedule');
+var task = schedule.scheduleJob('29 17 * * *', function () {
+    console.log('Scheduled Task');
+});
 
 
 // Test able to refresh token
