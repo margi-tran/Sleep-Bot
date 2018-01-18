@@ -72,6 +72,9 @@ module.exports = async (event) => {
             console.log('get up: ' + getUpHour);
             console.log('go to bed: ' + goToBedHour);
 
+            console.log(getUpHour - goToBedHour);
+            
+
             var difference = Math.abs(getUpHour - goToBedHour) % 23;
             fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + 0 + ' hours');
             return;
