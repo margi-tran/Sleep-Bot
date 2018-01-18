@@ -47,7 +47,8 @@ module.exports = async (req, res) => {
 								{ $set: { botRequested: null } } );
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
-       		console.log('subscribeToSleep:', results[0]);
+       		console.log(results);
+            console.log('subscribeToSleep:', results[0]);
     	}).catch((results) => {
         	console.log(results[0].errors);
     	});

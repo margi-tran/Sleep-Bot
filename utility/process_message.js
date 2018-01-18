@@ -35,6 +35,7 @@ module.exports = async (event) => {
         }
 
         fbMessengerBotClient.sendTextMessage(fbUserId, 'not new');
+        // fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
              
         db.close();
     } catch (err) {
@@ -128,7 +129,6 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             }
             break;
         default:
-            fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
             break;
     }      
 }
@@ -162,6 +162,8 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     } else if (difference < 7 ) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
     }
+
+    
 
     db.close();
 }
