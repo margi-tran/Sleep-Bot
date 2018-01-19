@@ -34,9 +34,9 @@ module.exports = async (req, res) => {
    		var accessToken = result[0].accessToken;
     	const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', newAccessToken);
     	//delete sleepData['headers'];
-  		
-  		arr = JSON.parse(sleepData);
 
+    	arr = sleepData[1].body.sleep;
+    	console.log(arr);
   		var sleepDataDoc = 
   			{ 
   				fbUserId_: fbUserId,
