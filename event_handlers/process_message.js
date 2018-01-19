@@ -161,9 +161,9 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     var date2 = new Date(2018, 1, 1, goToBedHour);
     var diff = (new Date(date2 - date1)).getHours();
     if(difference >= 7) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is enough!');
     } else if (difference < 7 ) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is not enough!');
     }
 
     db.close();
