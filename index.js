@@ -12,6 +12,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var routeHandlers = require('./route_handlers/route_handlers');
 var fitbitClient = require('./utility/fitbit_client');
 var convertDate = require('./utility/convert_date');
+var jobs = require('./jobs');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -29,15 +30,6 @@ app.post('/fitbit_webhook', routeHandlers.fitbitWebhookPost);
 app.get('/prepare_fitbit_auth', routeHandlers.prepareFitbitAuth);
 app.get('/fitbit', routeHandlers.fitbitRedirect);
 app.get('/fitbit_oauth_callback', routeHandlers.fitbitOAuthCallback);
-
-var schedule = require('node-schedule');
-var task = schedule.scheduleJob('01 03 * * *', function () {
-    console.log('Scheduled Task 1');
-});
-var task2 = schedule.scheduleJob('02 03 * * *', function () {
-    console.log('Scheduled Task 2');
-});
-
 
 // Test able to refresh token
 app.get('/view', async (req, res) => {
