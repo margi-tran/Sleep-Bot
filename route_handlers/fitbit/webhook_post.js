@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
   		var sleepDataDoc = 
   			{ 
   				fbUserId_: fbUserId, 
-                sleep_data: [1,2,3]
+                date: date
             };
 
           
