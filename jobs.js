@@ -2,7 +2,7 @@ var schedule = require('node-schedule');
 
 var MongoClient = require('mongodb').MongoClient;
 
-schedule.scheduleJob('30 03 * * *', task1);
+schedule.scheduleJob('35 03 * * *', task1);
 schedule.scheduleJob('11 03 * * *', task2);
 schedule.scheduleJob('11 03 * * *', task3);
 
