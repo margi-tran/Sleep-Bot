@@ -11,7 +11,7 @@ async function task1() {
 	console.log('Scheduled Task 1');
 
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const users = await db.collection('notified_users').find().toArray();
+    const users = await db.collection('notified_sleep').find().toArray();
 
     console.log(users);
 
