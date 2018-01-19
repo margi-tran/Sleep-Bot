@@ -39,11 +39,12 @@ module.exports = async (req, res) => {
   			{ 
   				fbUserId_: fbUserId, 
   				date: date,
-                sleep_data: sleepData
+                sleep_data: [1,2,3]
             };
-        await db.collection('sleep_data').update(sleepDataDoc);
+        db.collection('sleep_data').update(sleepDataDoc);
 
     	res.sendStatus(204);
+    	db.close();
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}
