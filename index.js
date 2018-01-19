@@ -11,7 +11,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 
 var routeHandlers = require('./route_handlers/route_handlers');
 var fitbitClient = require('./utility/fitbit_client');
-var dateAndTimeUlti = require('../../utility/date_and_time_util');
+var dateAndTimeUlti = require('./utility/date_and_time_util');
 var jobs = require('./jobs');
 
 app.use(bodyParser.urlencoded({extended: false}));
