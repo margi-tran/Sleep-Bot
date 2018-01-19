@@ -31,10 +31,10 @@ app.get('/fitbit', routeHandlers.fitbitRedirect);
 app.get('/fitbit_oauth_callback', routeHandlers.fitbitOAuthCallback);
 
 var schedule = require('node-schedule');
-var task = schedule.scheduleJob('57 02 * * *', function () {
+var task = schedule.scheduleJob('01 03 * * *', function () {
     console.log('Scheduled Task 1');
 });
-var task2 = schedule.scheduleJob('58 02 * * *', function () {
+var task2 = schedule.scheduleJob('02 03 * * *', function () {
     console.log('Scheduled Task 2');
 });
 
