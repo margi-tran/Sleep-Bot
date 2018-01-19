@@ -5,6 +5,8 @@
 
 var MongoClient = require('mongodb').MongoClient;
 
+var fitbitClient = require('../utility/fitbit_client');
+
 module.exports = async (req, res) => {
 	try {
 
