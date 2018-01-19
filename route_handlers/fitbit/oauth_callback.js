@@ -38,13 +38,15 @@ module.exports = async (req, res) => {
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
-        var newUser = { fbUserId_: fbUserId, 
-                    fitbitId_: accessTokenPromise.user_id,
-                    accessToken: accessTokenPromise.access_token,
-                    refreshAccessToken: accessTokenPromise.refresh_token };
+        var newUser = 
+            { 
+                fbUserId_: fbUserId, 
+                fitbitId_: accessTokenPromise.user_id,
+                accessToken: accessTokenPromise.access_token,
+                refreshAccessToken: accessTokenPromise.refresh_token 
+            };
         await db.collection('fitbit_auths').insertOne(newUser);
-        await db.collection('users').updateOne( { fbUserId_: fbUserId }, 
-								{ $set: { botRequested: null } } );
+        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: null } } );
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
        		console.log(results);
