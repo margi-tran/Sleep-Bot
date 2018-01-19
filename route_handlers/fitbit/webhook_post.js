@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
 		fbUserId = result[0].fbUserId_;
    		var accessToken = result[0].accessToken;
     	var sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessToken, fitbitId);
-    	delete sleepData['headers'];
+    	//delete sleepData['headers'];
   
   		var newUser = 
   			{ 
