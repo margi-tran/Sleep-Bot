@@ -15,10 +15,9 @@ async function task1() {
 
     console.log(users);
 
-    users.forEach(function(user)){
+    users.forEach(function(user) {
     	console.log(user.name);
-    }
-
+    });
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}
