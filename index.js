@@ -11,7 +11,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 
 var routeHandlers = require('./route_handlers/route_handlers');
 var fitbitClient = require('./utility/fitbit_client');
-var convertDate = require('./utility/convert_date');
+var dateAndTimeUlti = require('../../utility/date_and_time_util');
 var jobs = require('./jobs');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -62,8 +62,7 @@ app.get('/seedata', async (req, res) => {
     	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
    		var accessToken = result[0].accessToken;
     	const profile = await fitbitClient.client.get("/profile.json", accessToken, fitbitId);
-    	var sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessToken, fitbitId);
-    	delete sleepData['headers'];
+    	const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
     	res.send(sleepData);
 	} catch (err) {
 		res.send('hm: ' + err);

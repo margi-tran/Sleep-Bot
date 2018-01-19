@@ -6,6 +6,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
 var fitbitClient = require('../../utility/fitbit_client');
+var dateAndTimeUlti = require('../../utility/date_and_time_util');
 
 module.exports = async (req, res) => {
 	try {
@@ -32,15 +33,15 @@ module.exports = async (req, res) => {
 		// Get the user's sleep data
 		fbUserId = result[0].fbUserId_;
    		var accessToken = result[0].accessToken;
-    	var sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessToken, fitbitId);
+    	const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
     	//delete sleepData['headers'];
   
-  		var newUser = 
+  		var sleepDataDoc = 
   			{ 
   				fbUserId_: fbUserId, 
                 sleep_data: sleepData
             };
-        await db.collection('sleep_data').update(newUser);
+        await db.collection('sleep_data').update(sleepDataDoc);
 
     	res.sendStatus(204);
 	} catch (err) {
