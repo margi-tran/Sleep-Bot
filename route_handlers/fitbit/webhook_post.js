@@ -2,7 +2,9 @@
  * Module for handling subscribed updates to users' Fitbit data. 
  */
 
- 
+
+var MongoClient = require('mongodb').MongoClient;
+
 module.exports = async (req, res) => {
 	try {
 
