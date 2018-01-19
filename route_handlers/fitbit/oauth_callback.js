@@ -13,7 +13,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 
 var constants = require('../../utility/constants');
 var fitbitClient = require('../../utility/fitbit_client');
-var convertDate = require('../../utility/convert_date');
+var dateAndTimeUlti = require('../../utility/date_and_time_util');
 
 module.exports = async (req, res) => {
 	try {
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
         }*/
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
-		const sleepData = await fitbitClient.client.get('/sleep/date/' + convertDate(new Date()) + '.json', accessTokenPromise.access_token);
+		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
         var newUser = { fbUserId_: fbUserId, 

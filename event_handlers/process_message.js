@@ -12,8 +12,8 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({token:process.env.FB_PAGE_ACCESS_TOKEN});
 
-var constants = require('./constants');
-var getHourFromTimeString = require('./get_hour_from_time_string');
+var constants = require('./utility/constants');
+var dateAndTimeUlti = require('./utility/date_and_time_util');
 
 module.exports = async (event) => {
     try { 
@@ -154,8 +154,8 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
     
-    var getUpHour = getHourFromTimeString(result[0].get_up);
-    var goToBedHour = getHourFromTimeString(result[0].go_to_bed);
+    var getUpHour = dateAndTimeUtil.getHourFromTimeString(result[0].get_up);
+    var goToBedHour = dateAndTimeUtil.getHourFromTimeString(result[0].go_to_bed);
     var difference = Math.abs(getUpHour - goToBedHour) % 23;
     var date1 = new Date(2018, 1, 1, getUpHour);
     var date2 = new Date(2018, 1, 1, goToBedHour);
