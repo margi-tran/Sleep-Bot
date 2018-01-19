@@ -38,9 +38,11 @@ module.exports = async (req, res) => {
   		var sleepDataDoc = 
   			{ 
   				fbUserId_: fbUserId, 
-  				date: date,
                 sleep_data: [1,2,3]
             };
+
+          
+
         db.collection('sleep_data').update(sleepDataDoc);
 
     	res.sendStatus(204);
