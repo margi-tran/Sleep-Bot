@@ -10,10 +10,13 @@ var dateAndTimeUlti = require('../../utility/date_and_time_util');
 
 module.exports = async (req, res) => {
 	try {
+
+		console.log(req.body); 
+		/*
 		var notifications = req.body;
 		notifications.forEach(notification => {
 			console.log(notification);
-		});
+		});*/
 
 
 		
