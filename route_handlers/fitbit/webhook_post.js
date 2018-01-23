@@ -15,10 +15,8 @@ module.exports = async (req, res) => {
 
 		var notifications = req.body;
 
-		notifications.forEach(notification => {
 
-		//const fitbitId = req.body[0].ownerId;
-		fitbitId = notification.ownerId;
+		const fitbitId = req.body[0].ownerId;
 
 
 		console.log(req.body);
@@ -54,7 +52,6 @@ module.exports = async (req, res) => {
 
     	res.sendStatus(204);
     	db.close();
-    });
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}
