@@ -11,6 +11,8 @@ var dateAndTimeUlti = require('../../utility/date_and_time_util');
 module.exports = async (req, res) => {
 	try {
 
+		console.log(req.body);
+
 		const fitbitId = req.body[0].ownerId;
 
 
