@@ -16,8 +16,8 @@ const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 const BACKGROUND_DONE = 'background done';
 
-const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (e.g. HH:MM).';
-const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (e.g. HH:MM).';
+const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
 const BACKGROUND_STRESSED_TEXT = 'Are you stressed or worried about anything?';
 const BACKGROUND_EAT_TEXT = 'Do you eat before going to bed?';

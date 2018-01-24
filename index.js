@@ -12,7 +12,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var routeHandlers = require('./controllers/route_handlers');
 var fitbitClient = require('./controllers/fitbit/fitbit_client');
 var dateAndTimeUlti = require('./utility/date_and_time_util');
-var jobs = require('./jobs');
+var sleepNotifier = require('./controllers/sleep/notifier');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
