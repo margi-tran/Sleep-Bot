@@ -12,11 +12,10 @@ module.exports = async (req, res) => {
 	try {
 
 		console.log(req.body); 
-		/*
+		
 		var notifications = req.body;
 		notifications.forEach(notification => {
-			console.log(notification);
-		});*/
+			
 
 
 		
@@ -30,7 +29,7 @@ module.exports = async (req, res) => {
     	// Refresh the user's access token
     	var oldAccessToken = result[0].accessToken;
     	var oldRefreshAccessToken = result[0].refreshAccessToken;
-		refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
+		var refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 		var newAccessToken = refreshAccessTokenPromise.access_token;
 		var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 		await db.collection('fitbit_auths').updateOne({ fitbitId_: fitbitId }, { $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken } });
@@ -39,9 +38,8 @@ module.exports = async (req, res) => {
 		fbUserId = result[0].fbUserId_;
    		var accessToken = result[0].accessToken;
     	const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', newAccessToken);
-    	//delete sleepData['headers'];
 
-    	arr = sleepData[1].body.sleep;
+    	var arr = sleepData[1].body.sleep;
     	console.log(arr);
   		var sleepDataDoc = 
   			{ 
@@ -53,6 +51,7 @@ module.exports = async (req, res) => {
 
     	res.sendStatus(204);
     	db.close();
+    });
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}

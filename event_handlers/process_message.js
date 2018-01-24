@@ -13,7 +13,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var constants = require('../utility/constants');
-var dateAndTimeUlti = require('../utility/date_and_time_util');
+var dateAndTimeUtil = require('../utility/date_and_time_util');
 
 module.exports = async (event) => {
     try { 
