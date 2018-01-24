@@ -29,8 +29,8 @@ module.exports = async (event) => {
         //const db = await MongoClient.connect(process.env.MONGODB_URI);
         //const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
 
-        await const botRequested = user.getBotRequested(fbUserId);
-        await const userIsNew = user.isUserNew(fbUserId);
+        const botRequested = await user.getBotRequested(fbUserId);
+        const userIsNew = await user.isUserNew(fbUserId);
 
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
