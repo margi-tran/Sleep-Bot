@@ -16,7 +16,7 @@ var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
 var userBackground = require('../../../models/background');
-var users = require('../../../models/users');
+var user = require('../../../models/users');
 
 module.exports = async (event) => {
     try { 
