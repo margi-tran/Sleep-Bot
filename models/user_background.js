@@ -7,7 +7,7 @@ exports.getBackground = async (fbUserId) => {
     return result;
 };
 
-exports.updateUser = async (fbUserId, context, value) => {
+exports.updateBackground = async (fbUserId, context, value) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
 
 	var obj = {};
