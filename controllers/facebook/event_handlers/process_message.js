@@ -15,6 +15,8 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
+var userBackground = require('../../../models/background');
+
 module.exports = async (event) => {
     try { 
         const fbUserId = event.sender.id;
@@ -141,7 +143,8 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
 async function updateBackgroundandAskNextQuestion(fbUserId, messageObj, nextQuestion, nextQuestionText, quickReplyMessage) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: messageObj });
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestion } });
+    //await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestion } });
+    await updateBotRequested(fbUserId, nextQuestion);
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
     db.close();
@@ -156,8 +159,10 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
 
-    const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+    //const db = await MongoClient.connect(process.env.MONGODB_URI);
+    //const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+
+    result = await userBackground.getUserBackground(fbUserId);
     
     var getUpHour = dateAndTimeUtil.getHourFromTimeString(result[0].get_up);
     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(result[0].go_to_bed);
