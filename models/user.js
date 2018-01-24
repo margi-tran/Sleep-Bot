@@ -1,7 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
 
-
-
 exports.isUserNew = async (fbUserId) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();

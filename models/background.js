@@ -6,3 +6,9 @@ exports.getBackground = async (fbUserId) => {
     db.close();
     return result;
 };
+
+exports.updateBackground = async (fbUserId, messageObj) => {
+	const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: messageObj });
+    db.close();
+};

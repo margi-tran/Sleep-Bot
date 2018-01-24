@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
                 alcohol_nicotine: null,
                 caffeine: null,
                 lights: null,
-                noise: null,
+                quiet: null,
                 excercise: null,
                 job: null,
                 work_schedule: null

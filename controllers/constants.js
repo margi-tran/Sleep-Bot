@@ -10,7 +10,7 @@ const BACKGROUND_EAT = 'background question eat';
 const BACKGROUND_ALCOHOL_NICOTINE = 'background question alcohol nicotine';
 const BACKGROUND_CAFFEINE = 'background question caffeine';
 const BACKGROUND_LIGHTS = 'background question lights';
-const BACKGROUND_NOISE = 'background question noise';
+const BACKGROUND_QUIET = 'background question noise';
 const BACKGROUND_EXCERCISE = 'background question excercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
@@ -24,18 +24,20 @@ const BACKGROUND_EAT_TEXT = 'Do you eat before going to bed?';
 const BACKGROUND_ALCOHOL_NICOTINE_TEXT = 'Do you drink alcohol or take nicotine before going to bed?';
 const BACKGROUND_CAFFEINE_TEXT = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
 const BACKGROUND_LIGHTS_TEXT = 'Do you sleep with the lights on?';
-const BACKGROUND_NOISE_TEXT = 'Is your bedroom quiet when you sleep?';
+const BACKGROUND_QUIET_TEXT = 'Is your bedroom quiet when you sleep?';
 const BACKGROUND_EXCERCISE_TEXT = 'Are you exercising regularly?';
 const BACKGROUND_JOB_TEXT = 'Do you have a job?';
 const BACKGROUND_WORK_SCHEDULE_TEXT = 'Is your work schedule irregular?';
 
+const GET_UP = 'get_up';
+const GO_TO_BED = 'go_to_bed';
 const ELECTRONICS = 'electronics';
 const STRESSED = 'stressed';
 const EAT = 'eat';
-const ALCOHOL_NICOTINE = 'alcohol nicotine';
+const ALCOHOL_NICOTINE = 'alcohol_nicotine';
 const CAFFEINE = 'caffeine';
 const LIGHTS = 'lights';
-const NOISE = 'noise';
+const QUIET = 'quiet';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
@@ -65,7 +67,7 @@ module.exports = {
     BACKGROUND_ALCOHOL_NICOTINE,
     BACKGROUND_CAFFEINE, 
     BACKGROUND_LIGHTS, 
-    BACKGROUND_NOISE, 
+    BACKGROUND_QUIET, 
     BACKGROUND_EXCERCISE, 
     BACKGROUND_JOB, 
     BACKGROUND_WORK_SCHEDULE, 
@@ -79,20 +81,23 @@ module.exports = {
     BACKGROUND_ALCOHOL_NICOTINE_TEXT, 
     BACKGROUND_CAFFEINE_TEXT, 
     BACKGROUND_LIGHTS_TEXT, 
-    BACKGROUND_NOISE_TEXT, 
+    BACKGROUND_QUIET_TEXT, 
     BACKGROUND_EXCERCISE_TEXT, 
     BACKGROUND_JOB_TEXT, 
     BACKGROUND_WORK_SCHEDULE_TEXT, 
 
+    GET_UP,
+    GO_TO_BED,
     ELECTRONICS, 
     STRESSED,
     EAT,
     ALCOHOL_NICOTINE,
     CAFFEINE,
     LIGHTS,
-    NOISE,
-    WORK_SCHEDULE,
+    QUIET,
     EXCERCISE,
+    JOB,
+    WORK_SCHEDULE,
 
 	QUICK_REPLIES_YES_OR_NO
 };
