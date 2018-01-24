@@ -17,16 +17,12 @@ module.exports = async (req, res) => {
 		notifications.forEach(async (notification) => {
 			console.log(notification);
 
-			db2 = await MongoClient.connect(process.env.MONGODB_URI);
-		});
-			
-
+		
 
 		
-		const fitbitId = req.body[0].ownerId;
-		//const fitbitId = notification.ownerId;
+		//const fitbitId = req.body[0].ownerId;
+		const fitbitId = notification.ownerId;
 		const date = req.body[0].date;
-		console.log('daaaaaa', fitbitId, date);
 
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
     	const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
@@ -56,6 +52,7 @@ module.exports = async (req, res) => {
 
     	res.sendStatus(204);
     	db.close();
+    });
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}
