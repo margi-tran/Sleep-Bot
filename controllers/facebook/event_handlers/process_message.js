@@ -34,14 +34,14 @@ module.exports = async (event) => {
 
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
-            db.close();
+            //db.close();
             return;
         }
 
         fbMessengerBotClient.sendTextMessage(fbUserId, 'not new');
         // fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
              
-        db.close();
+        //db.close();
     } catch (err) {
         console.log('[ERROR]', err);
     } 
