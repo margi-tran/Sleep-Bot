@@ -9,7 +9,7 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
-var rootHandler = require('./controllers/route_handlers');
+var routeHandlers = require('./controllers/route_handlers');
 var fitbitClient = require('./controllers/fitbit/fitbit_client');
 var dateAndTimeUlti = require('./utility/date_and_time_util');
 var jobs = require('./jobs');
