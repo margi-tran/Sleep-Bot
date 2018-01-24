@@ -15,6 +15,8 @@ module.exports = async (req, res) => {
 		
 		var notifications = req.body;
 		notifications.forEach(notification => {
+			console.log(notification);
+			});
 			
 
 
@@ -52,7 +54,6 @@ module.exports = async (req, res) => {
 
     	res.sendStatus(204);
     	db.close();
-    });
 	} catch (err) {
 		console.log('[ERROR]', err);
 	}
