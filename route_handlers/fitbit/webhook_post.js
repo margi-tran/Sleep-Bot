@@ -16,7 +16,9 @@ module.exports = async (req, res) => {
 		var notifications = req.body;
 		notifications.forEach(notification => {
 			console.log(notification);
-			});
+
+			db2 = await MongoClient.connect(process.env.MONGODB_URI);
+		});
 			
 
 
