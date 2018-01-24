@@ -135,7 +135,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
 }
 
 async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
-    await userBackground.updateBackground(fbUserId, context, answer);
+    await userBackground.updateBackground(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
