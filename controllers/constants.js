@@ -38,6 +38,7 @@ const ALCOHOL_NICOTINE = 'alcohol_nicotine';
 const CAFFEINE = 'caffeine';
 const LIGHTS = 'lights';
 const QUIET = 'quiet';
+const JOB = 'job';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
