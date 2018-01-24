@@ -1,5 +1,5 @@
 var rootHandler = require('./root');
-var fbVerificationHandler = require('./facebook/verification');
+var fbVerification = require('./facebook/verification');
 var fbWebhook = require('./facebook/webhook');
 var fitbitWebhookGet = require('./fitbit/webhook_get');
 var fitbitWebhookPost = require('./fitbit/webhook_post');
