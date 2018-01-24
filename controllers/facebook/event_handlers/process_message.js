@@ -16,6 +16,7 @@ var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
 var userBackground = require('../../../models/background');
+var users = require('../../../models/users');
 
 module.exports = async (event) => {
     try { 
@@ -144,7 +145,7 @@ async function updateBackgroundandAskNextQuestion(fbUserId, messageObj, nextQues
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: messageObj });
     //await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestion } });
-    await updateBotRequested(fbUserId, nextQuestion);
+    await user.updateBotRequested(fbUserId, nextQuestion);
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
     db.close();
