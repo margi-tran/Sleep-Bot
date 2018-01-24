@@ -25,11 +25,12 @@ module.exports = async (event) => {
 
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
 
-        const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
-        const botRequested = result[0].botRequested;
-        const userIsNew = result[0].userIsNew;
+        //const db = await MongoClient.connect(process.env.MONGODB_URI);
+        //const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+
+        const botRequested = users.getBotRequested(fbUserId);
+        const userIsNew = users.isUserNew(fbUserId);
 
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
@@ -163,7 +164,7 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     //const db = await MongoClient.connect(process.env.MONGODB_URI);
     //const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
 
-    result = await userBackground.getUserBackground(fbUserId);
+    result = await userBackground.getBackground(fbUserId);
     
     var getUpHour = dateAndTimeUtil.getHourFromTimeString(result[0].get_up);
     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(result[0].go_to_bed);
