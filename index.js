@@ -9,8 +9,8 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
-var routeHandlers = require('./route_handlers/route_handlers');
-var fitbitClient = require('./utility/fitbit_client');
+var rootHandler = require('./controllers/route_handlers');
+var fitbitClient = require('./controllers/fitbit/fitbit_client');
 var dateAndTimeUlti = require('./utility/date_and_time_util');
 var jobs = require('./jobs');
 
@@ -22,8 +22,8 @@ app.listen(app.get('port'), () => {
     console.log('Running on port', app.get('port'));
 });
 
-app.get('/', routeHandlers.homeHandler);
-app.get('/', routeHandlers.fbVerificationHandler);
+app.get('/', routeHandlers.rootHandler);
+app.get('/', routeHandlers.fbVerification);
 app.post('/webhook/', routeHandlers.fbWebhook);
 app.get('/fitbit_webhook', routeHandlers.fitbitWebhookGet);
 app.post('/fitbit_webhook', routeHandlers.fitbitWebhookPost);

@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     	} */
 
 		res.cookie('fbUserId', fbUserId);
-		res.sendFile(path.join(__dirname + '/../html_files/prepare_fitbit_auth.html'));
+		res.sendFile(path.join(__dirname + '/../views/prepare_fitbit_auth.html'));
 	} catch (err) {
 		console.log('[ERROR]', err);
 		res.send('An error occurred. Please contact admin for assistance.' + '\n[ERROR] (/prepare_fitbit_auth) ' + err);
