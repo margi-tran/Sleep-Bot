@@ -19,8 +19,9 @@ module.exports = async (req, res) => {
 
 
 		
-		const fitbitId = req.body[0].ownerId;
-		var date = req.body[0].date;
+		//const fitbitId = req.body[0].ownerId;
+		const fitbitId = notification.ownerId;
+		const date = req.body[0].date;
 		console.log('daaaaaa', fitbitId, date);
 
 		const db = await MongoClient.connect(process.env.MONGODB_URI);
