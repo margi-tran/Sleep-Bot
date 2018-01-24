@@ -110,7 +110,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                         await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_WORK_SCHEDULE });
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
-                        await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_DONE, userIsNew: false } });
+                        await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_DONE, userIsNew: false });
                         presentResultsForBackground(fbUserId, false);
                     }
                 } else { 
@@ -134,10 +134,10 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
     }     
 }
 
-async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestion, nextQuestionText, quickReplyMessage) {
+async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
     await userBackground.updateBackground(fbUserId, context, answer);
-    await user.updateBotRequested(fbUserId, nextQuestion);
-    if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
+    await user.updateBotRequested(fbUserId, nextQuestionContext);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
 }
 
