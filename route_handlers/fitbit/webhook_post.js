@@ -21,8 +21,8 @@ module.exports = async (req, res) => {
 
 
 		
-		//const fitbitId = req.body[0].ownerId;
-		const fitbitId = notification.ownerId;
+		const fitbitId = req.body[0].ownerId;
+		//const fitbitId = notification.ownerId;
 		const date = req.body[0].date;
 		console.log('daaaaaa', fitbitId, date);
 
