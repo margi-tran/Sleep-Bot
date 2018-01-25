@@ -38,15 +38,19 @@ module.exports = async (req, res) => {
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
-        var newUser = 
+        /*var newFitbitAuth = 
             { 
                 fbUserId_: fbUserId, 
                 fitbitId_: accessTokenPromise.user_id,
                 accessToken: accessTokenPromise.access_token,
                 refreshAccessToken: accessTokenPromise.refresh_token 
             };
-        await db.collection('fitbit_auths').insertOne(newUser);
-        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: null } } );
+        await db.collection('fitbit_auths').insertOne(newFitbitAuth);
+        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: null } } );*/
+
+        await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
+        await user.updateBotRequested(fbUserId, null);
+        userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
        		console.log(results);
@@ -54,25 +58,6 @@ module.exports = async (req, res) => {
     	}).catch((results) => {
         	console.log(results[0].errors);
     	});
-
-        var background = 
-            { 
-                fbUserId_: fbUserId, 
-                age: profileData[0].user.age,
-                get_up: null,
-                go_to_bed: null,
-                electronics: null,
-                stressed: null,
-                eat: null,
-                alcohol_nicotine: null,
-                caffeine: null,
-                lights: null,
-                quiet: null,
-                excercise: null,
-                job: null,
-                work_schedule: null
-            };
-        await db.collection('background').insertOne(background);
 
         res.send("You have successfully authenticated Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
 		

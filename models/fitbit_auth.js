@@ -25,3 +25,16 @@ exports.updateUser = async (fbUserId, obj) => {
     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: obj });
     db.close();
 };
+
+exports.addNewFitbitAuth = async (fbUserId, fitbitId, accessToken, refreshAccessToken) => {
+    var newFitbitAuth = 
+        { 
+            fbUserId_: fbUserId, 
+            fitbitId_: fitbitId,
+            accessToken: accessToken,
+            refreshAccessToken: refreshAccessToken
+        };
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('fitbit_auths').insertOne(newFitbitAuth);
+    db.close();
+};

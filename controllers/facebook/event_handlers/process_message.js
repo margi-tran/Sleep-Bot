@@ -119,7 +119,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
-                    await user.updateIsUserNew(fbUserId, false);
+                    await user.updateUserIsNew(fbUserId, false);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);

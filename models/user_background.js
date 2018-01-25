@@ -28,3 +28,25 @@ exports.updateBackground = async (fbUserId, context, value) => {
 	await db.collection('background').updateOne({ fbUserId_: fbUserId }, { $set: obj });
 	db.close();
 };
+
+exports.addNewUserBackground = async (fbUserId, age) => {
+    var background = 
+        { 
+            fbUserId_: fbUserId, 
+            age: age,                
+            get_up: null,
+            go_to_bed: null,
+            electronics: null,
+            stressed: null,
+            eat: null,
+            alcohol_nicotine: null,
+            caffeine: null,
+            lights: null,
+            quiet: null,
+            excercise: null,
+            job: null,
+            work_schedule: null
+        };
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('background').insertOne(background);
+};
