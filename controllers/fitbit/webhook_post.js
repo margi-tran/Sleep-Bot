@@ -28,8 +28,8 @@ module.exports = async (req, res) => {
 			var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 			await db.collection('fitbit_auths').updateOne({ fitbitId_: fitbitId }, { $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken } });
 */
-			var oldAccessToken = fitbitAuth.getAccessToken(fitbitId);
-			var oldRefreshAccessToken = fitbitAuth.getRefreshAccessToken(fitbitId);
+			var oldAccessToken = await fitbitAuth.getAccessToken(fitbitId);
+			var oldRefreshAccessToken = await fitbitAuth.getRefreshAccessToken(fitbitId);
 			var refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 			var newAccessToken = refreshAccessTokenPromise.access_token;
 			var newRefreshToken = refreshAccessTokenPromise.refresh_token;
