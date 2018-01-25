@@ -6,7 +6,7 @@
 //var MongoClient = require('mongodb').MongoClient;
 
 var fitbitAuths = require('../../../models/fitbit_auths');
-var fitbitAuths = require('../../../models/sleep');
+var sleep = require('../../../models/sleep');
 
 var fitbitClient = require('./fitbit_client');
 var dateAndTimeUlti = require('../../../utility/date_and_time_util');
