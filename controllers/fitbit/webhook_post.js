@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
 			await fitbitAuth.updateFitbitTokens(fitbitId, newAccessToken, newRefreshToken);
 
 			// Get the user's sleep data
-			var fbUserId = await fitbitAuth.getFbUserIdOwner(fitbitId);
+			var fbUserId = await fitbitAuth.getFbUserId(fitbitId);
 			const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', newAccessToken);
 			/*var sleepDataDoc = 
 				{ 
