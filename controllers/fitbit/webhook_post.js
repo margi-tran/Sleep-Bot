@@ -5,11 +5,11 @@
 
 //var MongoClient = require('mongodb').MongoClient;
 
-var fitbitAuths = require('../../../models/fitbit_auths');
-var sleep = require('../../../models/sleep');
+var fitbitAuth = require('../../models/fitbit_auth');
+var sleep = require('../../models/sleep');
 
 var fitbitClient = require('./fitbit_client');
-var dateAndTimeUlti = require('../../../utility/date_and_time_util');
+var dateAndTimeUlti = require('../../utility/date_and_time_util');
 
 module.exports = async (req, res) => {
 	try {
@@ -28,15 +28,15 @@ module.exports = async (req, res) => {
 			var newRefreshToken = refreshAccessTokenPromise.refresh_token;
 			await db.collection('fitbit_auths').updateOne({ fitbitId_: fitbitId }, { $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken } });
 */
-			var oldAccessToken = fitbitAuths.getAccessToken(fitbitId);
-			var oldRefreshAccessToken = fitbitAuths.getRefreshAccessToken(fitbitId);
+			var oldAccessToken = fitbitAuth.getAccessToken(fitbitId);
+			var oldRefreshAccessToken = fitbitAuth.getRefreshAccessToken(fitbitId);
 			var refreshAccessTokenPromise = await fitbitClient.client.refreshAccessToken(oldAccessToken, oldRefreshAccessToken);
 			var newAccessToken = refreshAccessTokenPromise.access_token;
 			var newRefreshToken = refreshAccessTokenPromise.refresh_token;
-			await fitbitAuths.updateFitbitTokens(fitbitId, newAccessToken, newRefreshToken);
+			await fitbitAuth.updateFitbitTokens(fitbitId, newAccessToken, newRefreshToken);
 
 			// Get the user's sleep data
-			var fbUserId = await fitbitAuths.getFbUserIdOwner(fitbitId);
+			var fbUserId = await fitbitAuth.getFbUserIdOwner(fitbitId);
 			const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', newAccessToken);
 			
 			/*var sleepDataDoc = 
