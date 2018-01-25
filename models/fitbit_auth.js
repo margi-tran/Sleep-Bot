@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 
-exports.getAccessToken = async (fbUserId) => {
+exports.getAccessToken = async (fitbitId) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
     db.close();
