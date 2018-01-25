@@ -15,8 +15,14 @@ exports.isAUser = async (fbUserId) => {
 
     console.log('res:  ' , result)
     db.close();
-    if (result.length === 0) return false;
-    else return true;
+    console.log('l =' , result.length);
+    if (result.length === 0) {
+        console.log('return false');
+        return false;
+    } 
+    else  { 
+        return true;
+    }
 };
 
 exports.getBotRequested = async (fbUserId) => {
