@@ -8,6 +8,8 @@ exports.isUserNew = async (fbUserId) => {
 };
 
 exports.isAUser = async (fbUserId) => {
+
+    console.log('HUUHUHUHU');
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
 
