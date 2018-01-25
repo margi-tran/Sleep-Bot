@@ -3,6 +3,7 @@
  * Messages recieved from users are sent a reply.
  */
 
+var MongoClient = require('mongodb').MongoClient;
 
 var request = require('request');
 
@@ -119,7 +120,12 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
-                    await user.updateUserIsNew(fbUserId, false);
+                    //await user.updateUserIsNew(fbUserId, false);
+
+                    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { userIsNew: value } });
+    db.close();
+
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
