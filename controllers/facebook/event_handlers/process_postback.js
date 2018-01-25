@@ -24,7 +24,7 @@ module.exports = async (event) => {
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
         
         if (event.postback.payload === constants.GET_STARTED_PAYLOAD) {
-            if (!user.isAUser(fbUserId)) { // user is not in database
+            if (user.isAUser(fbUserId) === false) { // user is not in database
                 user.addUser(fitbitId);
                 var msg1 = 'Hello there, I am SleepBot! I am here to help you with any sleep disturbances you may have.';
                 var msg2 = 'Please give me permission to access your data on Fitbit, to help me analyze your sleep.'
