@@ -4,8 +4,6 @@
  */
 
 
-var MongoClient = require('mongodb').MongoClient;
-
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
@@ -42,16 +40,6 @@ module.exports = async (req, res) => {
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
-        /*var newFitbitAuth = 
-            { 
-                fbUserId_: fbUserId, 
-                fitbitId_: accessTokenPromise.user_id,
-                accessToken: accessTokenPromise.access_token,
-                refreshAccessToken: accessTokenPromise.refresh_token 
-            };
-        await db.collection('fitbit_auths').insertOne(newFitbitAuth);
-        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: null } } );*/
-
         await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
         await user.updateBotRequested(fbUserId, null);
         await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
@@ -63,14 +51,13 @@ module.exports = async (req, res) => {
         	console.log(results[0].errors);
     	});
 
-        res.send("You have successfully authenticated Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.");
+        res.send('You have successfully authenticated Fitbit with me. Please go back and talk to SleepBot, he is waiting for you.');
 		
 		var m1 = 'Great, you have given me permission to access to your health data on Fitbit.';
 		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
 					+ ' so I\'m going to ask you a few questions.';
 		var m3 = 'Are you ready to start answering my questions?';
-		
-        //await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
+
         await user.updateBotRequested(fbUserId, constants.BACKGROUND_QUESTIONS);
 
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);

@@ -122,9 +122,9 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
                     //await user.updateUserIsNew(fbUserId, false);
 
-                    const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { userIsNew: value } });
-    db.close();
+                    
+
+                    await user.updateUserIsNew(fbUserId, false);
 
                     presentResultsForBackground(fbUserId, true);
                 } else { 
