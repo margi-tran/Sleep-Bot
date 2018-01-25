@@ -8,21 +8,11 @@ exports.isUserNew = async (fbUserId) => {
 };
 
 exports.isAUser = async (fbUserId) => {
-
-    console.log('HUUHUHUHU');
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
-
-    console.log('res:  ' , result)
     db.close();
-    console.log('l =' , result.length);
-    if (result.length === 0) {
-        console.log('return false');
-        return false;
-    } 
-    else  { 
-        return true;
-    }
+    if (result.length === 0) return false;
+    else return true;
 };
 
 exports.getBotRequested = async (fbUserId) => {
