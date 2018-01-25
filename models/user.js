@@ -30,6 +30,7 @@ exports.updateBotRequested = async (fbUserId, context) => {
     db.close();
 };
 
+
 exports.updateUser = async (fbUserId, obj) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: obj });

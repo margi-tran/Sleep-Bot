@@ -3,7 +3,6 @@
  * Messages recieved from users are sent a reply.
  */
 
-var MongoClient = require('mongodb').MongoClient;
 
 var request = require('request');
 
@@ -120,12 +119,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
-                    //await user.updateUserIsNew(fbUserId, false);
-
-                    
-
                     await user.updateUserIsNew(fbUserId, false);
-
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
@@ -155,7 +149,7 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
 
-    var getUp = await userBackground.goToBed(fbUserId);
+    var getUp = await userBackground.getGoToBed(fbUserId);
     var goToBed = await userBackground.getGetUp(fbUserId);
     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
