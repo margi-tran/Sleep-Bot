@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 
-var constants = require('../../constants');
+var constants = require('../controllers/constants');
 
 exports.isUserNew = async (fbUserId) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
