@@ -132,7 +132,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
         console.log('[ERROR]', err);
     }     
 }
-
+//
 async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
     await userBackground.updateBackground(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
