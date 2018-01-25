@@ -42,7 +42,7 @@ const JOB = 'job';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
-var QUICK_REPLIES_YES_OR_NO = 
+const QUICK_REPLIES_YES_OR_NO = 
     [{
         "content_type":"text",
         "title":"yes",
