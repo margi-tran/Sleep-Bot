@@ -22,6 +22,9 @@ module.exports = async (event) => {
 
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
+
+        boo = user.isAUser(fbUserId);
+        console.log('bool: ', boo);
         
         if (event.postback.payload === constants.GET_STARTED_PAYLOAD) {
             if (user.isAUser(fbUserId) === false) { // user is not in database
