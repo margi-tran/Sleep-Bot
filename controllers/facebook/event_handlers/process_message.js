@@ -5,18 +5,17 @@
 
 
 var request = require('request');
-var MongoClient = require('mongodb').MongoClient;
 
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
-var constants = require('../../constants');
-var dateAndTimeUtil = require('../../../utility/date_and_time_util');
-
 var userBackground = require('../../../models/user_background');
 var user = require('../../../models/user');
+
+var constants = require('../../constants');
+var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
 module.exports = async (event) => {
     try { 
@@ -42,7 +41,6 @@ module.exports = async (event) => {
 
 async function getNewUserBackground(fbUserId, message, botRequested) {
     try {
-        const db = await MongoClient.connect(process.env.MONGODB_URI);
         // The following regex was by Peter O. and it was taken from https://stackoverflow.com/questions/7536755/regular-expression-for-matching-hhmm-time-format
         const timeRegex = RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
 
@@ -56,7 +54,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_GET_UP } });
+                    await user.updateBotRequested(fbUserId, constants.BACKGROUND_GET_UP);
                     fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT);
                 } else {  
                     var msg = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
@@ -119,8 +117,9 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 break;
             case constants.BACKGROUND_WORK_SCHEDULE:
                 if (message === 'yes' || message === 'no') {
-                    await userBackground.updateBackground(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, message);
-                    await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_DONE, userIsNew: false } );
+                    await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
+                    await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
+                    await user.updateIsUserNew(fbUserId, false);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
@@ -150,9 +149,10 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
 
-    result = await userBackground.getBackground(fbUserId);
-    var getUpHour = dateAndTimeUtil.getHourFromTimeString(result[0].get_up);
-    var goToBedHour = dateAndTimeUtil.getHourFromTimeString(result[0].go_to_bed);
+    var getUp = await userBackground.goToBed(fbUserId);
+    var goToBed = await userBackground.getGetUp(fbUserId);
+    var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
+    var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
     var difference = Math.abs(getUpHour - goToBedHour) % 23;
     var date1 = new Date(2018, 1, 1, getUpHour);
     var date2 = new Date(2018, 1, 1, goToBedHour);

@@ -42,7 +42,6 @@ const JOB = 'job';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
-
 var QUICK_REPLIES_YES_OR_NO = 
     [{
         "content_type":"text",
@@ -102,4 +101,3 @@ module.exports = {
 
 	QUICK_REPLIES_YES_OR_NO
 };
-
