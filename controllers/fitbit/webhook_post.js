@@ -3,13 +3,13 @@
  */
 
 
-var MongoClient = require('mongodb').MongoClient;
+//var MongoClient = require('mongodb').MongoClient;
 
-var fitbitAuths = require('../../models/fitbit_auths');
-var fitbitAuths = require('../../models/sleep');
+var fitbitAuths = require('../../../models/fitbit_auths');
+var fitbitAuths = require('../../../models/sleep');
 
 var fitbitClient = require('./fitbit_client');
-var dateAndTimeUlti = require('../../utility/date_and_time_util');
+var dateAndTimeUlti = require('../../../utility/date_and_time_util');
 
 module.exports = async (req, res) => {
 	try {
