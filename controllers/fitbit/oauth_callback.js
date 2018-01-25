@@ -11,6 +11,10 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
+var user = require('.../../models/user');
+var fitbitAuth = require('.../../models/fitbit_auth');
+var userBackground = require('.../../models/user_background');
+
 var constants = require('../constants');
 var fitbitClient = require('./fitbit_client');
 var dateAndTimeUlti = require('../../utility/date_and_time_util');
@@ -27,7 +31,7 @@ module.exports = async (req, res) => {
 		}*/
 
 		// Check whether or not the user has already authenticated Fitbit with the server
-		const db = await MongoClient.connect(process.env.MONGODB_URI);
+		//const db = await MongoClient.connect(process.env.MONGODB_URI);
         /*const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();   
         if(result != 0) {
         	res.send('You have already authenticated Fitbit with SleepBot.');
@@ -50,7 +54,7 @@ module.exports = async (req, res) => {
 
         await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
         await user.updateBotRequested(fbUserId, null);
-        userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
+        await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
        		console.log(results);
@@ -65,23 +69,13 @@ module.exports = async (req, res) => {
 		var m2 = 'Before we go any further, I would like to get an idea about your current sleep health,' 
 					+ ' so I\'m going to ask you a few questions.';
 		var m3 = 'Are you ready to start answering my questions?';
-		var quickReplies = 
-			[{
-            	"content_type":"text",
-                "title":"yes",
-                "payload":"yes"
-            },
-            {
-            	"content_type":"text",
-            	"title":"no",
-            	"payload":"no"
-            }];
+		
+        //await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
+        await user.updateBotRequested(fbUserId, constants.BACKGROUND_QUESTIONS);
 
-        await db.collection('users').updateOne( { fbUserId_: fbUserId }, { $set: { botRequested: constants.BACKGROUND_QUESTIONS } } );
-        db.close();
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
-		await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m3, quickReplies);
+		fbMessengerBotClient.sendQuickReplyMessage(fbUserId, m3, constants.QUICK_REPLIES_YES_OR_NO);
 	} catch (err) {
 		console.log('[ERROR]', err);
 		res.send('An error occurred. Please contact admin for assistance.' + '\n[ERROR] (/oauth_callback) ' + err);
