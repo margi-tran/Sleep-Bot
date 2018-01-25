@@ -1,29 +1,24 @@
 var MongoClient = require('mongodb').MongoClient;
 
-exports.isUserNew = async (fbUserId) => {
+exports.getAccessToken = async (fbUserId) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+    const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
     db.close();
-    return result[0].userIsNew;
+    return result[0].accessToken;
 };
 
-exports.getBotRequested = async (fbUserId) => {
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+exports.getRefreshAccessToken = async (fitbitId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
     db.close();
-    return result[0].botRequested;
+    return result[0].refreshAccessToken;
 };
 
-exports.updateBotRequested = async (fbUserId, nextQuestion) => {
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: nextQuestion } });
+exports.getFbUserId = async (fitbitId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('fitbit_auths').find({ fitbitId_: fitbitId }).toArray();
     db.close();
-};
-
-exports.updateUser = async (fbUserId, obj) => {
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: obj });
-    db.close();
+    return result[0].fbUserId_;
 };
 
 exports.addNewFitbitAuth = async (fbUserId, fitbitId, accessToken, refreshAccessToken) => {
@@ -38,3 +33,9 @@ exports.addNewFitbitAuth = async (fbUserId, fitbitId, accessToken, refreshAccess
     await db.collection('fitbit_auths').insertOne(newFitbitAuth);
     db.close();
 };
+
+exports.updateFitbitTokens = async (fitbitId, newAccessToken, newRefreshToken) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('fitbit_auths').updateOne({ fitbitId_: fitbitId }, { $set: { accessToken: newAccessToken, refreshAccessToken: newRefreshToken } });
+    db.close();
+}
