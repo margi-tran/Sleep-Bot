@@ -11,7 +11,7 @@ exports.isAUser = async (fbUserId) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
     db.close();
-    if(result.length == 0) return false;
+    if (result.length === 0) return false;
     else return true;
 };
 
