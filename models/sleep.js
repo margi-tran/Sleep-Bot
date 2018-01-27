@@ -17,7 +17,7 @@ exports.getMainSleep = async (fbUserId, date) => {
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     var sleepArr = result[0].sleep_data.sleep;
 
-    if (sleepArr === null || sleepArr === []) 
+    /*if (sleepArr === null || sleepArr === []) 
     	return null;
     else 
     	sleepArr.forEach(function(sleepItem) {
@@ -26,5 +26,7 @@ exports.getMainSleep = async (fbUserId, date) => {
         		console.log('in here');
         		return 'ok';
         	}
-    	});
+    	});*/
+
+    	return 'ok';
 };
