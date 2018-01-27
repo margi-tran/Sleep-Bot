@@ -42,7 +42,7 @@ const JOB = 'job';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
-const SLEEP_NOTIFICATION_ACCEPTED = 'sleep notification accepted';
+const NOTIFIED_SLEEP = 'notified_sleep';
 
 const QUICK_REPLIES_YES_OR_NO = 
     [{
