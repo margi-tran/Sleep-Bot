@@ -72,6 +72,6 @@ app.get('/seedata', async (req, res) => {
 
 var user = require('./models/user');
 app.get('/test', async (req, res) => {
-	hm = await user.getAllUsersWithNotifiedSleepTrue();
+	hm = await user.getAllUsersWithNotifiedSleepFalse();
 	res.send(hm);
 });

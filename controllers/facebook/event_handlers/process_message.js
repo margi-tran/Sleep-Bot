@@ -32,6 +32,7 @@ module.exports = async (event) => {
 
         var notifiedSleep = await user.getNotifiedSleep(fbUserId);
         if (!notifiedSleep) {
+            console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
             return;
         }
@@ -168,11 +169,10 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     }
 }
 
-
 async function chatAboutSleep(fbUserId, message, botRequested) {
     try {
         switch (botRequested) {
-            case constants.SLEEP_NOTIFICATION_ACCEPTED:
+            case constants.NOTIFIED_SLEEP:
                 fbMessengerBotClient.sendTextMessage(fbUserId, 'gonna chat about ur sleep');
                 break;
             default:
