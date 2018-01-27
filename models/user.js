@@ -30,7 +30,6 @@ exports.updateBotRequested = async (fbUserId, context) => {
     db.close();
 };
 
-
 exports.updateUser = async (fbUserId, obj) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: obj });
@@ -48,9 +47,42 @@ exports.addUser = async (fbUserId) => {
         { 
             fbUserId_: fbUserId, 
             botRequested: constants.FITBIT_AUTH,
-            userIsNew: true
+            userIsNew: true,
+            notifiedSleep: false,
         };
+
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('users').insertOne(newUser);
     db.close();
 };
+
+exports.setNotifiedSleepToTrue = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { notifiedSleep: true } });
+    db.close();
+};
+
+exports.setNotifiedSleepToFalse = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { notifiedSleep: false } });
+    db.close();
+};
+
+exports.getNotifiedSleep = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    return result[0].notifiedSleep;
+};
+
+exports.getAllUsersWithNotifiedSleepTrue = async () => {
+    var arr = [];
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const users = await db.collection('users').find().toArray();
+    db.close();
+    users.forEach(function(user) {
+        if(user.notifiedSleep == true) arr.push(user.fbUserId_);
+    };
+    return arr;
+};
+

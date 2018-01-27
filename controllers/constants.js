@@ -42,11 +42,13 @@ const JOB = 'job';
 const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
+const SLEEP_NOTIFICATION_ACCEPTED = 'sleep notification accepted';
+
 const QUICK_REPLIES_YES_OR_NO = 
     [{
         "content_type":"text",
         "title":"yes",
-         "payload":"yes"
+        "payload":"yes"
     },
     {
         "content_type":"text",
@@ -98,6 +100,8 @@ module.exports = {
     EXCERCISE,
     JOB,
     WORK_SCHEDULE,
+
+    NOTIFIED_SLEEP,
 
 	QUICK_REPLIES_YES_OR_NO
 };

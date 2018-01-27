@@ -5,7 +5,6 @@
 
 
 var request = require('request');
-
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
@@ -26,9 +25,14 @@ module.exports = async (event) => {
 
         const botRequested = await user.getBotRequested(fbUserId);
         const userIsNew = await user.isUserNew(fbUserId);
-
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
+            return;
+        }
+
+        var notifiedSleep = await user.getNotifiedSleep(fbUserId);
+        if (!notifiedSleep) {
+            chatAboutSleep(fbUserId, message, botRequested);
             return;
         }
 
@@ -132,7 +136,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
         console.log('[ERROR]', err);
     }     
 }
-//
+
 async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
     await userBackground.updateBackground(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
@@ -161,5 +165,20 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is enough!');
     } else if (difference < 7 ) {
         fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is not enough!');
+    }
+}
+
+
+async function chatAboutSleep(fbUserId, message, botRequested) {
+    try {
+        switch (botRequested) {
+            case constants.SLEEP_NOTIFICATION_ACCEPTED:
+                fbMessengerBotClient.sendTextMessage(fbUserId, 'gonna chat about ur sleep');
+                break;
+            default:
+                break;
+        }
+    } catch (err) {
+        console.log('[ERROR]', err);
     }
 }

@@ -3,8 +3,6 @@
  */
 
 
-//var MongoClient = require('mongodb').MongoClient;
-
 var fitbitAuth = require('../../models/fitbit_auth');
 var sleep = require('../../models/sleep');
 
