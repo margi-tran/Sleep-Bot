@@ -70,7 +70,7 @@ app.get('/seedata', async (req, res) => {
 });
 
 
-var user = require('./models/users');
+var user = require('./models/user');
 app.get('/test', (req, res) => {
 	hm = user.getAllUsersWithNotifiedSleepTrue();
 	res.send(hm);
