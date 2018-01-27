@@ -80,8 +80,10 @@ exports.getAllUsersWithNotifiedSleepTrue = async () => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const users = await db.collection('users').find().toArray();
     db.close();
+    console.log(users);
     users.forEach(function(user) {
-        if(user.notifiedSleep == true) arr.push(user.fbUserId_);
+        console.log(user);
+        if(user.notifiedSleep) arr.push(user.fbUserId_);
     });
     return arr;
 };
