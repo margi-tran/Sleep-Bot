@@ -88,8 +88,10 @@ exports.getAllUsersWithNotifiedSleepTrue = async () => {
     });*/
 
     maxUsersLength = users.length;
-    for (i = 0; i < maxUsersLength; i++)
+    for (i = 0; i < maxUsersLength; i++) {
+        user = users[i];
         if (user.notifiedSleep) arr.push(user.fbUserId_);
+    }
 
    
     return arr;
