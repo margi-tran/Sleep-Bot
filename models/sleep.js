@@ -12,11 +12,12 @@ exports.insertSleepData = async (fbUserId, date, sleepData) => {
     db.close();
 };
 
-exports.getMainSleep = async (fbUserId) => {
+exports.getMainSleep = async (fbUserId, date) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId }).toArray();
+    const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
     console.log(result);
     var sleepArr = result[0].sleep_data.sleep;
     console.log(sleepArr);
+    return sleepArr;
 };

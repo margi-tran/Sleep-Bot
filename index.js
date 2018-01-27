@@ -78,6 +78,7 @@ app.get('/test', async (req, res) => {
 
 var sleep = require('./models/sleep');
 app.get('/sleep', async (req, res) => {
-	hm = await sleep.getMainSleep('1509622955769729');
+	date = dateAndTimeUlti.dateToString(new Date());
+	hm = await sleep.getMainSleep('1509622955769729', date);
 	res.send(hm);
 });
