@@ -81,10 +81,12 @@ exports.getAllUsersWithNotifiedSleepTrue = async () => {
     const users = await db.collection('users').find().toArray();
     db.close();
     console.log(users);
-    users.forEach(function(user) {
+    await users.forEach(function(user) {
         console.log(user);
         if(user.notifiedSleep) arr.push(user.fbUserId_);
     });
+
+   
     return arr;
 };
 
