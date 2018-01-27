@@ -15,7 +15,6 @@ const BACKGROUND_EXCERCISE = 'background question excercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 const BACKGROUND_DONE = 'background done';
-
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
@@ -28,6 +27,7 @@ const BACKGROUND_QUIET_TEXT = 'Is your bedroom quiet when you sleep?';
 const BACKGROUND_EXCERCISE_TEXT = 'Are you exercising regularly?';
 const BACKGROUND_JOB_TEXT = 'Do you have a job?';
 const BACKGROUND_WORK_SCHEDULE_TEXT = 'Is your work schedule irregular?';
+
 
 const GET_UP = 'get_up';
 const GO_TO_BED = 'go_to_bed';
@@ -43,6 +43,20 @@ const WORK_SCHEDULE = 'work schedule';
 const EXCERCISE = 'excercise';
 
 const NOTIFIED_SLEEP = 'notified_sleep';
+const SLEEP_ELECTRONICS = 'sleep electronics';
+const SLEEP_STRESSED = 'sleep stressed';
+const SLEEP_EAT = 'sleep eat';
+const SLEEP_ALCOHOL_NICOTINE = 'sleep alcohol nicotine';
+const SLEEP_CAFFEINE = 'sleep caffeine';
+const SLEEP_LIGHTS = 'sleep lights';
+const SLEEP_QUIET = 'sleep quiet';
+const SLEEP_ELECTRONICS_TEXT = 'Did you use your phone (or any other electronic devices) before going to bed (or in bed)?'; 
+const SLEEP_STRESSED_TEXT = 'Are you stressed or worried about anything?';
+const SLEEP_EAT_TEXT = 'Did you eat before going to bed?';
+const SLEEP_ALCOHOL_NICOTINE_TEXT = 'Did you drink alcohol or take nicotine before going to bed?';
+const SLEEP_CAFFEINE_TEXT = 'Did you drink any beverages with caffeine, such as tea, before going to bed?';
+const SLEEP_LIGHTS_TEXT = 'Did you sleep with the lights on?';
+const SLEEP_QUIET_TEXT = 'Was your bedroom quiet when you went to sleep?';
 
 const QUICK_REPLIES_YES_OR_NO = 
     [{
@@ -59,8 +73,8 @@ const QUICK_REPLIES_YES_OR_NO =
 module.exports = {
 	GET_STARTED_PAYLOAD,
 	FITBIT_AUTH,
+
 	BACKGROUND_QUESTIONS,
-	
     BACKGROUND_GET_UP,
     BACKGROUND_GO_TO_BED,
     BACKGROUND_ELECTRONICS,
@@ -74,7 +88,6 @@ module.exports = {
     BACKGROUND_JOB, 
     BACKGROUND_WORK_SCHEDULE, 
     BACKGROUND_DONE,
-
     BACKGROUND_GET_UP_TEXT, 
     BACKGROUND_GO_TO_BED_TEXT,
     BACKGROUND_ELECTRONICS_TEXT, 
@@ -88,6 +101,7 @@ module.exports = {
     BACKGROUND_JOB_TEXT, 
     BACKGROUND_WORK_SCHEDULE_TEXT, 
 
+    // consta
     GET_UP,
     GO_TO_BED,
     ELECTRONICS, 
@@ -102,6 +116,13 @@ module.exports = {
     WORK_SCHEDULE,
 
     NOTIFIED_SLEEP,
+    SLEEP_ELECTRONICS, 
+    SLEEP_STRESSED,
+    SLEEP_EAT,
+    SLEEP_ALCOHOL_NICOTINE,
+    SLEEP_CAFFEINE,
+    SLEEP_LIGHTS,
+    SLEEP_QUIET,
 
 	QUICK_REPLIES_YES_OR_NO
 };

@@ -31,7 +31,7 @@ module.exports = async (event) => {
         }
 
         var notifiedSleep = await user.getNotifiedSleep(fbUserId);
-        if (!notifiedSleep) {
+        if (notifiedSleep === false) {
             console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
             return;
@@ -173,7 +173,27 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
     try {
         switch (botRequested) {
             case constants.NOTIFIED_SLEEP:
-                fbMessengerBotClient.sendTextMessage(fbUserId, 'gonna chat about ur sleep');
+                if (message === 'yes') {
+                    await user.updateBotRequested(fbUserId, constants.SLEEP_ELECTRONICS);
+                    fbMessengerBotClient.sendTextMessage(fbUserId, constants.SLEEP_ELECTRONICS_TEXT);
+                } else {  
+                    var msg = 'I would like to have a quick chat about your sleep. Please may we proceed?';
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
+                }
+                break;
+            case constants.SLEEP_ELECTRONICS:
+                break;
+            case constants.SLEEP_STRESSED:
+                break;
+            case constants.SLEEP_EAT:
+                break;
+            case constants.SLEEP_ALCOHOL_NICOTINE:
+                break;
+            case constants.SLEEP_CAFFEINE:
+                break;
+            case constants.SLEEP_LIGHTS:
+                break;
+            case constants.SLEEP_QUIET:
                 break;
             default:
                 break;

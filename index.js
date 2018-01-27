@@ -75,3 +75,9 @@ app.get('/test', async (req, res) => {
 	hm = await user.getAllUsersWithNotifiedSleepFalse();
 	res.send(hm);
 });
+
+var sleep = require('./models/sleep');
+app.get('/sleep', async (req, res) => {
+	hm = await sleep.getMainSleep('1509622955769729');
+	res.send(hm);
+});

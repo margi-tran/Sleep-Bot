@@ -48,7 +48,7 @@ exports.addUser = async (fbUserId) => {
             fbUserId_: fbUserId, 
             botRequested: constants.FITBIT_AUTH,
             userIsNew: true,
-            notifiedSleep: false,
+            notifiedSleep: true,
         };
 
     const db = await MongoClient.connect(process.env.MONGODB_URI);
