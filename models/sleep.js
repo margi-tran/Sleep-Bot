@@ -29,7 +29,7 @@ exports.getMainSleep = async (fbUserId, date) => {
     	});*/
 
     sleepArr.forEach(function(sleepItem) {
-        if(sleepArr.isMainSleep) return 'yap';
+        if(sleepItem.isMainSleep) return 'yap';
     });
 
     	return 'ok';
