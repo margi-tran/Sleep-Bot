@@ -13,7 +13,7 @@ exports.insertSleepData = async (fbUserId, date, sleepData) => {
 };
 
 exports.getMainSleep = async (fbUserId, date) => {
-	var sleepData = null;
+	//var sleepData = null;
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
@@ -26,15 +26,15 @@ exports.getMainSleep = async (fbUserId, date) => {
         }
     });*/
 
-    for(i = 0; i < sleepArr.length; i++) {
+    if (sleepArr === null || sleepArr === []) return null;
+    for (i = 0; i < sleepArr.length; i++) {
     	sleepItem = sleepArr[i];
-    	if(sleepItem.isMainSleep) {
-    		console.log('here');
-        	return 'xDDD';
-        }
+    	if(sleepItem.isMainSleep) 
+        	return sleepItem;
     }
 
-    return sleepData;
+
+    //return sleepData;
 };
 
 
