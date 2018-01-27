@@ -12,42 +12,18 @@ exports.insertSleepData = async (fbUserId, date, sleepData) => {
     db.close();
 };
 
-/*exports.getMainSleep = async (fbUserId, date) => {
-    const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
-    var sleepArr = result[0].sleep_data.sleep;
-
-    if (sleepArr === null || sleepArr === []) 
-    	return null;
-    else 
-    	sleepArr.forEach(function(sleepItem) {
-    		console.log(sleepItem);
-        	if(sleepItem.isMainSleep) {
-        		console.log('in here');
-        		return 'ok';
-        	}
-    	});
-
-
-
-    return 'ok';
-};*/
-
 exports.getMainSleep = async (fbUserId, date) => {
-	var r = null;
+	var sleepData = null;
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
 	var sleepArr = result[0].sleep_data.sleep;
-
     sleepArr.forEach(function(sleepItem) {
-        if(sleepItem.isMainSleep) {
-        	//console.log('in here');
-        	//arr.push(sleepItem);
-        	r = sleepItem;
+        if(sleepItem.isMainSleep) {sleepData = sleepItem;
+        	return 'xDDD';
         }
     });
-    return r;
+    return sleepData;
 };
 
 
