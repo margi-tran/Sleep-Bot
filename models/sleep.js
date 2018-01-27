@@ -22,6 +22,9 @@ exports.getMainSleep = async (fbUserId, date) => {
     else 
     	await sleepArr.forEach(function(sleepItem) {
     		console.log(sleepItem);
-        	if(sleepItem.isMainSleep) return sleepItem;
+        	if(sleepItem.isMainSleep) {
+        		console.log('in here');
+        		return sleepItem;
+        	}
     	});
 };
