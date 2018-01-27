@@ -90,7 +90,7 @@ exports.getAllUsersWithNotifiedSleepTrue = async () => {
     maxUsersLength = users.length;
     for (i = 0; i < maxUsersLength; i++) {
         user = users[i];
-        console.log(users, (notifiedSleep === true));
+        console.log(users, (user.notifiedSleep === true));
 
         if (user.notifiedSleep) arr.push(user.fbUserId_);
     }
