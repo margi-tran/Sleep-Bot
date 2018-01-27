@@ -28,5 +28,9 @@ exports.getMainSleep = async (fbUserId, date) => {
         	}
     	});*/
 
+    sleepArr.forEach(function(sleepItem) {
+        if(sleepArr.isMainSleep) return 'yap';
+    });
+
     	return 'ok';
 };
