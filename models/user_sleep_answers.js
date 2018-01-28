@@ -15,7 +15,7 @@ exports.updateSleepAnswer = async (fbUserId, context, value) => {
 	db.close();
 };
 
-exports.addNewUser = async (fbUserId, age) => {
+exports.addNewUser = async (fbUserId) => {
     var user = 
         { 
             fbUserId_: fbUserId, 

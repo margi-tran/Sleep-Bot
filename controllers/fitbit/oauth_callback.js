@@ -44,6 +44,7 @@ module.exports = async (req, res) => {
         await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
         await user.updateBotRequested(fbUserId, null);
         await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
+        await userSleepAnswers.addNewUser(fbUserId);
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
        		console.log(results);
