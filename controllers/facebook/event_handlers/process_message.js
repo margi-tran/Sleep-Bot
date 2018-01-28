@@ -10,8 +10,9 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
-var userBackground = require('../../../models/user_background');
 var user = require('../../../models/user');
+var userBackground = require('../../../models/user_background');
+var sleepAnswers = require('../../../models/sleep_answer');
 
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
@@ -219,7 +220,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
 }
 
 async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
-    await userBackground.updateSleepAnswer(fbUserId, context, message);
+    await sleepAnswers.updateSleepAnswer(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
