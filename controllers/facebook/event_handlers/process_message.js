@@ -34,7 +34,7 @@ module.exports = async (event) => {
         sleepQuestions = 
             [NOTIFIED_SLEEP, SLEEP_ELECTRONICS, SLEEP_STRESSED, SLEEP_EAT, SLEEP_ALCOHOL_NICOTINE,
             SLEEP_CAFFEINE, SLEEP_LIGHTS, SLEEP_QUIET];
-        if (sleepQuestions.include(botRequested)) {
+        if (sleepQuestions.includes(botRequested)) {
             console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
             return;
