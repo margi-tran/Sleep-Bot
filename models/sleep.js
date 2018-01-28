@@ -13,28 +13,18 @@ exports.insertSleepData = async (fbUserId, date, sleepData) => {
 };
 
 exports.getMainSleep = async (fbUserId, date) => {
-	//var sleepData = null;
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
 	var sleepArr = result[0].sleep_data.sleep;
-
-	/*
-    sleepArr.forEach(function(sleepItem) {
-        if(sleepItem.isMainSleep) {sleepData = sleepItem;
-        	return 'xDDD';
-        }
-    });*/
-
     if (sleepArr === null || sleepArr === []) return null;
     for (i = 0; i < sleepArr.length; i++) {
     	sleepItem = sleepArr[i];
     	if(sleepItem.isMainSleep) 
         	return sleepItem;
     }
-
-
-    //return sleepData;
 };
+
+
 
 

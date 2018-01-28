@@ -113,7 +113,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                         await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_WORK_SCHEDULE });
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
-                        await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_DONE, userIsNew: false });
+                        await user.updateUser(fbUserId, { botRequested: null, userIsNew: false });
                         presentResultsForBackground(fbUserId, false);
                     }
                 } else { 
@@ -123,7 +123,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             case constants.BACKGROUND_WORK_SCHEDULE:
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
-                    await user.updateBotRequested(fbUserId, constants.BACKGROUND_DONE);
+                    await user.updateBotRequested(fbUserId, null);
                     await user.updateUserIsNew(fbUserId, false);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
@@ -182,16 +182,28 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                 }
                 break;
             case constants.SLEEP_ELECTRONICS:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.SLEEP_STRESSED, constants.SLEEP_STRESSED_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_ELECTRONICS_TEXT, true);
                 break;
             case constants.SLEEP_STRESSED:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.STRESSED, message, constants.SLEEP_EAT, constants.SLEEP_EAT_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_STRESSED, true);
                 break;
             case constants.SLEEP_EAT:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_ALCOHOL_NICOTINE_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_EAT, true);
                 break;
             case constants.SLEEP_ALCOHOL_NICOTINE:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, constants.SLEEP_CAFFEINE_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, true);
                 break;
             case constants.SLEEP_CAFFEINE:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_CAFFEINE, message, constants.LIGHTS, constants.LIGHTS_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_CAFFEINE, true);
                 break;
             case constants.SLEEP_LIGHTS:
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.SLEEP_QUIET, constants.SLEEP_QUIET_TEXT, true);
+                else repeatSleepQuestion(fbUserId, constants.SLEEP_LIGHTS, true);
                 break;
             case constants.SLEEP_QUIET:
                 break;
@@ -201,4 +213,17 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
     } catch (err) {
         console.log('[ERROR]', err);
     }
+}
+
+async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
+    await userBackground.updateSleepAnswer(fbUserId, context, message);
+    await user.updateBotRequested(fbUserId, nextQuestionContext);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
+}
+
+async function repeatSleepQuestion(fbUserId, questionText, quickReplyMessage) {
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+    if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
 }

@@ -101,7 +101,6 @@ module.exports = {
     BACKGROUND_JOB_TEXT, 
     BACKGROUND_WORK_SCHEDULE_TEXT, 
 
-    // consta
     GET_UP,
     GO_TO_BED,
     ELECTRONICS, 

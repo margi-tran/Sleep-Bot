@@ -7,20 +7,6 @@ exports.getBackground = async (fbUserId) => {
     return result;
 };
 
-exports.getGetUp = async (fbUserId) => {
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
-    db.close();
-    return result[0].get_up;
-};
-
-exports.getGoToBed = async (fbUserId) => {
-	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
-    db.close();
-    return result[0].go_to_bed;
-};
-
 exports.updateBackground = async (fbUserId, context, value) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
 	var obj = {};
@@ -29,13 +15,10 @@ exports.updateBackground = async (fbUserId, context, value) => {
 	db.close();
 };
 
-exports.addNewUserBackground = async (fbUserId, age) => {
-    var background = 
+exports.addNewUser = async (fbUserId, age) => {
+    var user = 
         { 
             fbUserId_: fbUserId, 
-            age: age,                
-            get_up: null,
-            go_to_bed: null,
             electronics: null,
             stressed: null,
             eat: null,
@@ -43,11 +26,8 @@ exports.addNewUserBackground = async (fbUserId, age) => {
             caffeine: null,
             lights: null,
             quiet: null,
-            excercise: null,
-            job: null,
-            work_schedule: null
         };
     const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('background').insertOne(background);
+    await db.collection('sleep_answers').insertOne(user);
     db.close();
 };

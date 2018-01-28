@@ -12,6 +12,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var user = require('../../models/user');
 var fitbitAuth = require('../../models/fitbit_auth');
 var userBackground = require('../../models/user_background');
+var userSleepAnswers = require('../../models/user_sleep_answers');
 
 var constants = require('../constants');
 var fitbitClient = require('./fitbit_client');
