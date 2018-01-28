@@ -33,7 +33,7 @@ module.exports = async (event) => {
         //var notifiedSleep = await user.getNotifiedSleep(fbUserId);
         sleepQuestions = 
             [constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
-             constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constantsSLEEP_LIGHTS, constantsSLEEP_QUIET];
+             constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET];
         if (sleepQuestions.includes(botRequested)) {
             console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
