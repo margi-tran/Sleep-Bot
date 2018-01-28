@@ -30,8 +30,11 @@ module.exports = async (event) => {
             return;
         }
 
-        var notifiedSleep = await user.getNotifiedSleep(fbUserId);
-        if (notifiedSleep === false) {
+        //var notifiedSleep = await user.getNotifiedSleep(fbUserId);
+        sleepQuestions = 
+            [NOTIFIED_SLEEP, SLEEP_ELECTRONICS, SLEEP_STRESSED, SLEEP_EAT, SLEEP_ALCOHOL_NICOTINE,
+            SLEEP_CAFFEINE, SLEEP_LIGHTS, SLEEP_QUIET];
+        if (sleepQuestions.include(botRequested)) {
             console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
             return;

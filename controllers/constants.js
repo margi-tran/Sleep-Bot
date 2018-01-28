@@ -14,7 +14,6 @@ const BACKGROUND_QUIET = 'background question noise';
 const BACKGROUND_EXCERCISE = 'background question excercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
-const BACKGROUND_DONE = 'background done';
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 const BACKGROUND_GO_TO_BED_TEXT = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 const BACKGROUND_ELECTRONICS_TEXT = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
@@ -87,7 +86,6 @@ module.exports = {
     BACKGROUND_EXCERCISE, 
     BACKGROUND_JOB, 
     BACKGROUND_WORK_SCHEDULE, 
-    BACKGROUND_DONE,
     BACKGROUND_GET_UP_TEXT, 
     BACKGROUND_GO_TO_BED_TEXT,
     BACKGROUND_ELECTRONICS_TEXT, 
