@@ -12,7 +12,5 @@ exports.dateToString = (date) => {
 
 exports.getHourFromTimeString = (timeString) => {
 	var arr = timeString.split(':');
-	//return parseInt(arr[0] + arr[1]);
-	console.log('spliiit');
 	return parseInt(arr[0]);
 };

@@ -82,3 +82,19 @@ app.get('/sleep', async (req, res) => {
 	hm = await sleep.getMainSleep('1509622955769729', date);
 	res.send(hm);
 });
+
+var fbMessengerBot = require('fb-messenger-bot-api');
+var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
+var MessengerBot = require('messenger-bot');
+var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
+app.get('/paa', async (req, res) => {
+	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
+	usersToNotify.forEach(function(userToNotify) {
+        //if(userToNotify.notifiedSleep === false) arr.push(user.fbUserId_);
+        if(userToNotify.notifiedSleep === false) {
+        	fbUserId = userToNotify.fbUserId_;
+        	await user.updateBotRequested(fbUserId, null);
+        	fbMessengerBotClient.sendTextMessage(fbUserId, 'notified sleep');
+        }
+    });
+});

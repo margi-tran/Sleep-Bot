@@ -239,5 +239,7 @@ async function repeatSleepQuestion(fbUserId, questionText, quickReplyMessage) {
 }
 
 async function presentResultsForSleep(fbUserId) {
-    fbMessengerBotClient.sendTextMessage(fbUserId, 'DONE');
+    await user.updateBotRequested(fbUserId, null);
+    await user.setNotifiedSleepToTrue(fbUserId);
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'DONE');
 }

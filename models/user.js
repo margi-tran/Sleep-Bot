@@ -81,7 +81,7 @@ exports.getAllUsersWithNotifiedSleepTrue = async () => {
     const users = await db.collection('users').find().toArray();
     db.close();
     await users.forEach(function(user) {
-        if(user.notifiedSleep) arr.push(user.fbUserId_);
+        if (user.notifiedSleep) arr.push(user.fbUserId_);
     });
     return arr;
 };
@@ -92,7 +92,7 @@ exports.getAllUsersWithNotifiedSleepFalse = async () => {
     const users = await db.collection('users').find().toArray();
     db.close();
     users.forEach(function(user) {
-        if(user.notifiedSleep === false) arr.push(user.fbUserId_);
+        if (user.notifiedSleep === false) arr.push(user.fbUserId_);
     });
     return arr;
 };
