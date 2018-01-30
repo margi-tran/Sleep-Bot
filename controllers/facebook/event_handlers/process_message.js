@@ -31,12 +31,10 @@ module.exports = async (event) => {
             return;
         }
 
-        //var notifiedSleep = await user.getNotifiedSleep(fbUserId);
         sleepQuestions = 
             [constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
              constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET];
         if (sleepQuestions.includes(botRequested)) {
-            console.log('in here');
             chatAboutSleep(fbUserId, message, botRequested);
             return;
         }
@@ -117,7 +115,6 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                         await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_WORK_SCHEDULE });
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
-                        await user.updateUser(fbUserId, { botRequested: null, userIsNew: false });
                         presentResultsForBackground(fbUserId, false);
                     }
                 } else { 
@@ -127,9 +124,6 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             case constants.BACKGROUND_WORK_SCHEDULE:
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
-                    await user.updateBotRequested(fbUserId, null);
-                    await user.updateUserIsNew(fbUserId, false);
-                    await user.setNotifiedSleepToFalse(fbUserId);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
@@ -157,6 +151,10 @@ async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessag
 }
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
+    await user.updateBotRequested(fbUserId, null);
+    await user.updateUserIsNew(fbUserId, false);
+    await user.setNotifiedSleepToFalse(fbUserId);
+
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
 
     var getUp = await userBackground.getGoToBed(fbUserId);
@@ -216,7 +214,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                     await user.updateBotRequested(fbUserId, null);
                     presentResultsForSleep(fbUserId);
                 } else { 
-                    repeatBackgroundQuestion(fbUserId, constants.SLEEP_QUIET_TEXT, true);
+                    repeatSleepQuestion(fbUserId, constants.SLEEP_QUIET_TEXT, true);
                 }
                 break;
             default:

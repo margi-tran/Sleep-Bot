@@ -38,10 +38,10 @@ const CAFFEINE = 'caffeine';
 const LIGHTS = 'lights';
 const QUIET = 'quiet';
 const JOB = 'job';
-const WORK_SCHEDULE = 'work schedule';
+const WORK_SCHEDULE = 'work_schedule';
 const EXCERCISE = 'excercise';
 
-const NOTIFIED_SLEEP = 'notified_sleep';
+const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
 const SLEEP_STRESSED = 'sleep stressed';
 const SLEEP_EAT = 'sleep eat';
