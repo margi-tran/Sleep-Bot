@@ -97,4 +97,5 @@ app.get('/paa', async (req, res) => {
         	fbMessengerBotClient.sendTextMessage(fbUserId, 'notified sleep');
         }
     });
+    res.send('ok');
 });
