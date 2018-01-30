@@ -89,7 +89,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 app.get('/paa', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
-	usersToNotify.forEach(function(userToNotify) {
+	usersToNotify.forEach(async function(userToNotify) {
         //if(userToNotify.notifiedSleep === false) arr.push(user.fbUserId_);
         if(userToNotify.notifiedSleep === false) {
         	fbUserId = userToNotify.fbUserId_;
