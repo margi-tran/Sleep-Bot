@@ -11,7 +11,7 @@ const BACKGROUND_ALCOHOL_NICOTINE = 'background question alcohol nicotine';
 const BACKGROUND_CAFFEINE = 'background question caffeine';
 const BACKGROUND_LIGHTS = 'background question lights';
 const BACKGROUND_QUIET = 'background question noise';
-const BACKGROUND_EXCERCISE = 'background question excercise';
+const BACKGROUND_EXERCISE = 'background question exercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 const BACKGROUND_GET_UP_TEXT = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
@@ -23,7 +23,7 @@ const BACKGROUND_ALCOHOL_NICOTINE_TEXT = 'Do you drink alcohol or take nicotine 
 const BACKGROUND_CAFFEINE_TEXT = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
 const BACKGROUND_LIGHTS_TEXT = 'Do you sleep with the lights on?';
 const BACKGROUND_QUIET_TEXT = 'Is your bedroom quiet when you sleep?';
-const BACKGROUND_EXCERCISE_TEXT = 'Are you exercising regularly?';
+const BACKGROUND_EXERCISE_TEXT = 'Are you exercising regularly?';
 const BACKGROUND_JOB_TEXT = 'Do you have a job?';
 const BACKGROUND_WORK_SCHEDULE_TEXT = 'Is your work schedule irregular?';
 
@@ -39,7 +39,7 @@ const LIGHTS = 'lights';
 const QUIET = 'quiet';
 const JOB = 'job';
 const WORK_SCHEDULE = 'work_schedule';
-const EXCERCISE = 'excercise';
+const EXERCISE = 'exercise';
 
 const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
@@ -83,7 +83,7 @@ module.exports = {
     BACKGROUND_CAFFEINE, 
     BACKGROUND_LIGHTS, 
     BACKGROUND_QUIET, 
-    BACKGROUND_EXCERCISE, 
+    BACKGROUND_EXERCISE, 
     BACKGROUND_JOB, 
     BACKGROUND_WORK_SCHEDULE, 
     BACKGROUND_GET_UP_TEXT, 
@@ -95,7 +95,7 @@ module.exports = {
     BACKGROUND_CAFFEINE_TEXT, 
     BACKGROUND_LIGHTS_TEXT, 
     BACKGROUND_QUIET_TEXT, 
-    BACKGROUND_EXCERCISE_TEXT, 
+    BACKGROUND_EXERCISE_TEXT, 
     BACKGROUND_JOB_TEXT, 
     BACKGROUND_WORK_SCHEDULE_TEXT, 
 
@@ -108,7 +108,7 @@ module.exports = {
     CAFFEINE,
     LIGHTS,
     QUIET,
-    EXCERCISE,
+    EXERCISE,
     JOB,
     WORK_SCHEDULE,
 

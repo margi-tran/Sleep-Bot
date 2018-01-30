@@ -101,12 +101,12 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_LIGHTS_TEXT, true);
                 break;     
             case constants.BACKGROUND_QUIET:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.QUIET, message, constants.BACKGROUND_EXCERCISE, constants.BACKGROUND_EXCERCISE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.QUIET, message, constants.BACKGROUND_EXERCISE, constants.BACKGROUND_EXERCISE_TEXT, true);
                 else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_QUIET_TEXT, true);
                 break;  
-            case constants.BACKGROUND_EXCERCISE:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EXCERCISE, message, constants.BACKGROUND_JOB, constants.BACKGROUND_JOB_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_EXCERCISE_TEXT, true);
+            case constants.BACKGROUND_EXERCISE:
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EXERCISE, message, constants.BACKGROUND_JOB, constants.BACKGROUND_JOB_TEXT, true);
+                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_EXERCISE_TEXT, true);
                 break; 
             case constants.BACKGROUND_JOB:
                 if (message === 'yes' || message === 'no') {
