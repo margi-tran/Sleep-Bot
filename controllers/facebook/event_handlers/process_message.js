@@ -129,6 +129,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     await user.updateBotRequested(fbUserId, null);
                     await user.updateUserIsNew(fbUserId, false);
+                    await user.setNotifiedSleepToFalse(fbUserId);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
                     repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
