@@ -194,15 +194,15 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_STRESSED, true);
                 break;
             case constants.SLEEP_EAT:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_ALCOHOL_NICOTINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_ALCOHOL_NICOTINE_TEXT, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_EAT, true);
                 break;
             case constants.SLEEP_ALCOHOL_NICOTINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, constants.SLEEP_CAFFEINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, constants.SLEEP_CAFFEINE_TEXT, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, true);
                 break;
             case constants.SLEEP_CAFFEINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.SLEEP_CAFFEINE, message, constants.SLEEP_LIGHTS, constants.SLEEP_LIGHTS_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.SLEEP_LIGHTS, constants.SLEEP_LIGHTS_TEXT, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_CAFFEINE, true);
                 break;
             case constants.SLEEP_LIGHTS:
@@ -211,7 +211,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                 break;
             case constants.SLEEP_QUIET:
                 if (message === 'yes' || message === 'no') {
-                    await userSleepAnswers.updateSleepAnswer(fbUserId, constants.SLEEP_QUIET, message);
+                    await userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message);
                     await user.updateBotRequested(fbUserId, null);
                     presentResultsForSleep(fbUserId);
                 } else { 
