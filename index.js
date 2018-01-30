@@ -92,6 +92,7 @@ app.get('/paa', async (req, res) => {
 	usersToNotify.forEach(async function(userToNotify) {
         //if(userToNotify.notifiedSleep === false) arr.push(user.fbUserId_);
         if(userToNotify.notifiedSleep === false) {
+        	console.log('in here', fbUserId);
         	fbUserId = userToNotify.fbUserId_;
         	await user.updateBotRequested(fbUserId, null);
         	fbMessengerBotClient.sendTextMessage(fbUserId, 'notified sleep');
