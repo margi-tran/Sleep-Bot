@@ -87,15 +87,14 @@ var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
+var constants = require('./controllers/constants');
 app.get('/paa', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	usersToNotify.forEach(async function(userToNotify) {
-        //if(userToNotify.notifiedSleep === false) arr.push(user.fbUserId_);
-        
-        	//console.log('in here', fbUserId);
-        	await user.updateBotRequested(userToNotify, null);
-        	fbMessengerBotClient.sendTextMessage(userToNotify, 'notified sleep');
-        
+        await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
+
+        var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
+        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
     });
     res.send('ok');
 });
