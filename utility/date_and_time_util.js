@@ -17,5 +17,4 @@ exports.getHourFromTimeString = (timeString) => {
 
 exports.getTimeFromDateString = (dateString) => {
 	return dateString.substring(11, 16);
-}
-}
+};
