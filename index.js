@@ -102,24 +102,23 @@ app.get('/notify', async (req, res) => {
 		
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 		var lengthOfData = mainSleepLevelsData.length;
+		if (lengthOfData === 0) { // user does not have break down of their sleep
+			fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'You need to record your sleep!', constants.QUICK_REPLIES_YES_OR_NO);
+			return;
+		}
+
 		var maxAwake = 0;
 		var tmp = 0;
 		for (var j = 0; j < lengthOfData; j++) {
-			var datas = mainSleepLevelsData[j];
-			console.log('*', datas.seconds);
 			for (var k = j; k < lengthOfData; k++) {
 				var data = mainSleepLevelsData[k];
-				console.log('    ', data.seconds);
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
 			}
-		
-			
 			if (tmp > maxAwake) maxAwake = tmp;
 			tmp = 0;
 		}
-
-		console.log('seconds', maxAwake);
+		console.log('maxAwake: ', maxAwake);
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
@@ -129,31 +128,5 @@ app.get('/notify', async (req, res) => {
         	console.log('no disturbance');
         }
 	}
-
     res.send('ok');
 });
-
-
-
-
-/*
-app.get('/notify', async (req, res) => {
-	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
-	await usersToNotify.forEach(async function(userToNotify) {
-        await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
-
-        mainSleep = sleep.getMainSleep(fbUserId);
-        if (mainSleep === null) {
-        	res.send('nop');
-        	return; 
-        }
-
-        await mainSleep.forEach(function(data) {
-        	console.log(data);
-        });
-        
-        var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
-        fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
-    });
-    res.send('ok');
-});*/
