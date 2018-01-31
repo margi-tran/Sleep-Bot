@@ -103,7 +103,7 @@ app.get('/notify', async (req, res) => {
 		}
 
 		mainSleepLevels = mainSleep.length;
-		for (var j = 0; < j < mainSleepLevels; j++) {
+		for (var j = 0; j < mainSleepLevels; j++) {
 			console.log(j);
 		}
 
