@@ -94,7 +94,7 @@ app.get('/paa', async (req, res) => {
         await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
 
         var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
-        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
+        fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
     });
     res.send('ok');
 });
