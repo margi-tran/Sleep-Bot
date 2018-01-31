@@ -94,6 +94,7 @@ app.get('/notify', async (req, res) => {
 
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
+		var flag = false;
 		var userToNotify = usersToNotify[i];
 		console.log('********', userToNotify);
 
@@ -104,14 +105,19 @@ app.get('/notify', async (req, res) => {
 		}
 	
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(userToNotify, dateAndTimeUlti.dateToString(new Date()));
-		console.log('****', mainSleepLevelsData);
 		for (var j = 0; j < mainSleepLevelsData.length; j++) {
-			console.log(mainSleepLevelsData[j]);
+			var data = mainSleepLevelsData[j];
+			if (data.seconds === 240) {
+				flag = true;
+				break;
+			}
 		}
 		
-		await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
-		var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
-        fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
+		if (flag) {
+			await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
+			var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
+        	fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
+        }
 	}
 
     res.send('ok');
