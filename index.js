@@ -102,14 +102,27 @@ app.get('/notify', async (req, res) => {
 		
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 		var lengthOfData = mainSleepLevelsData.length;
+		var maxAwake = 0;
+		var tmp = 0;
 		for (var j = 0; j < lengthOfData; j++) {
 			var data = mainSleepLevelsData[j];
-			console.log(data);
+			/*console.log(data);
 			if (data.seconds === 1) {
 				flag = true;
 				break;
+			}*/
+			for (var k = j; k < lengthOfData, k++) {
+				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
+				else break;
+			}
+
+			if(tmp > maxAwake) {
+				maxAwake = tmp;
+				tmp = 0;
 			}
 		}
+
+		console.log('seconds', maxAwake);
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
