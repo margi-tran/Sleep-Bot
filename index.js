@@ -125,7 +125,7 @@ app.get('/notify', async (req, res) => {
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
 			var msg = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
-						+ ' for ' + maxAwake + ' minutes./n/nCan we have a little chat about that?';
+						+ ' for ' + maxAwake + ' minutes.\n\nCan we have a little chat about that?';
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
         	var button =
