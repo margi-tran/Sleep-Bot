@@ -13,7 +13,8 @@ exports.insertSleepData = async (fbUserId, date, sleepData) => {
 };
 
 exports.mainSleepExists = async (fbUserId, date) => {
-    if (getMainSleep(fbUserId, date) === null) return false;
+    var flag = await getMainSleep(fbUserId, date);
+    if (flag === null) return false;
     else return true;
 };
 
