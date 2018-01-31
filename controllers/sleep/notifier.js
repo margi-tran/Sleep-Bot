@@ -14,6 +14,7 @@ schedule.scheduleJob('00 9-22 * * *', notifySleep);
 schedule.scheduleJob('00 00 * * *', resetNotifyFlag);
 
 async function notifySleep() {
+	console.log('was called');
 	var usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
