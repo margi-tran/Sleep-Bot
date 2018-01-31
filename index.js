@@ -76,7 +76,7 @@ app.get('/test', async (req, res) => {
 	res.send(hm);
 });
 
-var sleep = require('./models/sleep');
+var sleep = require('./models/sleep'); // use
 app.get('/sleep', async (req, res) => {
 	date = dateAndTimeUlti.dateToString(new Date());
 	hm = await sleep.getMainSleep('1509622955769729', date);
@@ -88,11 +88,18 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 var constants = require('./controllers/constants');
-app.get('/paa', async (req, res) => {
+app.get('/notify', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
-	usersToNotify.forEach(async function(userToNotify) {
+	await usersToNotify.forEach(async function(userToNotify) {
         await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
 
+        mainSleep = sleep.getMainSleep(fbUserId);
+        if (mainSleep === null) return; 
+
+        await mainSleep.forEach(function(data) {
+        	console.log(data);
+        });
+        
         var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
         fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
     });

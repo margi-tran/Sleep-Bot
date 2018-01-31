@@ -20,7 +20,7 @@ exports.getMainSleep = async (fbUserId, date) => {
     if (sleepArr === null || sleepArr === []) return null;
     for (i = 0; i < sleepArr.length; i++) {
     	sleepItem = sleepArr[i];
-    	if(sleepItem.isMainSleep) 
+    	if (sleepItem.isMainSleep) 
         	return sleepItem;
     }
 };
