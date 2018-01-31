@@ -11,7 +11,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 
 var routeHandlers = require('./controllers/route_handlers');
 var fitbitClient = require('./controllers/fitbit/fitbit_client');
-var dateAndTimeUlti = require('./utility/date_and_time_util');
+var dateAndTimeUtil = require('./utility/date_and_time_util');
 var sleepNotifier = require('./controllers/sleep/notifier');
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -110,15 +110,14 @@ app.get('/notify', async (req, res) => {
 		var tmp = 0;
 		var timeOfAwake = 0;
 		for (var j = 0; j < lengthOfData; j++) {
+			timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
 			for (var k = j; k < lengthOfData; k++) {
 				var data = mainSleepLevelsData[k];
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
 			}
-			if (tmp > maxAwake) {
-				maxAwake = tmp;
-				timeOfAwake = dateAndTimeUtil.getTimeFromDateString(data.dateTime);
-			}
+			if (tmp > maxAwake) maxAwake = tmp;
+			
 			tmp = 0;
 		}
 
