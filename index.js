@@ -10,6 +10,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var routeHandlers = require('./controllers/route_handlers');
+var sleepNotifier = require('./controllers/sleep/notifier');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
