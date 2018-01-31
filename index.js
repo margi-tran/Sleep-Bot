@@ -88,13 +88,47 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 var constants = require('./controllers/constants');
+
+app.get('/notify', async (req, res) => {
+	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
+	var numOfUsers = usersToNotify.length;
+
+	for (var i = 0; i < usersToNotify; i++) {
+		var userToNotify = usersToNotify[i];
+		var mainSleep = sleep.getMainSleep(userToNotify);
+
+		if (mainSleep === null) {
+			res.send('no main sleep found');
+			continue;
+		}
+
+		mainSleepLevels = mainSleep.length;
+		for (var j = 0; < mainSleepLevels; j++) {
+			console.log(j);
+		}
+
+		await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
+		var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
+        fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
+	}
+	
+    res.send('ok');
+});
+
+
+
+
+/*
 app.get('/notify', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	await usersToNotify.forEach(async function(userToNotify) {
         await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
 
         mainSleep = sleep.getMainSleep(fbUserId);
-        if (mainSleep === null) return; 
+        if (mainSleep === null) {
+        	res.send('nop');
+        	return; 
+        }
 
         await mainSleep.forEach(function(data) {
         	console.log(data);
@@ -104,4 +138,4 @@ app.get('/notify', async (req, res) => {
         fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
     });
     res.send('ok');
-});
+});*/
