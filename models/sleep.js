@@ -16,7 +16,7 @@ exports.getMainSleep = async (fbUserId, date) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
-    if (sleepArr.length === 0) return null;
+    if (sleepArr === null) return null;
 	var sleepArr = result[0].sleep_data.sleep;
     if (sleepArr === []) return null;
     for (var i = 0; i < sleepArr.length; i++) {
