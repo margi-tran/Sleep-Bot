@@ -111,7 +111,7 @@ app.get('/notify', async (req, res) => {
 				flag = true;
 				break;
 			}*/
-			for (var k = j; k < lengthOfData, k++) {
+			for (var k = j; k < lengthOfData; k++) {
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
 			}
