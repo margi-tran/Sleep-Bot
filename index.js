@@ -104,6 +104,7 @@ app.get('/notify', async (req, res) => {
 		}
 	
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(userToNotify, dateAndTimeUlti.dateToString(new Date()));
+		console.log('****', mainSleepLevelsData);
 		for (var j = 0; j < mainSleepLevelsData.length; j++) {
 			console.log(mainSleepLevelsData[j]);
 		}
