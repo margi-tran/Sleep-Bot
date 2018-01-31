@@ -102,6 +102,7 @@ app.get('/notify', async (req, res) => {
 			console.log('No main sleep found.');
 			continue;
 		}
+		console.log(mainSleep);
 
 		var mainSleepLevels = mainSleep.length;
 		for (var j = 0; j < mainSleepLevels; j++) {
