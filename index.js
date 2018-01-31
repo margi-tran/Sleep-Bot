@@ -98,7 +98,7 @@ app.get('/notify', async (req, res) => {
 		var mainSleep = sleep.getMainSleep(userToNotify);
 
 		if (mainSleep === null) {
-			res.send('no main sleep found');
+			console.log('no main sleep found');
 			continue;
 		}
 
@@ -111,7 +111,7 @@ app.get('/notify', async (req, res) => {
 		var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
         fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
 	}
-	
+
     res.send('ok');
 });
 
