@@ -91,22 +91,20 @@ var constants = require('./controllers/constants');
 
 app.get('/notify', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
-
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
 		var flag = false;
-		var userToNotify = usersToNotify[i];
-		console.log('********', userToNotify);
+		var date = dateAndTimeUlti.dateToString(new Date());
+		var fbUserId = usersToNotify[i];
 
-		var mainSleepExists = await sleep.mainSleepExists(userToNotify, dateAndTimeUlti.dateToString(new Date()));
-		if (mainSleepExists === false) {
-			console.log('No main sleep found.');
-			continue;
-		}
-	
-		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(userToNotify, dateAndTimeUlti.dateToString(new Date()));
-		for (var j = 0; j < mainSleepLevelsData.length; j++) {
+		var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
+		if (mainSleepExists === false) continue;
+		
+		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+		var lengthOfData = mainSleepLevelsData.length;
+		for (var j = 0; j < lengthOfData; j++) {
 			var data = mainSleepLevelsData[j];
+			console.log(data);
 			if (data.seconds === 1) {
 				flag = true;
 				break;
@@ -114,11 +112,11 @@ app.get('/notify', async (req, res) => {
 		}
 		
 		if (flag) {
-			await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
+			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
 			var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
-        	fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
+        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
-        	fbMessengerBotClient.sendQuickReplyMessage(userToNotify, 'NOOO', constants.QUICK_REPLIES_YES_OR_NO);
+        	console.log('no disturbance');
         }
 	}
 

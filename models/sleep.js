@@ -21,6 +21,8 @@ exports.mainSleepExists = async (fbUserId, date) => {
 exports.getMainSleepLevelsData = async (fbUserId, date) => {
     //var mainSleep = await getMainSleep(fbUserId, date);
     //return mainSleep.levels.data;
+
+    /*
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
@@ -31,7 +33,9 @@ exports.getMainSleepLevelsData = async (fbUserId, date) => {
         sleepItem = sleepArr[i];
         if (sleepItem.isMainSleep) 
             return sleepItem.levels.data;
-    }
+    }*/
+    var mainSleep = await getMainSleep(fbUserId, date);
+    return mainSleep.levels.data;
 };
 
 async function getMainSleep(fbUserId, date) {
