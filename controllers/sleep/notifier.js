@@ -5,7 +5,7 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var user = require('../../models/user');
-var sleep = require('../../../models/sleep');
+var sleep = require('../../models/sleep');
 
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
