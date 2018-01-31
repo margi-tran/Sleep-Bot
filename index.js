@@ -104,7 +104,7 @@ app.get('/notify', async (req, res) => {
 		}
 		console.log(mainSleep);
 
-		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateAndTimeUlti.dateToString(new Date()));
+		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(userToNotify, dateAndTimeUlti.dateToString(new Date()));
 		for (var j = 0; j < mainSleepLevelsData.length; j++) {
 			console.log(mainSleepLevelsData[j]);
 		}
