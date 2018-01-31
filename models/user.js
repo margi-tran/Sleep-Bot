@@ -68,9 +68,9 @@ exports.setNotifiedSleepToFalse = async (fbUserId) => {
     db.close();
 };
 
-exports.setNotifiedSleepToFalseIfItWasTrueForAllUsers = async () => {
+exports.reset = async () => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateMany({ notifiedSleep: true }, { $set: { notifiedSleep: false } });
+    await db.collection('users').updateMany({ notifiedSleep: true }, { $set: { notifiedSleep: false, botRequested: null } });
     db.close();
 };
 
