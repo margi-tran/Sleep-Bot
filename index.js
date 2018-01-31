@@ -94,7 +94,7 @@ app.get('/notify', async (req, res) => {
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
 		var flag = false;
-		var date = dateAndTimeUlti.dateToString(new Date());
+		var date = dateAndTimeUtil.dateToString(new Date());
 		var fbUserId = usersToNotify[i];
 
 		var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
