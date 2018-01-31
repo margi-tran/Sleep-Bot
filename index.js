@@ -91,18 +91,18 @@ var constants = require('./controllers/constants');
 
 app.get('/notify', async (req, res) => {
 	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
-	var numOfUsers = usersToNotify.length;
 
+	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
 		var userToNotify = usersToNotify[i];
 		var mainSleep = sleep.getMainSleep(userToNotify, dateAndTimeUlti.dateToString(new Date()));
 
 		if (mainSleep === null) {
-			console.log('no main sleep found');
+			console.log('No main sleep found.');
 			continue;
 		}
 
-		mainSleepLevels = mainSleep.length;
+		var mainSleepLevels = mainSleep.length;
 		for (var j = 0; j < mainSleepLevels; j++) {
 			console.log(j);
 		}
