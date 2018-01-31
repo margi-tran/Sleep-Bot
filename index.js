@@ -96,14 +96,13 @@ app.get('/notify', async (req, res) => {
 	for (var i = 0; i < numOfUsers; i++) {
 		var userToNotify = usersToNotify[i];
 		console.log('********', userToNotify);
-		var mainSleep = await sleep.getMainSleep(userToNotify, dateAndTimeUlti.dateToString(new Date()));
 
-		if (mainSleep === null) {
+		var mainSleepExists = await sleep.mainSleepExist(userToNotify, dateAndTimeUlti.dateToString(new Date()));
+		if (mainSleepExists === false) {
 			console.log('No main sleep found.');
 			continue;
 		}
-		console.log(mainSleep);
-
+	
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(userToNotify, dateAndTimeUlti.dateToString(new Date()));
 		for (var j = 0; j < mainSleepLevelsData.length; j++) {
 			console.log(mainSleepLevelsData[j]);
