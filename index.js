@@ -90,7 +90,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var constants = require('./controllers/constants');
 
 app.get('/notify', async (req, res) => {
-	usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
+	varusersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
 		var flag = false;
@@ -117,11 +117,10 @@ app.get('/notify', async (req, res) => {
 				else break;
 			}
 			if (tmp > maxAwake) maxAwake = tmp;
-			/n
 			tmp = 0;
 		}
 
-		if (maxAwake > 1) flag = true;
+		//if (maxAwake > 1) flag = true;
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
@@ -129,8 +128,21 @@ app.get('/notify', async (req, res) => {
 						+ ' for ' + maxAwake + ' minutes./n/nCan we have a little chat about that?';
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
-        	console.log('no disturbance');
+        	var button =
+        		[{
+        			"content_type":"text",
+        			"title":"got it",
+        			"payload":"got it"
+        		}];
+        	var msg = 'Hey! I analysed your sleep and you had no sleep disturbances last night, which is great!';
+        	await user.setNotifiedSleepToTrue(fbUserId);
+        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, button);
         }
 	}
     res.send('ok');
 });
+
+app.get('/false', async (req, res) => { 
+	users.setNotifiedSleepToFalseForUsersWithTrue();
+});
+
