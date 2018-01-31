@@ -26,6 +26,11 @@ exports.getMainSleep = async (fbUserId, date) => {
     }
 };
 
+exports.getMainSleepLevelsData = async (fbUserId, date) => {
+    var mainSleep = await getMainSleep(fbUserId, date);
+    return mainSleep.levels.data;
+};
+
 
 
 

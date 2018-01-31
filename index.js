@@ -104,11 +104,11 @@ app.get('/notify', async (req, res) => {
 		}
 		console.log(mainSleep);
 
-		var mainSleepLevels = mainSleep.length;
-		for (var j = 0; j < mainSleepLevels; j++) {
-			console.log(j, mainSleep[j]);
+		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateAndTimeUlti.dateToString(new Date()));
+		for (var j = 0; j < mainSleepLevelsData.length; j++) {
+			console.log(mainSleepLevelsData[j]);
 		}
-
+		
 		await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
 		var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
         fbMessengerBotClient.sendQuickReplyMessage(userToNotify, msg, constants.QUICK_REPLIES_YES_OR_NO);
