@@ -15,6 +15,7 @@ exports.getHourFromTimeString = (timeString) => {
 	return parseInt(arr[0]);
 };
 
-exports.getTimeFromDateString = (dateString) {
+exports.getTimeFromDateString = (dateString) => {
 	return dateString.substring(11, 16);
+}
 }
