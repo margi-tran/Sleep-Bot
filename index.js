@@ -120,7 +120,7 @@ app.get('/notify', async (req, res) => {
 			tmp = 0;
 		}
 
-		//if (maxAwake > 1) flag = true;
+		if (maxAwake > 600) flag = true;
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
