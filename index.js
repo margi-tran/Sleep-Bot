@@ -105,7 +105,7 @@ app.get('/notify', async (req, res) => {
 
 		var mainSleepLevels = mainSleep.length;
 		for (var j = 0; j < mainSleepLevels; j++) {
-			console.log(j);
+			console.log(j, mainSleep[j]);
 		}
 
 		await user.updateBotRequested(userToNotify, constants.NOTIFIED_SLEEP);
