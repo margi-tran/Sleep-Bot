@@ -95,7 +95,7 @@ app.get('/notify', async (req, res) => {
 
 	for (var i = 0; i < numOfUsers; i++) {
 		var userToNotify = usersToNotify[i];
-		var mainSleep = sleep.getMainSleep(userToNotify);
+		var mainSleep = sleep.getMainSleep(userToNotify, dateAndTimeUlti.dateToString(new Date()));
 
 		if (mainSleep === null) {
 			console.log('no main sleep found');
