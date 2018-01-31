@@ -106,20 +106,12 @@ app.get('/notify', async (req, res) => {
 		var tmp = 0;
 		for (var j = 0; j < lengthOfData-1; j++) {
 			var data = mainSleepLevelsData[j];
-			/*console.log(data);
-			if (data.seconds === 1) {
-				flag = true;
-				break;
-			}*/
-			for (var k = j; k < lengthOfData; k++) {
+			for (var k = j; k < lengthOfData; k++) 
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
-			}
-
-			if (tmp > maxAwake) {
-				maxAwake = tmp;
-				tmp = 0;
-			}
+			
+			if (tmp > maxAwake) maxAwake = tmp;
+			tmp = 0;
 		}
 
 		console.log('seconds', maxAwake);
