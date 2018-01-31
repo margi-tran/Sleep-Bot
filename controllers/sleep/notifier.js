@@ -11,7 +11,7 @@ var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
 schedule.scheduleJob('17 20 * * *', notifySleep);
-schedule.scheduleJob('20 20 * * *', resetNotifyFlag);
+schedule.scheduleJob('28 20 * * *', resetNotifyFlag);
 
 async function notifySleep() {
 	var usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
@@ -26,11 +26,11 @@ async function notifySleep() {
 		
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 		var lengthOfData = mainSleepLevelsData.length;
-		if (lengthOfData === 0) { // user does not have break down of their sleep
+		if (lengthOfData === 0) { // user does not have break down of their sleep (i.e. they manually added a sleep log)
 			return;
 		}
 
-		var maxAwake = 0;
+		var maxAwake = 0; // time awake in seconds
 		var tmp = 0;
 		var timeOfAwake = 0;
 		for (var j = 0; j < lengthOfData; j++) {
@@ -48,9 +48,12 @@ async function notifySleep() {
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
-			var msg = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
-						+ ' for ' + maxAwake + ' minutes.\n\nCan we have a little chat about that?';
-        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
+			var minutesAwake = Math.floor(maxAwake / 60);
+			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
+						+ ' for ' + minutesAwake + ' minutes.';
+			var msg2 = 'Can we have a little chat about that?'; 
+			fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
         	var button =
         		[{

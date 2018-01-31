@@ -40,7 +40,6 @@ module.exports = async (event) => {
         }
 
         fbMessengerBotClient.sendTextMessage(fbUserId, 'not new');
-        // fbMessengerBotClient.sendTextMessage(fbUserId, '[ECHO] ' + message.substring(0, 200));
     } catch (err) {
         console.log('[ERROR]', err);
     } 
