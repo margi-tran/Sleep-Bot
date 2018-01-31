@@ -30,7 +30,7 @@ exports.getMainSleepLevelsData = async (fbUserId, date) => {
     for (i = 0; i < sleepArr.length; i++) {
         sleepItem = sleepArr[i];
         if (sleepItem.isMainSleep) 
-            return sleepItem.levels;
+            return sleepItem.levels.data;
     }
 };
 
