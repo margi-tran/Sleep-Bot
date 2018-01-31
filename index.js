@@ -104,11 +104,11 @@ app.get('/notify', async (req, res) => {
 		var lengthOfData = mainSleepLevelsData.length;
 		var maxAwake = 0;
 		var tmp = 0;
-		for (var j = 0; j < lengthOfData-1; j++) {
+		for (var j = 0; j < lengthOfData; j++) {
 			var datas = mainSleepLevelsData[j];
 			console.log('*', datas.seconds);
 			for (var k = j; k < lengthOfData; k++) {
-				var data = mainSleepLevelsData[j];
+				var data = mainSleepLevelsData[k];
 				console.log('    ', data.seconds);
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
