@@ -90,7 +90,7 @@ var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOK
 var constants = require('./controllers/constants');
 
 app.get('/notify', async (req, res) => {
-	varusersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
+	var usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
 		var flag = false;
@@ -143,6 +143,6 @@ app.get('/notify', async (req, res) => {
 });
 
 app.get('/false', async (req, res) => { 
-	users.setNotifiedSleepToFalseForUsersWithTrue();
+	users.setNotifiedSleepToFalseIfItWasTrueForAllUsers();
 });
 
