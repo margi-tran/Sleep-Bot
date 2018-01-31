@@ -143,6 +143,7 @@ app.get('/notify', async (req, res) => {
 });
 
 app.get('/false', async (req, res) => { 
-	users.setNotifiedSleepToFalseIfItWasTrueForAllUsers();
+	await users.setNotifiedSleepToFalseIfItWasTrueForAllUsers();
+	res.send('done');
 });
 
