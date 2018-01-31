@@ -95,6 +95,7 @@ app.get('/notify', async (req, res) => {
 
 	for (var i = 0; i < usersToNotify; i++) {
 		var userToNotify = usersToNotify[i];
+		console.log(userToNotify);
 		var mainSleep = sleep.getMainSleep(userToNotify);
 
 		if (mainSleep === null) {
