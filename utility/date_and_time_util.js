@@ -14,3 +14,7 @@ exports.getHourFromTimeString = (timeString) => {
 	var arr = timeString.split(':');
 	return parseInt(arr[0]);
 };
+
+exports.getTimeFromDateString = (dateString) {
+	return dateString.substring(11, 16);
+}

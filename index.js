@@ -103,26 +103,31 @@ app.get('/notify', async (req, res) => {
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 		var lengthOfData = mainSleepLevelsData.length;
 		if (lengthOfData === 0) { // user does not have break down of their sleep
-			fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'You need to record your sleep!', constants.QUICK_REPLIES_YES_OR_NO);
 			return;
 		}
 
 		var maxAwake = 0;
 		var tmp = 0;
+		var timeOfAwake = 0;
 		for (var j = 0; j < lengthOfData; j++) {
 			for (var k = j; k < lengthOfData; k++) {
 				var data = mainSleepLevelsData[k];
 				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
 				else break;
 			}
-			if (tmp > maxAwake) maxAwake = tmp;
+			if (tmp > maxAwake) {
+				maxAwake = tmp;
+				timeOfAwake = dateAndTimeUtil.getTimeFromDateString(data.dateTime);
+			}
 			tmp = 0;
 		}
-		console.log('maxAwake: ', maxAwake);
+
+		if (maxAwake > 1) flag = true;
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
-			var msg = 'Hey! I noticed a disturbance in your sleep last night. Can we have a little chat about that?';
+			var msg = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
+						+ ' for ' + maxAwake + ' minutes. Can we have a little chat about that?';
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
         	console.log('no disturbance');
