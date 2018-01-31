@@ -44,7 +44,7 @@ async function notifySleep() {
 			tmp = 0;
 		}
 
-		if (maxAwake > 600) flag = true;
+		if (maxAwake >= 600) flag = true;
 		
 		if (flag) {
 			await user.updateBotRequested(fbUserId, constants.NOTIFIED_SLEEP);
