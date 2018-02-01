@@ -42,8 +42,7 @@ module.exports = async (event) => {
         }
 
         //const response = await apiaiClient.textRequest(message, { sessionId: fbUserId });
-        apiaiClient.textRequest(message, { sessionId: fbUserId }
-    }).then(function(response) {
+        apiaiClient.textRequest(message, { sessionId: fbUserId }).then(function(response) {
     console.log('response', response);
 }).catch(function(error) {
     console.log('omg no', error);
