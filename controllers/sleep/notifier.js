@@ -10,11 +10,10 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('32 9-23 * * *', notifySleep);
+schedule.scheduleJob('10 9-23 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
-	console.log('was called');
 	var usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
@@ -70,6 +69,5 @@ async function notifySleep() {
 }
 
 async function resetNotifyFlag() {
-	console.log('resseted');
 	user.reset();
 }
