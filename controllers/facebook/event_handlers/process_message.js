@@ -39,6 +39,8 @@ module.exports = async (event) => {
             return;
         }
 
+        console.log('you wrote: ');
+
         if(message === 'Why is using electronic devices bad for sleep?')
             fbMessengerBotClient.sendTextMessage(fbUserId, 'They emit blue light which can trick your brain to think its daytime');
 
