@@ -41,7 +41,7 @@ module.exports = async (event) => {
             return;
         }
 
-        const response = await app.textRequest(message, { sessionId: fbUserId });
+        const response = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         fbMessengerBotClient.sendTextMessage(fbUserId, response);
 
         /*console.log('you wrote: ', message);
