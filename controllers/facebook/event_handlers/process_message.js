@@ -39,7 +39,13 @@ module.exports = async (event) => {
             return;
         }
 
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'not new');
+        if(message === 'Why is using electronic devices bad for sleep?')
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'They emit blue light which can trick your brain to think its daytime');
+
+        if(message === 'What does alcohol do to sleep?')
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'Although it makes you sleep, it will wear off during the night and make your brain active.');
+
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I dont understand you.');
     } catch (err) {
         console.log('[ERROR]', err);
     } 
@@ -165,10 +171,12 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     var date2 = new Date(2018, 1, 1, goToBedHour);
     var diff = (new Date(date2 - date1)).getHours();
     if(difference >= 7) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is enough!');
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
     } else if (difference < 7 ) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You slept for ' + difference + ' hours! This is not enough!');
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
     }
+    fbMessengerBotClient.sendTextMessage(fbUserId, 'You said you sleep with the lights on and eat before sleeping and these can cause sleep disturbances!');
+    fbMessengerBotClient.sendTextMessage(fbUserId, 'But thats it from me. If you have any questions abot sleep feel free to ask them.');
 }
 
 async function chatAboutSleep(fbUserId, message, botRequested) {
@@ -240,5 +248,5 @@ async function repeatSleepQuestion(fbUserId, questionText, quickReplyMessage) {
 async function presentResultsForSleep(fbUserId) {
     await user.updateBotRequested(fbUserId, null);
     await user.setNotifiedSleepToTrue(fbUserId);
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'DONE');
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Being stressed can ruin your sleep. My advice to you is to try some destressing techniques. Maybe even try yoga!');
 }

@@ -27,7 +27,6 @@ const BACKGROUND_EXERCISE_TEXT = 'Are you exercising regularly?';
 const BACKGROUND_JOB_TEXT = 'Do you have a job?';
 const BACKGROUND_WORK_SCHEDULE_TEXT = 'Is your work schedule irregular?';
 
-
 const GET_UP = 'get_up';
 const GO_TO_BED = 'go_to_bed';
 const ELECTRONICS = 'electronics';
