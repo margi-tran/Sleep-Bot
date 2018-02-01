@@ -8,7 +8,9 @@ var request = require('request');
 var fbMessengerBot = require('fb-messenger-bot-api');
 var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
 var MessengerBot = require('messenger-bot');
-var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
+var messengerBotClient = new MessengerBot({ token: process.env.FB_PAGE_ACCESS_TOKEN });
+var apiai = require('apiai-promise');
+var apiaiClient = apiai(process.env.APIAI_CLIENT_ACCESS_TOKEN);
 
 var user = require('../../../models/user');
 var userBackground = require('../../../models/user_background');
@@ -39,7 +41,10 @@ module.exports = async (event) => {
             return;
         }
 
-        console.log('you wrote: ', message);
+        const response = await app.textRequest(message, { sessionId: fbUserId });
+        fbMessengerBotClient.sendTextMessage(fbUserId, response);
+
+        /*console.log('you wrote: ', message);
 
         if(message === 'why is using electronic devices bad for sleep?') {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'They emit blue light which can trick your brain to think its daytime');
@@ -49,7 +54,7 @@ module.exports = async (event) => {
         if(message === 'what does alcohol do to sleep?') {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'Although it makes you sleep, it will wear off during the night and make your brain active.');
             return;
-        }
+        }*/
 
         fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I dont understand you.');
     } catch (err) {
