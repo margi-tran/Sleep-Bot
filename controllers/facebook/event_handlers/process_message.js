@@ -39,12 +39,12 @@ module.exports = async (event) => {
             return;
         }
 
-        console.log('you wrote: ');
+        console.log('you wrote: ', message);
 
-        if(message === 'Why is using electronic devices bad for sleep?')
+        if(message === 'why is using electronic devices bad for sleep?')
             fbMessengerBotClient.sendTextMessage(fbUserId, 'They emit blue light which can trick your brain to think its daytime');
 
-        if(message === 'What does alcohol do to sleep?')
+        if(message === 'what does alcohol do to sleep?')
             fbMessengerBotClient.sendTextMessage(fbUserId, 'Although it makes you sleep, it will wear off during the night and make your brain active.');
 
         fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I dont understand you.');
