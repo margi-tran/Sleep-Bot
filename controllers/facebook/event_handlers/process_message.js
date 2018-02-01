@@ -51,7 +51,7 @@ module.exports = async (event) => {
             console.log('omg no', error);
         });
 
-        fbMessengerBotClient.sendTextMessage(fbUserId, response);
+        fbMessengerBotClient.sendTextMessage(fbUserId, response.fulfillment.speech);
 
         
 
