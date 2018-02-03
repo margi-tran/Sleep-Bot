@@ -50,6 +50,7 @@ module.exports = async (event) => {
         var parameters = apiaiResponse.result.parameters;
         var factor = parameters.factors;
         if (intent === 'factor effects' && factors !== '') {
+            console.log('IN HERE');
             fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
         } else {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
