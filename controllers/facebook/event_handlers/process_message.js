@@ -19,6 +19,20 @@ var userSleepAnswers = require('../../../models/user_sleep_answers');
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
+
+const sleepQuestions = 
+    [
+        constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
+        constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET
+    ];
+
+const backgroundQuestionsMap = 
+    {
+        constants.BACKGROUND_QUESTIONS: 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?',
+        constants.BACKGROUND_GET_UP:  'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).'
+    };
+
+
 var factorsAnswerMap = {};
 factorsAnswerMap[constants.ALCOHOL] = 'alcohol';
 factorsAnswerMap[constants.EAT] = 'eat';
@@ -37,9 +51,6 @@ module.exports = async (event) => {
             return;
         }
 
-        var sleepQuestions = 
-            [constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
-             constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET];
         if (sleepQuestions.includes(botRequested)) {
             chatAboutSleep(fbUserId, message, botRequested);
             return;
