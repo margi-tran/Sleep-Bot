@@ -48,7 +48,7 @@ module.exports = async (event) => {
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
-        if (intent === 'factor effects' && parameters.length > 0) {
+        if (intent === 'factor effects') {
             var factor = parameters.factors;
             console.log('factor: ', factor);
             fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
