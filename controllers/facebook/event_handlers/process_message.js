@@ -19,6 +19,10 @@ var userSleepAnswers = require('../../../models/user_sleep_answers');
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
+var factorsAnswerMap = {};
+factorsAnswerMap[constants.ALCOHOL] = 'alcohol';
+factorsAnswerMap[constants.EAT] = 'eat';
+
 module.exports = async (event) => {
     try { 
         const fbUserId = event.sender.id;
@@ -33,7 +37,7 @@ module.exports = async (event) => {
             return;
         }
 
-        sleepQuestions = 
+        var sleepQuestions = 
             [constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
              constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET];
         if (sleepQuestions.includes(botRequested)) {
@@ -41,21 +45,14 @@ module.exports = async (event) => {
             return;
         }
 
-        const response = await apiaiClient.textRequest(message, { sessionId: fbUserId });
-
-        /*apiaiClient.textRequest(message, { sessionId: fbUserId }).then(function(response) {
-            console.log('response', response);
-        }).catch(function(error) {
-            console.log('omg no', error);
-        });*/
-
-        console.log('reee\n', response);
-
-        fbMessengerBotClient.sendTextMessage(fbUserId, response.result.fulfillment.speech);
-
-        
-
-        //fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I dont understand you.');
+        const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
+        var intent = apiaiResponse.metadata.intentName;
+        var parameters = apiaiResponse.result.parameters];
+        if (intent === 'factor effects' && parameters.length > 0) {
+            fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[parameters[0]]);
+        } else if (intent === 'Default Fallback Intent') {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
+        }
     } catch (err) {
         console.log('[ERROR]', err);
     } 

@@ -39,6 +39,8 @@ const QUIET = 'quiet';
 const JOB = 'job';
 const WORK_SCHEDULE = 'work_schedule';
 const EXERCISE = 'exercise';
+const ALCOHOL = 'alcohol';
+const NICOTINE = 'nicotine';
 
 const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
@@ -110,6 +112,8 @@ module.exports = {
     EXERCISE,
     JOB,
     WORK_SCHEDULE,
+    ALCOHOL,
+    NICOTINE,
 
     NOTIFIED_SLEEP,
     SLEEP_ELECTRONICS, 
