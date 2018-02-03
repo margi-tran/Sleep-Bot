@@ -48,10 +48,8 @@ module.exports = async (event) => {
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
-        //var factor = parameters.factors;
-        if (intent === 'factor effects' && (factor = parameters.factors !== '')) {
-            console.log('IN HERE');
-            fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
+        if (intent === 'factor effects' && parameters.factors !== '') {
+            fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[parameters.factors]);
         } else {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
         }
