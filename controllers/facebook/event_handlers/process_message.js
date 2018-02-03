@@ -46,7 +46,7 @@ module.exports = async (event) => {
         }
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
-        var intent = apiaiResponse.metadata.intentName;
+        var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.length > 0) {
             fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[parameters[0]]);
@@ -247,7 +247,7 @@ async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, 
 }
 
 async function repeatSleepQuestion(fbUserId, questionText, quickReplyMessage) {
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I did not understand that. Let\'s try again.');
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
 }
