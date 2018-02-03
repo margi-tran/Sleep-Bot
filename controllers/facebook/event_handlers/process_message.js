@@ -49,7 +49,7 @@ module.exports = async (event) => {
         var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
         //var factor = parameters.factors;
-        if (intent === 'factor effects' && factor = parameters.factors !== '') {
+        if (intent === 'factor effects' && (factor = parameters.factors !== '')) {
             console.log('IN HERE');
             fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
         } else {
