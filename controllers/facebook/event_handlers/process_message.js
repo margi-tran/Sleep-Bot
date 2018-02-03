@@ -21,7 +21,7 @@ var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
 var backgroundQuestionsMap = {};
 backgroundQuestionsMap[constants.BACKGROUND_QUESTIONS] = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
-backgroundQuestionsMap[constants.BACKGROUND_GET_UP]  'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.BACKGROUND_GET_UP] = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED_TEXT] 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
 backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS_TEXT] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
 backgroundQuestionsMap[constants.BACKGROUND_STRESSED_TEXT] = 'Are you stressed or worried about anything?';
