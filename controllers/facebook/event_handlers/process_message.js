@@ -49,10 +49,8 @@ module.exports = async (event) => {
         var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.length > 0) {
-
-            if(parameters === 'eat')  fbMessengerBotClient.sendTextMessage(fbUserId, 'eat');
-            console.log('in here');
-            fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[parameters[0]]);
+            var factor = parameters.factors;
+            fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
         } else if (intent === 'Default Fallback Intent') {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
         }
