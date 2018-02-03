@@ -19,20 +19,27 @@ var userSleepAnswers = require('../../../models/user_sleep_answers');
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
+var backgroundQuestionsMap = {};
+backgroundQuestionsMap[constants.BACKGROUND_QUESTIONS] = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
+backgroundQuestionsMap[constants.BACKGROUND_GET_UP]  'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED_TEXT] 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS_TEXT] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
+backgroundQuestionsMap[constants.BACKGROUND_STRESSED_TEXT] = 'Are you stressed or worried about anything?';
+backgroundQuestionsMap[constants.BACKGROUND_EAT_TEXT] = 'Do you eat before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT] = 'Do you drink alcohol or take nicotine before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_CAFFEINE_TEXT] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_LIGHTS_TEXT] = 'Do you sleep with the lights on?';
+backgroundQuestionsMap[constants.BACKGROUND_QUIET_TEXT] = 'Is your bedroom quiet when you sleep?';
+backgroundQuestionsMap[constants.BACKGROUND_EXERCISE_TEXT] = 'Are you exercising regularly?';
+backgroundQuestionsMap[constants.BACKGROUND_JOB_TEXT] = 'Do you have a job?';
+backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE_TEXT] = 'Is your work schedule irregular?';
 
 const sleepQuestions = 
     [
         constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
         constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET
     ];
-
-const backgroundQuestionsMap = 
-    {
-        constants.BACKGROUND_QUESTIONS: 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?',
-        constants.BACKGROUND_GET_UP:  'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).'
-    };
-
-
+    
 var factorsAnswerMap = {};
 factorsAnswerMap[constants.ALCOHOL] = 'alcohol';
 factorsAnswerMap[constants.EAT] = 'eat';
@@ -253,7 +260,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
 async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
     await userSleepAnswers.updateSleepAnswer(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[nextQuestionContext], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
 }
 
