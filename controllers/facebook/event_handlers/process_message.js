@@ -48,11 +48,10 @@ module.exports = async (event) => {
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         var intent = apiaiResponse.result.metadata.intentName;
         var parameters = apiaiResponse.result.parameters;
-        if (intent === 'factor effects') {
-            var factor = parameters.factors;
-            console.log('factor: ', factor);
+        var factor = parameters.factors;
+        if (intent === 'factor effects' && factors !== '') {
             fbMessengerBotClient.sendTextMessage(fbUserId, factorsAnswerMap[factor]);
-        } else if (intent === 'Default Fallback Intent') {
+        } else {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
         }
     } catch (err) {
