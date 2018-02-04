@@ -15,6 +15,7 @@ var apiaiClient = apiai(process.env.APIAI_CLIENT_ACCESS_TOKEN);
 var user = require('../../../models/user');
 var userBackground = require('../../../models/user_background');
 var userSleepAnswers = require('../../../models/user_sleep_answers');
+var factor = require('../../../models/factor');
 
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
