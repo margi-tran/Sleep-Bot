@@ -22,23 +22,31 @@ var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 var backgroundQuestionsMap = {};
 backgroundQuestionsMap[constants.BACKGROUND_QUESTIONS] = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
 backgroundQuestionsMap[constants.BACKGROUND_GET_UP] = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
-backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED_TEXT] = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
-backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS_TEXT] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
-backgroundQuestionsMap[constants.BACKGROUND_STRESSED_TEXT] = 'Are you stressed or worried about anything?';
-backgroundQuestionsMap[constants.BACKGROUND_EAT_TEXT] = 'Do you eat before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT] = 'Do you drink alcohol or take nicotine before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_CAFFEINE_TEXT] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_LIGHTS_TEXT] = 'Do you sleep with the lights on?';
-backgroundQuestionsMap[constants.BACKGROUND_QUIET_TEXT] = 'Is your bedroom quiet when you sleep?';
-backgroundQuestionsMap[constants.BACKGROUND_EXERCISE_TEXT] = 'Are you exercising regularly?';
-backgroundQuestionsMap[constants.BACKGROUND_JOB_TEXT] = 'Do you have a job?';
-backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE_TEXT] = 'Is your work schedule irregular?';
+backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED] = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
+backgroundQuestionsMap[constants.BACKGROUND_STRESSED] = 'Are you stressed or worried about anything?';
+backgroundQuestionsMap[constants.BACKGROUND_EAT] = 'Do you eat before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINET] = 'Do you drink alcohol or take nicotine before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_CAFFEINE] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
+backgroundQuestionsMap[constants.BACKGROUND_LIGHTS] = 'Do you sleep with the lights on?';
+backgroundQuestionsMap[constants.BACKGROUND_QUIET] = 'Is your bedroom quiet when you sleep?';
+backgroundQuestionsMap[constants.BACKGROUND_EXERCISE] = 'Are you exercising regularly?';
+backgroundQuestionsMap[constants.BACKGROUND_JOB] = 'Do you have a job?';
+backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE] = 'Is your work schedule irregular?';
 
 const sleepQuestions = 
     [
         constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
         constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET
     ];
+var sleepQuestionsMap = {};
+sleepQuestionsMap[constants.SLEEP_ELECTRONICS] = 'Did you use your phone (or any other electronic devices) before going to bed (or in bed)?'; 
+sleepQuestionsMap[constants.SLEEP_STRESSED] = 'Are you stressed or worried about anything?';
+sleepQuestionsMap[constants.SLEEP_EAT] = 'Did you eat before going to bed?';
+sleepQuestionsMap[constants.SLEEP_ALCOHOL_NICOTINE] = 'Did you drink alcohol or take nicotine before going to bed?';
+sleepQuestionsMap[constants.SLEEP_CAFFEINE] = 'Did you drink any beverages with caffeine, such as tea, before going to bed?';
+sleepQuestionsMap[constants.SLEEP_LIGHTS] = 'Did you sleep with the lights on?';
+sleepQuestionsMap[constants.SLEEP_QUIET] = 'Was your bedroom quiet when you went to sleep?';
     
 var factorsAnswerMap = {};
 factorsAnswerMap[constants.ALCOHOL] = 'alcohol';
@@ -99,44 +107,44 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                 }
                 break;
             case constants.BACKGROUND_GET_UP:
-                if (timeRegex.test(message)) updateBackgroundandAskNextQuestion(fbUserId, constants.GET_UP, message, constants.BACKGROUND_GO_TO_BED, constants.BACKGROUND_GO_TO_BED_TEXT, false);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_GET_UP_TEXT, false);
+                if (timeRegex.test(message)) updateBackgroundandAskNextQuestion(fbUserId, constants.GET_UP, message, constants.BACKGROUND_GO_TO_BED, false);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
                 break;
             case constants.BACKGROUND_GO_TO_BED:
-                if (timeRegex.test(message)) updateBackgroundandAskNextQuestion(fbUserId, constants.GO_TO_BED, message, constants.BACKGROUND_ELECTRONICS, constants.BACKGROUND_ELECTRONICS_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_GO_TO_BED_TEXT, false);
+                if (timeRegex.test(message)) updateBackgroundandAskNextQuestion(fbUserId, constants.GO_TO_BED, message, constants.BACKGROUND_ELECTRONICS, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED], false);
                 break;
             case constants.BACKGROUND_ELECTRONICS:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.BACKGROUND_STRESSED, constants.BACKGROUND_STRESSED_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_ELECTRONICS_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.BACKGROUND_STRESSED, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], true);
                 break;
             case constants.BACKGROUND_STRESSED:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId,  constants.STRESSED, message, constants.BACKGROUND_EAT, constants.BACKGROUND_EAT_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_STRESSED_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId,  constants.STRESSED, message, constants.BACKGROUND_EAT, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_STRESSED], true);
                 break;
             case constants.BACKGROUND_EAT:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EAT, message, constants.BACKGROUND_ALCOHOL_NICOTINE, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_EAT_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EAT, message, constants.BACKGROUND_ALCOHOL_NICOTINE, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_EAT], true);
                 break;
             case constants.BACKGROUND_ALCOHOL_NICOTINE:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.BACKGROUND_CAFFEINE, constants.BACKGROUND_CAFFEINE_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_ALCOHOL_NICOTINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.BACKGROUND_CAFFEINE, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINE], true);
                 break;   
             case constants.BACKGROUND_CAFFEINE:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.BACKGROUND_LIGHTS, constants.BACKGROUND_LIGHTS_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_CAFFEINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.BACKGROUND_LIGHTS, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_CAFFEINE], true);
                 break; 
             case constants.BACKGROUND_LIGHTS:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.BACKGROUND_QUIET, constants.BACKGROUND_QUIET_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_LIGHTS_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.BACKGROUND_QUIET, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_LIGHTS], true);
                 break;     
             case constants.BACKGROUND_QUIET:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.QUIET, message, constants.BACKGROUND_EXERCISE, constants.BACKGROUND_EXERCISE_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_QUIET_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.QUIET, message, constants.BACKGROUND_EXERCISE, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_QUIET], true);
                 break;  
             case constants.BACKGROUND_EXERCISE:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EXERCISE, message, constants.BACKGROUND_JOB, constants.BACKGROUND_JOB_TEXT, true);
-                else repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_EXERCISE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EXERCISE, message, constants.BACKGROUND_JOB, true);
+                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_EXERCISE], true);
                 break; 
             case constants.BACKGROUND_JOB:
                 if (message === 'yes' || message === 'no') {
@@ -148,7 +156,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                         presentResultsForBackground(fbUserId, false);
                     }
                 } else { 
-                    repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_JOB_TEXT, true);
+                    repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_JOB], true);
                 }
                 break;
             case constants.BACKGROUND_WORK_SCHEDULE:
@@ -156,7 +164,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
-                    repeatBackgroundQuestion(fbUserId, constants.BACKGROUND_WORK_SCHEDULE_TEXT, true);
+                    repeatQuestion(fbUserId, backgroundQuestionsMap[contants.BACKGROUND_WORK_SCHEDULE], true);
                 }
                 break;
             default:
@@ -167,14 +175,20 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
     }     
 }
 
-async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
+async function updateBackgroundandAskNextQuestion(fbUserId, context, message, nextQuestionContext, isQuickReplyMessage) {
     await userBackground.updateBackground(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, nextQuestionText, constants.QUICK_REPLIES_YES_OR_NO);
-    else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[nextQuestionContext], constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[nextQuestionContext]);
 }
 
 async function repeatBackgroundQuestion(fbUserId, questionText, quickReplyMessage) {
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
+    if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
+}
+
+async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Please answer my question.');
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
@@ -217,27 +231,27 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                 }
                 break;
             case constants.SLEEP_ELECTRONICS:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.SLEEP_STRESSED, constants.SLEEP_STRESSED_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_ELECTRONICS_TEXT, true);
                 break;
             case constants.SLEEP_STRESSED:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.STRESSED, message, constants.SLEEP_EAT, constants.SLEEP_EAT_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.STRESSED, message, constants.SLEEP_EAT, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_STRESSED, true);
                 break;
             case constants.SLEEP_EAT:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_ALCOHOL_NICOTINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_EAT, true);
                 break;
             case constants.SLEEP_ALCOHOL_NICOTINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, constants.SLEEP_CAFFEINE_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, true);
                 break;
             case constants.SLEEP_CAFFEINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.SLEEP_LIGHTS, constants.SLEEP_LIGHTS_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.SLEEP_LIGHTS, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_CAFFEINE, true);
                 break;
             case constants.SLEEP_LIGHTS:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.SLEEP_QUIET, constants.SLEEP_QUIET_TEXT, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.SLEEP_QUIET, true);
                 else repeatSleepQuestion(fbUserId, constants.SLEEP_LIGHTS, true);
                 break;
             case constants.SLEEP_QUIET:
@@ -257,11 +271,11 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
     }
 }
 
-async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, nextQuestionContext, nextQuestionText, isQuickReplyMessage) {
+async function updateSleepAnswersandAskNextQuestion(fbUserId, context, message, nextQuestionContext, isQuickReplyMessage) {
     await userSleepAnswers.updateSleepAnswer(fbUserId, context, message);
     await user.updateBotRequested(fbUserId, nextQuestionContext);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[nextQuestionContext], constants.QUICK_REPLIES_YES_OR_NO);
-    else fbMessengerBotClient.sendTextMessage(fbUserId, nextQuestionText);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestionContext], constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[nextQuestionContext]);
 }
 
 async function repeatSleepQuestion(fbUserId, questionText, quickReplyMessage) {

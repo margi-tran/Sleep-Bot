@@ -3,11 +3,6 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var app = express();
 var cookieParser = require('cookie-parser');
-var MongoClient = require('mongodb').MongoClient;
-var fbMessengerBot = require('fb-messenger-bot-api');
-var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_TOKEN);
-var MessengerBot = require('messenger-bot');
-var messengerBotClient = new MessengerBot({ token:process.env.FB_PAGE_ACCESS_TOKEN });
 
 var routeHandlers = require('./controllers/route_handlers');
 var sleepNotifier = require('./controllers/sleep/notifier');
