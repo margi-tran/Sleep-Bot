@@ -74,8 +74,8 @@ module.exports = async (event) => {
         if (intent === 'factor effects' && parameters.factors !== '') {
             var explanation = await factor.getExplanation(parameters.factors);
             fbMessengerBotClient.sendTextMessage(fbUserId, explanation);
-        } else {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'I did not understand.');
+        } else { // default apiai filler response or smalltalk response
+            fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }
     } catch (err) {
         console.log('[ERROR]', err);
@@ -252,7 +252,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                     await user.updateBotRequested(fbUserId, null);
                     presentResultsForSleep(fbUserId);
                 } else { 
-                    repeatQuestion(fbUserId, constants.SLEEP_QUIET_TEXT, true);
+                    repeatQuestion(fbUserId, sleepQuestionsMap[constants.SLEEP_QUIET], true);
                 }
                 break;
             default:
