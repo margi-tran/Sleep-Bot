@@ -74,7 +74,8 @@ module.exports = async (event) => {
         if (intent === 'factor effects' && parameters.factors !== '') {
             var explanation = await factor.getExplanation(parameters.factors);
             fbMessengerBotClient.sendTextMessage(fbUserId, explanation);
-        } else { // default apiai filler response or smalltalk response
+        } else { 
+            // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }
     } catch (err) {
@@ -174,7 +175,7 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
 }
 
 async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry I didn\'t get that. Let\'s try again.');
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry, I didn\'t get that. Let\'s try again.');
     if (quickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, questionText, constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
 }
@@ -191,7 +192,7 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await user.updateUserIsNew(fbUserId, false);
     await user.setNotifiedSleepToFalse(fbUserId);
 
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you, that\'s all my questions.');
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you. That\'s all my questions.');
 
     var getUp = await userBackground.getGoToBed(fbUserId);
     var goToBed = await userBackground.getGetUp(fbUserId);
@@ -215,15 +216,16 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
         switch (botRequested) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
                     await user.updateBotRequested(fbUserId, constants.SLEEP_ELECTRONICS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.SLEEP_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
-                    var msg = 'Sorry but I would like to have a quick chat about your sleep last night. Please may we proceed?';
+                    var msg = 'Sorry but it\'s important that we find out why your sleep was disturbed. Please may we proceed?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
             case constants.SLEEP_ELECTRONICS:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, true);
+                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.SLEEP_STRESSED, true);
                 else repeatQuestion(fbUserId, constants.SLEEP_ELECTRONICS_TEXT, true);
                 break;
             case constants.SLEEP_STRESSED:

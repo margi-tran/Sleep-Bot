@@ -26,11 +26,11 @@ async function notifySleep() {
 		
 		var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 		var lengthOfData = mainSleepLevelsData.length;
-		if (lengthOfData === 0) { // user does not have break down of their sleep (i.e. they manually added a sleep log)
+		if (lengthOfData === 0) { // User does not have break down of their sleep (i.e. they manually added a sleep log)
 			return;
 		}
 
-		var maxAwake = 0; // time awake in seconds
+		var maxAwake = 0; // Time awake in seconds
 		var tmp = 0;
 		var timeOfAwake = 0;
 		for (var j = 0; j < lengthOfData; j++) {
@@ -51,8 +51,8 @@ async function notifySleep() {
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
 						+ ' for ' + minutesAwake + ' minutes.';
-			var msg2 = 'Can we have a little chat about that?'; 
-			fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+			var msg2 = 'Could we have a little chat about that?'; 
+			await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
         	var button =
