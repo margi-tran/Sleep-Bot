@@ -57,9 +57,9 @@ async function notifySleep() {
         } else {
         	var button =
         		[{
-        			"content_type":"text",
-        			"title":"got it",
-        			"payload":"got it"
+        			"content_type": "text",
+        			"title": "got it",
+        			"payload": "got it"
         		}];
         	var msg = 'Hey! I analysed your sleep and you had no sleep disturbances last night, which is great!';
         	await user.setNotifiedSleepToTrue(fbUserId);

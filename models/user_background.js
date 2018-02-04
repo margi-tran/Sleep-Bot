@@ -43,7 +43,7 @@ exports.addNewUserBackground = async (fbUserId, age) => {
             caffeine: null,
             lights: null,
             quiet: null,
-            excercise: null,
+            exercise: null,
             job: null,
             work_schedule: null
         };
