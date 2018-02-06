@@ -13,9 +13,11 @@ module.exports = async (req, res) => {
        		req.body.entry.forEach(entry => {
         		if (entry.messaging === undefined) return;
             	entry.messaging.forEach(event => {
+                    console.log('1111111111111111111');
 					if (event.message) {
 						processMessage(event);
 					} else if (event.postback) {
+                        console.log('2222222222222222222222');
 						res.cookie('fb_id', event.sender.id);
 						processPostback(event);
 					} else {
