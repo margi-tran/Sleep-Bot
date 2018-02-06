@@ -16,6 +16,7 @@ var constants = require('../../constants');
 
 module.exports = async (event) => {
     try { 
+        console.log(event);
         const fbUserId = event.sender.id;
 
         await fbMessengerBotClient.markSeen(fbUserId);
