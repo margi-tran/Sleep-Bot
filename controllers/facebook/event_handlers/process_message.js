@@ -87,7 +87,7 @@ module.exports = async (event) => {
                 if (event.message.quick_reply.hasOwnProperty('payload')) {
                     var payloadStringSplit = event.message.quick_reply.payload.split('');
                     var context = payloadStringSplit[0];
-                    console.log('in here');
+                    console.log(payloadStringSplit);
 
                     if( context === 'FACTOR') {
                         fbMessengerBotClient.sendTextMessage(fbUserId, 'lel');
