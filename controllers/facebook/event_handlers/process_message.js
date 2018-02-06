@@ -88,6 +88,8 @@ module.exports = async (event) => {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
 
+                    console.log('results: ', payloadStringSplit);
+
                     if ( context === 'FACTORS') {
                         console.log('in here');
                         var factorParameter = payloadStringSplit[1];
