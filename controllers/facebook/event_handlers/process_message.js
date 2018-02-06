@@ -82,7 +82,11 @@ module.exports = async (event) => {
         }*/
 
         //info = message.quick_reply.payload
-        console.log('bla', event.hasOwnProperty('payload'));
+        console.log('bla', event.hasOwnProperty('message.quick_reply.payload'));
+
+        if (event.postback.payload === 'FACTOR alcohol 1') {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
+        }
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
