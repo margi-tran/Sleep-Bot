@@ -86,6 +86,7 @@ module.exports = async (event) => {
             if (event.message.hasOwnProperty('quick_reply')) {
                     
                     var payloadObj = event.message.quick_reply;
+                    console.log(payloadObj);
                     if (payloadObj.hasOwnProperty(payload)) 
                         console.log('success');
             }
