@@ -36,6 +36,11 @@ module.exports = async (event) => {
             }
             return;
         }
+
+        if (event.postback.payload === 'FACTOR alcohol 1') {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
+        }
+
     } catch (err) {
         console.log('[ERROR]', err);
     }

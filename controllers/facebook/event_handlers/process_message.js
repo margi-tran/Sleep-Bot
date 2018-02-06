@@ -58,11 +58,13 @@ module.exports = async (event) => {
 
         const botRequested = await user.getBotRequested(fbUserId);
         const userIsNew = await user.isUserNew(fbUserId);
+        // Get background sleep information from new user
         if (userIsNew) {
             getNewUserBackground(fbUserId, message, botRequested);
             return;
         }
 
+        // 'Interview' user about their sleep
         if (sleepQuestions.includes(botRequested)) {
             chatAboutSleep(fbUserId, message, botRequested);
             return;
@@ -78,11 +80,6 @@ module.exports = async (event) => {
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }*/
-
-        if (event.payload === 'FACTOR alcohol 1') {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
-        }
-
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
