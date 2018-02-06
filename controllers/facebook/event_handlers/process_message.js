@@ -81,11 +81,10 @@ module.exports = async (event) => {
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }*/
 
-        //info = message.quick_reply.payload
+        
         if (event.hasOwnProperty('message'))
-            if (event.message.hasOwnProperty('quick_reply'))
-                 if (event.message.hasOwnProperty('payload')) {
-                    if (event.message.quick_reply.payload === 'FACTOR alcohol 1')
+            if (event.message.hasOwnProperty('quick_reply')) {
+                    console.log(event);
                         fbMessengerBotClient.sendTextMessage(fbUserId, 'works');
                  }
 
