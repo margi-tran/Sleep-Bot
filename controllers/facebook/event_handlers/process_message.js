@@ -82,20 +82,39 @@ module.exports = async (event) => {
         }*/
 
         
-        if (event.hasOwnProperty('message'))
+        if (event.hasOwnProperty('message')) {
             if (event.message.hasOwnProperty('quick_reply')) 
                 if (event.message.quick_reply.hasOwnProperty('payload')) {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
-                    console.log(payloadStringSplit);
 
-                    if( context === 'FACTOR') {
-                        fbMessengerBotClient.sendTextMessage(fbUserId, 'lel');
+                    if ( context === 'FACTORS') {
+                        var factorParameter = payloadStringSplit[1];
+                        var explanationNumber = parseInt(payloadStringSplit[2]);
+                        var explanationArray = await factor.getExplanation(factorParameter);
+                        var nextExplanation = explanationNumber+1;
+                        if(nextExplanation >= explanationArray.length-1) {
+                            fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
+                        } else {
+                            const buttons = 
+                                [{
+                                    "content_type": "text",
+                                    "title": "more",
+                                    "payload": 'FACTORS ' + factorParameter + ' ' + nextExplanation
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "done",
+                                    "payload": "done with factor"
+                                }];
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], buttons);
+                        }
+      
                     }
-
                     return;
-                }
-
+            }
+        }
+            
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
@@ -110,7 +129,7 @@ module.exports = async (event) => {
                     [{
                         "content_type": "text",
                         "title": "more",
-                        "payload": 'FACTOR ' + factorParameter + ' ' + 1
+                        "payload": 'FACTORS ' + factorParameter + ' ' + 1
                     },
                     {
                         "content_type": "text",
