@@ -82,18 +82,18 @@ module.exports = async (event) => {
         }*/
 
         
-        /*if (event.hasOwnProperty('message'))
-            if (event.message.hasOwnProperty('quick_reply')) {
-                if (event.message.quick_reply.hasOwnProperty('payload')) 
-                    console.log('success');
-            }*/
+        if (event.hasOwnProperty('message'))
+            if (event.message.hasOwnProperty('quick_reply')) 
+                if (event.message.quick_reply.hasOwnProperty('payload')) {
+                    var payloadStringSplit = event.message.quick_reply.payload.split('');
+                    var context = payloadStringSplit[0];
 
-            if (event.hasOwnProperty('message.quick_reply.payload')) {
-        
-                    console.log('success');
-            }
+                    if( context === 'FACTOR') {
+                        fbMessengerBotClient.sendTextMessage(fbUserId, 'lel');
+                    }
 
-        
+                    return;
+                }
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
