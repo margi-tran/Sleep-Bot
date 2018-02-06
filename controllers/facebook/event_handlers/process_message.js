@@ -81,7 +81,6 @@ module.exports = async (event) => {
 
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
-        console.log(apiaiReponse);
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.factors !== '') {
