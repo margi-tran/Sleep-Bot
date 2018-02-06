@@ -85,7 +85,7 @@ module.exports = async (event) => {
         if (event.hasOwnProperty('message'))
             if (event.message.hasOwnProperty('quick_reply')) 
                 if (event.message.quick_reply.hasOwnProperty('payload')) {
-                    var payloadStringSplit = event.message.quick_reply.payload.split('');
+                    var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
                     console.log(payloadStringSplit);
 
