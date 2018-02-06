@@ -68,7 +68,7 @@ module.exports = async (event) => {
             return;
         }
 
-        const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
+        /*const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.factors !== '') {
@@ -77,7 +77,21 @@ module.exports = async (event) => {
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
+        }*/
+
+
+        const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
+        console.log(apiaiReponse);
+        const intent = apiaiResponse.result.metadata.intentName;
+        const parameters = apiaiResponse.result.parameters;
+        if (intent === 'factor effects' && parameters.factors !== '') {
+            var explanationArray = await factor.getExplanation(parameters.factors);
+            fbMessengerBotClient.sendTextMessage(fbUserId, explanation);
+        } else { 
+            // Default apiai filler response or smalltalk response
+            fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }
+
     } catch (err) {
         console.log('[ERROR]', err);
     } 
@@ -220,7 +234,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
                     await user.updateBotRequested(fbUserId, constants.SLEEP_ELECTRONICS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.SLEEP_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
-                    var msg = 'Sorry but it\'s important that we find out why your sleep was disturbed. Please may we proceed?';
+                    var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
