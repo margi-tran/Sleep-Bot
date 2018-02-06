@@ -84,7 +84,7 @@ module.exports = async (event) => {
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.factors !== '') {
-            var factor = parameters.factors;
+            var factorParameter = parameters.factors;
             var explanationArray = await factor.getExplanation(factor);
             if (explanationArray.length === 1) {
                 fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[0]);
@@ -94,7 +94,7 @@ module.exports = async (event) => {
                     [{
                         "content_type": "text",
                         "title": "more",
-                        "payload": factor + ' ' + 1
+                        "payload": 'FACTOR ' + factorParameter + ' ' + 1
                     },
                     {
                         "content_type": "text",
