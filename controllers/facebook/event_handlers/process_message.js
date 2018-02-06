@@ -79,6 +79,10 @@ module.exports = async (event) => {
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }*/
 
+        if (event.payload === 'FACTOR alcohol 1') {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
+        }
+
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
@@ -101,7 +105,7 @@ module.exports = async (event) => {
                         "title": "done",
                         "payload": "done with factor"
                     }];
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], constants.QUICK_REPLIES_YES_OR_NO);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], buttons);
             }
         } else { 
             // Default apiai filler response or smalltalk response
