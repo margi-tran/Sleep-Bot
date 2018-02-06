@@ -88,18 +88,17 @@ module.exports = async (event) => {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
 
-                    console.log('results: ', payloadStringSplit);
-
-                    if ( context === 'FACTORS') {
-                        console.log('in here');
+                    if (context === 'FACTORS') {
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
-                        console.log(explanationArray);
+                        
                         var nextExplanation = explanationNumber+1;
                         if(nextExplanation >= explanationArray.length-1) {
+                            console.log('first case');
                             fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
                         } else {
+                            console.log('second case');
                             const buttons = 
                                 [{
                                     "content_type": "text",
