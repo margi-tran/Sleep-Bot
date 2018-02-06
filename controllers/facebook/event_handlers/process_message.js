@@ -82,14 +82,13 @@ module.exports = async (event) => {
         }*/
 
         //info = message.quick_reply.payload
-        console.log('bla', event.hasOwnProperty('message.quick_reply.payload'));
-        console.log(event);
         if (event.hasOwnProperty('message'))
             if (event.message.hasOwnProperty('quick_reply'))
-                 console.log('wahey');
+                 if (event.message.hasOwnProperty('payload')) {
+                    if (event.message.quick_reply.payload === 'FACTOR alcohol 1')
+                        fbMessengerBotClient.sendTextMessage(fbUserId, 'works');
+                 }
 
-        
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
         
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
