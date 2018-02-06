@@ -86,7 +86,6 @@ module.exports = async (event) => {
                             fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
                         else 
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
-                        return; 
                     }
                 }
             }
