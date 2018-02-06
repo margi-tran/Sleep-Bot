@@ -89,9 +89,11 @@ module.exports = async (event) => {
                     var context = payloadStringSplit[0];
 
                     if ( context === 'FACTORS') {
+                        console.log('in here');
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
+                        console.log(explanationArray);
                         var nextExplanation = explanationNumber+1;
                         if(nextExplanation >= explanationArray.length-1) {
                             fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
