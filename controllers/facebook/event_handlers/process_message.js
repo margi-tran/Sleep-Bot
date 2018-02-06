@@ -132,7 +132,7 @@ module.exports = async (event) => {
                     [{
                         "content_type": "text",
                         "title": "more",
-                        "payload": 'FACTORS ' + factorParameter + ' ' + 1
+                        "payload": 'FACTORS ' + factorParameter + ' ' + 0
                     },
                     {
                         "content_type": "text",
