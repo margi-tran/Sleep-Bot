@@ -84,10 +84,11 @@ module.exports = async (event) => {
         
         if (event.hasOwnProperty('message'))
             if (event.message.hasOwnProperty('quick_reply')) {
-                    console.log(event);
-                        fbMessengerBotClient.sendTextMessage(fbUserId, 'works');
-                    console.log(event.message.quick_reply);
-                 }
+                    
+                    var payloadObj = event.message.quick_reply;
+                    if (payloadObj.hasOwnProperty(payload)) 
+                        console.log('success');
+            }
 
         
 
