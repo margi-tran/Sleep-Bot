@@ -85,13 +85,29 @@ module.exports = async (event) => {
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
         if (intent === 'factor effects' && parameters.factors !== '') {
-            var explanationArray = await factor.getExplanation(parameters.factors);
-            fbMessengerBotClient.sendTextMessage(fbUserId, explanation);
+            var factor = parameters.factors;
+            var explanationArray = await factor.getExplanation(factor);
+            if (explanationArray.length === 1) {
+                fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[0]);
+                return;
+            } else {
+                const buttons = 
+                    [{
+                        "content_type": "text",
+                        "title": "more",
+                        "payload": factor + ' ' + 1
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "done",
+                        "payload": "done with factor"
+                    }];
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], constants.QUICK_REPLIES_YES_OR_NO);
+            }
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }
-
     } catch (err) {
         console.log('[ERROR]', err);
     } 
