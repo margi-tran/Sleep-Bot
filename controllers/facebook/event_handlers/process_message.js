@@ -70,20 +70,8 @@ module.exports = async (event) => {
             return;
         }
 
-        /*const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
-        const intent = apiaiResponse.result.metadata.intentName;
-        const parameters = apiaiResponse.result.parameters;
-        if (intent === 'factor effects' && parameters.factors !== '') {
-            var explanation = await factor.getExplanation(parameters.factors);
-            fbMessengerBotClient.sendTextMessage(fbUserId, explanation);
-        } else { 
-            // Default apiai filler response or smalltalk response
-            fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
-        }*/
-
-        
         if (event.hasOwnProperty('message')) {
-            if (event.message.hasOwnProperty('quick_reply')) 
+            if (event.message.hasOwnProperty('quick_reply')) {
                 if (event.message.quick_reply.hasOwnProperty('payload')) {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
@@ -94,27 +82,13 @@ module.exports = async (event) => {
                         var explanationArray = await factor.getExplanation(factorParameter);
                         
                         var nextExplanation = explanationNumber+1;
-                        if(nextExplanation >= explanationArray.length-1) {
-                            console.log('first case');
+                        if(nextExplanation >= explanationArray.length-1)                    
                             fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
-                        } else {
-                            console.log('second case');
-                            const buttons = 
-                                [{
-                                    "content_type": "text",
-                                    "title": "more",
-                                    "payload": 'FACTORS ' + factorParameter + ' ' + nextExplanation
-                                },
-                                {
-                                    "content_type": "text",
-                                    "title": "done",
-                                    "payload": "done with factor"
-                                }];
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], buttons);
-                        }
-      
+                        else 
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
+                        return; 
                     }
-                    return;
+                }
             }
         }
             
@@ -124,23 +98,10 @@ module.exports = async (event) => {
         if (intent === 'factor effects' && parameters.factors !== '') {
             var factorParameter = parameters.factors;
             var explanationArray = await factor.getExplanation(factorParameter);
-            if (explanationArray.length === 1) {
+            if (explanationArray.length === 1) 
                 fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[0]);
-                return;
-            } else {
-                const buttons = 
-                    [{
-                        "content_type": "text",
-                        "title": "more",
-                        "payload": 'FACTORS ' + factorParameter + ' ' + 0
-                    },
-                    {
-                        "content_type": "text",
-                        "title": "done",
-                        "payload": "done with factor"
-                    }];
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], buttons);
-            }
+             else 
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForFactorsReply(factorParameter, 0));
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
@@ -343,4 +304,19 @@ async function presentResultsForSleep(fbUserId) {
     await user.updateBotRequested(fbUserId, null);
     await user.setNotifiedSleepToTrue(fbUserId);
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Being stressed can ruin your sleep. My advice to you is to try some destressing techniques. Maybe even try yoga!');
+}
+
+function getButtonsForFactorsReply(factor, index) {
+    var buttons = 
+        [{
+            "content_type": "text",
+            "title": "more",
+            "payload": 'FACTORS ' + factor + ' ' + index
+        },
+        {
+            "content_type": "text",
+            "title": "done",
+            "payload": ""
+        }];
+    return buttons;
 }
