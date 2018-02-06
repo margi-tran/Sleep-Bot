@@ -84,6 +84,10 @@ module.exports = async (event) => {
         //info = message.quick_reply.payload
         console.log('bla', event.hasOwnProperty('message.quick_reply.payload'));
 
+        if (event.hasOwnProperty('message'))
+            if (event.message.hasOwnProperty('quick_reply'))
+                 console.log('wahey');
+
         if (event.postback.payload === 'FACTOR alcohol 1') {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'woah');
         }
