@@ -51,8 +51,6 @@ sleepQuestionsMap[constants.SLEEP_QUIET] = 'Was your bedroom quiet when you went
 
 module.exports = async (event) => {
     try { 
-
-        console.log(event);
         const fbUserId = event.sender.id;
         var message = event.message.text.toLowerCase();
         await fbMessengerBotClient.markSeen(fbUserId);
@@ -82,6 +80,9 @@ module.exports = async (event) => {
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
         }*/
+
+        //info = message.quick_reply.payload
+        console.log('bla', event.hasOwnProperty('payload'));
 
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
