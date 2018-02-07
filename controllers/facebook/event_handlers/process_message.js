@@ -228,7 +228,7 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await user.setNotifiedSleepToFalse(fbUserId);
 
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you. That\'s all my questions.');
-
+    var advice = '';
     var getUp = await userBackground.getGoToBed(fbUserId);
     var goToBed = await userBackground.getGetUp(fbUserId);
     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
@@ -237,13 +237,34 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     var date1 = new Date(2018, 1, 1, getUpHour);
     var date2 = new Date(2018, 1, 1, goToBedHour);
     var diff = (new Date(date2 - date1)).getHours();
+    var sleepEnough = false;
     if(difference >= 7) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is enough!');
+        sleepEnough = true;
     } else if (difference < 7 ) {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'You sleep for ' + difference + ' hours! This is not enough!');
+        advice += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-8 hours.'
     }
-    fbMessengerBotClient.sendTextMessage(fbUserId, 'You said you sleep with the lights on and eat before sleeping and these can cause sleep disturbances!');
-    fbMessengerBotClient.sendTextMessage(fbUserId, 'But thats it from me. If you have any questions abot sleep feel free to ask them.');
+
+    var advice = '';
+    
+    var answers = await userBackground.getBackground(fbUserId);
+    if (answers.electronics === 'yes') advice += '\n- You should avoid electronic devices before sleeping.';
+    if (answers.stressed === 'yes') advice += '\n- Stress can impact on your sleep';
+    if (answers.eat === 'yes') advice += '\n- You should avoid eating late.';
+    if (answers.alcohol_nicotine === 'yes') advice += '\n- You should avoid alcohol and nicotine before going to bed.'
+    if (answers.caffeine === 'yes') advice += '\n- You should avoid caffeine before going to bed.'
+    if (answers.lights === 'yes') advice += '\n- You should sleep with the lights off.'
+    if (answers.quiet === 'yes') advice += '\n- You should make your bedroom as quiet as possible for sleeping.'
+    if (answers.exercise === 'yes') advice += '\n- You should be exercising regularly.'
+    if (answers.work_schedule === 'yes') += '\n- Your irregular work schedule may be interferring with your sleep.';
+
+    if (advice !== '') {
+        var pre = 'Based on your answers, I can see a few things that are possibly causing you to wake up in the middle of the night:';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, pre+advice);
+    } else if(sleepEnough === true) {
+        await fbMessengerBotClient.sendTextMessage(fbUserId, 'Based on your answers, there does not seem to be anything concerning. It seems your are getting enough sleep each night without any disturbances.');
+    }
+    fbMessengerBotClient.sendTextMessage('That\'s it from me for now.');
+    fbMessengerBotClient.sendTextMessage('If you have any questions about how something affects sleep feel free to ask me.');
 }
 
 async function chatAboutSleep(fbUserId, message, botRequested) {
