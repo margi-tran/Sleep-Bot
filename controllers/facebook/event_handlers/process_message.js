@@ -97,14 +97,12 @@ module.exports = async (event) => {
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
         if (intent === constants.INTENT_EFFECTS_OF_FACTORS) {
-
             if(parameters.factors === '') {
-                var msg = 'Sorry, I didn\'t quite get that. I can tell how the following affect sleep:\n- alcohol\n- nicotine'
-                            + '\n- electronic devices\n- stress\n- eating before bed\n- caffeine\n - noise\n - exercise\n- sleeping with the lights on'
+                var msg = 'Sorry, I didn\'t quite get that. I can tell how the following affect your sleep:\n- alcohol\n- nicotine'
+                            + '\n- electronic devices\n- stress\n- eating before bed\n- caffeine\n- noise\n- exercise\n- sleeping with the lights on'
                 fbMessengerBotClient.sendTextMessage(fbUserId, msg);
                 return;
             }
-
             var factorParameter = parameters.factors;
             var explanationArray = await factor.getExplanation(factorParameter);
             if (explanationArray.length === 1) 
