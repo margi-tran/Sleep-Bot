@@ -257,7 +257,8 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     if (answers.quiet === 'yes') advice += '\n- You should make your bedroom as quiet as possible for sleeping.'
     if (answers.exercise === 'yes') advice += '\n- You should be exercising regularly.'
     if (answers.work_schedule === 'yes') advice+= '\n- Your irregular work schedule may be interferring with your sleep.';
-    console.log(advice);
+
+    console.log('answers: ', answers);
     var pre = 'Based on your answers, I can see a few things that are possibly causing you to wake up in the middle of the night:';
         await fbMessengerBotClient.sendTextMessage(fbUserId, pre+advice);
     if (advice !== '') {
