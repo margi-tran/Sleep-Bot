@@ -134,6 +134,8 @@ async function getNewUserBackground(fbUserId, message, botRequested) {
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_GET_UP);
+                    console.log('in here');
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     fbMessengerBotClient.sendTextMessage(fbUserId, constants.BACKGROUND_GET_UP_TEXT);
                 } else {  
                     var msg = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
