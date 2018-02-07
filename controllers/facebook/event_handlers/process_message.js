@@ -76,6 +76,7 @@ module.exports = async (event) => {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
 
+                    // The user has asked a question about the effect of a factor on sleep
                     if (context === 'FACTORS') {
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
@@ -95,7 +96,15 @@ module.exports = async (event) => {
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
-        if (intent === 'effects-of-factors-on-sleep' && parameters.factors !== '') {
+        if (intent === constants.INTENT_EFFECTS_OF_FACTORS) {
+
+            if(parameters.factors === '') {
+                var msg = 'Sorry, I didn\'t quite get that. I can tell how the following affect sleep:\n- alcohol\n- nicotine'
+                            + '\n- electronic devices\n- stress\n- eating before bed\n- caffeine\n - noise\n - exercise\n- sleeping with the lights on'
+                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+                return;
+            }
+
             var factorParameter = parameters.factors;
             var explanationArray = await factor.getExplanation(factorParameter);
             if (explanationArray.length === 1) 

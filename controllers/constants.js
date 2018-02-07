@@ -39,6 +39,8 @@ const EXERCISE = 'exercise';
 const ALCOHOL = 'alcohol';
 const NICOTINE = 'nicotine';
 
+const INTENT_EFFECTS_OF_FACTORS = 'effects-of-factors-on-sleep';
+
 const QUICK_REPLIES_YES_OR_NO = 
     [{
         "content_type": "text",
@@ -92,6 +94,8 @@ module.exports = {
     WORK_SCHEDULE,
     ALCOHOL,
     NICOTINE,
+
+    INTENT_EFFECTS_OF_FACTORS,
 
 	QUICK_REPLIES_YES_OR_NO
 };
