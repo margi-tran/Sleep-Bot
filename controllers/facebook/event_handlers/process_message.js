@@ -255,7 +255,7 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     if (answers.lights === 'yes') advice += '\n- You should sleep with the lights off.'
     if (answers.quiet === 'yes') advice += '\n- You should make your bedroom as quiet as possible for sleeping.'
     if (answers.exercise === 'yes') advice += '\n- You should be exercising regularly.'
-    if (answers.work_schedule === 'yes') += '\n- Your irregular work schedule may be interferring with your sleep.';
+    if (answers.work_schedule === 'yes') advice+= '\n- Your irregular work schedule may be interferring with your sleep.';
 
     if (advice !== '') {
         var pre = 'Based on your answers, I can see a few things that are possibly causing you to wake up in the middle of the night:';
@@ -263,8 +263,8 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     } else if(sleepEnough === true) {
         await fbMessengerBotClient.sendTextMessage(fbUserId, 'Based on your answers, there does not seem to be anything concerning. It seems your are getting enough sleep each night without any disturbances.');
     }
-    fbMessengerBotClient.sendTextMessage('That\'s it from me for now.');
-    fbMessengerBotClient.sendTextMessage('If you have any questions about how something affects sleep feel free to ask me.');
+    await fbMessengerBotClient.sendTextMessage('That\'s it from me for now.');
+    await fbMessengerBotClient.sendTextMessage('If you have any questions about how something affects sleep feel free to ask me.');
 }
 
 async function chatAboutSleep(fbUserId, message, botRequested) {
