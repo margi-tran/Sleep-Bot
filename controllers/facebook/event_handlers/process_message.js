@@ -95,7 +95,7 @@ module.exports = async (event) => {
         const apiaiResponse = await apiaiClient.textRequest(message, { sessionId: fbUserId });
         const intent = apiaiResponse.result.metadata.intentName;
         const parameters = apiaiResponse.result.parameters;
-        if (intent === 'factor effects' && parameters.factors !== '') {
+        if (intent === 'effects-of-factors-on-sleep' && parameters.factors !== '') {
             var factorParameter = parameters.factors;
             var explanationArray = await factor.getExplanation(factorParameter);
             if (explanationArray.length === 1) 
