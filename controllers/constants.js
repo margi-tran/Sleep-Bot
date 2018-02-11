@@ -15,7 +15,12 @@ const BACKGROUND_EXERCISE = 'background question exercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 
-const BACKGROUND_QUESTION_ANSWER = 'background question answer';
+
+const SUBCONTEXT_QUESTION_ANSWER = 'question answer';
+const SUBCONTEXT_LATE_WAKEUP_1 = 'late wakeup 1';
+const SUBCONTEXT_LATE_WAKEUP_2 = 'late wake up 2';
+
+
 
 const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
@@ -75,7 +80,8 @@ module.exports = {
 
     SUBCONTEXT_QUESTION_ANSWER,
     SUBCONTEXT_NEXT_QUESTION,
-    SUBCONTEXT_LATE_WAKEUP,
+    SUBCONTEXT_LATE_WAKEUP_1,
+    SUBCONTEXT_LATE_WAKEUP_2,
 
 
     NOTIFIED_SLEEP,
