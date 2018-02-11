@@ -147,7 +147,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_GET_UP);
-                    await user.setContext(fbUserId, constants.SUBCONTEXT_QUESTION_ANSWER);
+                    await user.setSubContext(fbUserId, constants.SUBCONTEXT_QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP]);
                 } else {  
