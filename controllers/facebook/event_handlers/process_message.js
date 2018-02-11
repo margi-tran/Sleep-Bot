@@ -147,7 +147,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
                     await user.updateBotRequested(fbUserId, constants.BACKGROUND_GET_UP);
-                    await user.setContext(fbUserId, constants.CONTEXT_QUESTION_ANSWER);
+                    await user.setContext(fbUserId, constants.SUBCONTEXT_QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP]);
                 } else {  
@@ -159,7 +159,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                /* if (timeRegex.test(message)) updateBackgroundandAskNextQuestion(fbUserId, constants.GET_UP, message, constants.BACKGROUND_GO_TO_BED, false);
                 else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
                 break;*/
-                if (subcontext === constants.CONTEXT_QUESTION_ANSWER) {
+                if (subcontext === constants.SUBCONTEXT_QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
                         await userBackground.updateBackground(fbUserId, botRequested, message);
                          var getUpHour = dateAndTimeUtil.getHourFromTimeString(message);

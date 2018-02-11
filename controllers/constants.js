@@ -20,8 +20,6 @@ const SUBCONTEXT_QUESTION_ANSWER = 'question answer';
 const SUBCONTEXT_LATE_WAKEUP_1 = 'late wakeup 1';
 const SUBCONTEXT_LATE_WAKEUP_2 = 'late wake up 2';
 
-
-
 const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
 const SLEEP_STRESSED = 'sleep stressed';
