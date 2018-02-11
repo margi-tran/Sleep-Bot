@@ -24,9 +24,22 @@ exports.getBotRequested = async (fbUserId) => {
     return result[0].botRequested;
 };
 
-exports.updateBotRequested = async (fbUserId, context) => {
+exports.updateBotRequested = async (fbUserId, requested) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: context } });
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { botRequested: requested } });
+    db.close();
+};
+
+exports.getSubContext = async (fbUserId) => {
+	const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    return result[0].subcontext;
+};
+
+exports.setSubContext = async (fbUserId, context) => {
+	const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { subcontext: subcontext } });
     db.close();
 };
 
@@ -47,6 +60,7 @@ exports.addUser = async (fbUserId) => {
         { 
             fbUserId_: fbUserId, 
             botRequested: constants.FITBIT_AUTH,
+            context: null,
             userIsNew: true,
             notifiedSleep: null,
         };

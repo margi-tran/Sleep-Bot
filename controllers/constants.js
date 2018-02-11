@@ -15,6 +15,8 @@ const BACKGROUND_EXERCISE = 'background question exercise';
 const BACKGROUND_JOB = 'background question job';
 const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 
+const BACKGROUND_QUESTION_ANSWER = 'background question answer';
+
 const NOTIFIED_SLEEP = 'notified sleep';
 const SLEEP_ELECTRONICS = 'sleep electronics';
 const SLEEP_STRESSED = 'sleep stressed';
@@ -70,6 +72,11 @@ module.exports = {
     BACKGROUND_EXERCISE, 
     BACKGROUND_JOB, 
     BACKGROUND_WORK_SCHEDULE, 
+
+    SUBCONTEXT_QUESTION_ANSWER,
+    SUBCONTEXT_NEXT_QUESTION,
+    SUBCONTEXT_LATE_WAKEUP,
+
 
     NOTIFIED_SLEEP,
     SLEEP_ELECTRONICS, 
