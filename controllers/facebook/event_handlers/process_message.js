@@ -146,7 +146,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    await user.updateMainContext(fbUserId, constants.BACKGROUND_GET_UP);
+                    await user.setMainContext(fbUserId, constants.BACKGROUND_GET_UP);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP]);
@@ -181,7 +181,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTONS1);
                 } else if (subcontext === constants.FINISHED_OPTIONS) {
                     if (message === 'next question') {
-                        await user.updateMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
+                        await user.setMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
                         await user.setSubContext(fbUserId, constants.CONTEXT_QUESTION_ANSWER);
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED], false);
                     } else {
