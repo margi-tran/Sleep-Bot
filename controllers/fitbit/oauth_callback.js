@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
 					+ ' so I\'m going to ask you a few questions.';
 		var m3 = 'Are you ready to start answering my questions?';
 
-        await user.updateBotRequested(fbUserId, constants.BACKGROUND_QUESTIONS);
+        await user.setMainContext(fbUserId, constants.BACKGROUND_QUESTIONS);
 
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m1);
 		await fbMessengerBotClient.sendTextMessage(fbUserId, m2); 
