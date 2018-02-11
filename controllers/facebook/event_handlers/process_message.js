@@ -177,7 +177,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
                     }
                 } else if (subcontext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
-                    await user.setSubContext(fbUserId, constants.CONTEXT_LATE_WAKEUP_2);
+                    await user.setSubContext(fbUserId, constants.constants.FINISHED_OPTIONS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTONS1);
                 } else if (subcontext === constants.FINISHED_OPTIONS) {
                     if (message === 'next question') {
