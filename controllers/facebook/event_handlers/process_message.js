@@ -68,17 +68,17 @@ module.exports = async (event) => {
         await fbMessengerBotClient.markSeen(fbUserId);
         await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
 
-        const botRequested = await user.getBotRequested(fbUserId);
+        const mainContext = await user.getMainContext(fbUserId);
         const userIsNew = await user.isUserNew(fbUserId);
         // Get background sleep information from new user
         if (userIsNew) {
-            getNewUserBackground(fbUserId, message, event, botRequested);
+            getNewUserBackground(fbUserId, message, event, mainContext);
             return;
         }
 
         // 'Interview' user about their sleep
-        if (sleepQuestions.includes(botRequested)) {
-            chatAboutSleep(fbUserId, message, botRequested);
+        if (sleepQuestions.includes(mainContext)) {
+            chatAboutSleep(fbUserId, message, mainContext);
             return;
         }
 
@@ -130,14 +130,14 @@ module.exports = async (event) => {
     } 
 };
 
-async function getNewUserBackground(fbUserId, message, event, botRequested) {
-    const subcontext = await user.getSubContext(fbUserId);
+async function getNewUserBackground(fbUserId, message, event, mainContext) {
+    const subContext = await user.getSubContext(fbUserId);
     try {
         // The following regex was by Peter O. and it was taken from https://stackoverflow.com/questions/7536755/regular-expression-for-matching-hhmm-time-format
         const timeRegex = RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/);
 
         // Check whether the bot asked anything from the user, if this is the case, then the bot is expecting a reply
-        switch (botRequested) {
+        switch (mainContext) {
             case constants.FITBIT_AUTH:
                 var msg = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.';
                                 + 'To do so click on the following link:\nhttps://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
@@ -146,7 +146,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    await user.updateBotRequested(fbUserId, constants.BACKGROUND_GET_UP);
+                    await user.updateMainContext(fbUserId, constants.BACKGROUND_GET_UP);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP]);
@@ -161,7 +161,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                 break;*/
                 if (subcontext === constants.QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
-                        await userBackground.updateBackground(fbUserId, botRequested, message);
+                        await userBackground.updateBackground(fbUserId, mainContext, message);
                          var getUpHour = dateAndTimeUtil.getHourFromTimeString(message);
                          if (getUpHour > 9) {
                             await user.setSubContext(fbUserId, constants.LATE_WAKEUP_EXPECT_EXPLANATION);
@@ -177,11 +177,11 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
                     }
                 } else if (subcontext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
-                    await user.setSubContext(fbUserId, constants.constants.FINISHED_OPTIONS);
+                    await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTONS1);
                 } else if (subcontext === constants.FINISHED_OPTIONS) {
                     if (message === 'next question') {
-                        await user.updateBotRequested(fbUserId, constants.BACKGROUND_GO_TO_BED);
+                        await user.updateMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
                         await user.setSubContext(fbUserId, constants.CONTEXT_QUESTION_ANSWER);
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED], false);
                     } else {
@@ -233,7 +233,7 @@ async function getNewUserBackground(fbUserId, message, event, botRequested) {
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.JOB, message);
                     if (message === 'yes') {
-                        await user.updateUser(fbUserId, { botRequested: constants.BACKGROUND_WORK_SCHEDULE });
+                        await user.updateUser(fbUserId, { mainContext: constants.BACKGROUND_WORK_SCHEDULE });
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE], constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
                         presentResultsForBackground(fbUserId, false);
@@ -264,15 +264,15 @@ async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
 }
 
-async function updateBackgroundandAskNextQuestion(fbUserId, botRequested, message, nextQuestion, isQuickReplyMessage) {
-    await userBackground.updateBackground(fbUserId, botRequested, message);
-    await user.updateBotRequested(fbUserId, nextQuestion);
+async function updateBackgroundandAskNextQuestion(fbUserId, mainContext, message, nextQuestion, isQuickReplyMessage) {
+    await userBackground.updateBackground(fbUserId, mainContext, message);
+    await user.setMainContext(fbUserId, nextQuestion);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[nextQuestion]);
 }
 
 async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
-    await user.updateBotRequested(fbUserId, null);
+    await user.setMainContext(fbUserId, null);
     await user.updateUserIsNew(fbUserId, false);
     await user.setNotifiedSleepToFalse(fbUserId);
 
@@ -319,13 +319,13 @@ async function presentResultsForBackground(fbUserId, hasIrregularWorkSchedule) {
     await fbMessengerBotClient.sendTextMessage('If you have any questions about how something affects sleep feel free to ask me.');
 }
 
-async function chatAboutSleep(fbUserId, message, botRequested) {
+async function chatAboutSleep(fbUserId, message, mainContext) {
     try {
-        switch (botRequested) {
+        switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
-                    await user.updateBotRequested(fbUserId, constants.SLEEP_ELECTRONICS);
+                    await user.setMainContext(fbUserId, constants.SLEEP_ELECTRONICS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.SLEEP_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
@@ -359,7 +359,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
             case constants.SLEEP_QUIET:
                 if (message === 'yes' || message === 'no') {
                     await userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message);
-                    await user.updateBotRequested(fbUserId, null);
+                    await user.setMainContext(fbUserId, null);
                     presentResultsForSleep(fbUserId);
                 } else { 
                     repeatQuestion(fbUserId, sleepQuestionsMap[constants.SLEEP_QUIET], true);
@@ -373,15 +373,15 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
     }
 }
 
-async function updateSleepAnswersandAskNextQuestion(fbUserId, botRequested, message, nextQuestion, isQuickReplyMessage) {
-    await userSleepAnswers.updateSleepAnswer(fbUserId, botRequested, message);
-    await user.updateBotRequested(fbUserId, nextQuestion);
+async function updateSleepAnswersandAskNextQuestion(fbUserId, mainContext, message, nextQuestion, isQuickReplyMessage) {
+    await userSleepAnswers.updateSleepAnswer(fbUserId, mainContext, message);
+    await user.setMainContext(fbUserId, nextQuestion);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[nextQuestion]);
 }
 
 async function presentResultsForSleep(fbUserId) {
-    await user.updateBotRequested(fbUserId, null);
+    await user.setMainContext(fbUserId, null);
     await user.setNotifiedSleepToTrue(fbUserId);
     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Being stressed can ruin your sleep. My advice to you is to try some destressing techniques. Maybe even try yoga!');
 }
