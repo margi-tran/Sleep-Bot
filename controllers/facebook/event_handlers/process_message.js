@@ -376,7 +376,7 @@ async function chatAboutSleep(fbUserId, message, botRequested) {
 async function updateSleepAnswersandAskNextQuestion(fbUserId, botRequested, message, nextQuestion, isQuickReplyMessage) {
     await userSleepAnswers.updateSleepAnswer(fbUserId, botRequested, message);
     await user.updateBotRequested(fbUserId, nextQuestion);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestion, constants.QUICK_REPLIES_YES_OR_NO);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[nextQuestion]);
 }
 
