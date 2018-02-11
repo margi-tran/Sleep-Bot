@@ -37,7 +37,7 @@ exports.getSubContext = async (fbUserId) => {
     return result[0].subcontext;
 };
 
-exports.setSubContext = async (fbUserId, context) => {
+exports.setSubContext = async (fbUserId, subcontext) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { subcontext: subcontext } });
     db.close();
