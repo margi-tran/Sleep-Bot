@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
 		const profileData = await fitbitClient.client.get('/profile.json', accessTokenPromise.access_token);
 
         await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
-        await user.updateBotRequested(fbUserId, null);
+        await user.setMainContext(fbUserId, null);
         await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
         await userSleepAnswers.addNewUser(fbUserId);
 
