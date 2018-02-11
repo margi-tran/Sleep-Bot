@@ -24,7 +24,7 @@ exports.getMainContext = async (fbUserId) => {
     return result[0].mainContext;
 };
 
-exports.updateMainContext = async (fbUserId, mainContext) => {
+exports.setMainContext = async (fbUserId, mainContext) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { mainContext: mainContext } });
     db.close();
