@@ -124,7 +124,7 @@ module.exports = async (event) => {
 
         // 'Interview' user about their sleep
         if (sleepQuestions.includes(mainContext)) {
-            chatAboutSleep(fbUserId, message, mainContext);
+            chatAboutSleep(fbUserId, message, event, mainContext);
             return;
         }
 
@@ -458,7 +458,7 @@ async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
     else fbMessengerBotClient.sendTextMessage(fbUserId, questionText);
 }
 
-async function chatAboutSleep(fbUserId, message, mainContext) {
+async function chatAboutSleep(fbUserId, message, event, mainContext) {
     try {
         switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
