@@ -46,7 +46,6 @@ const QUIET = 'quiet';
 const JOB = 'job';
 const WORK_SCHEDULE = 'work_schedule';
 const EXERCISE = 'exercise';
-const NICOTINE = 'nicotine';
 
 const INTENT_EFFECTS_OF_FACTORS = 'effects-of-factors-on-sleep';
 
@@ -110,8 +109,6 @@ module.exports = {
     EXERCISE,
     JOB,
     WORK_SCHEDULE,
-    ALCOHOL,
-    NICOTINE,
 
     INTENT_EFFECTS_OF_FACTORS,
 
