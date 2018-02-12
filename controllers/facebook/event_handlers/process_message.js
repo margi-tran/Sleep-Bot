@@ -118,6 +118,7 @@ module.exports = async (event) => {
             var msg = 'I can assist you sleep related queries. You can ask about any of the following:' 
                         + '\n- your sleep last night'
                         + '\n- your sleep advice'
+                        + '\n- general sleep advice'
                         + '\n- how something affects sleep (disturbances)'
                         + '\n- consequences of poor sleep';
             fbMessengerBotClient.sendTextMessage(fbUserId, msg);
@@ -216,7 +217,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Depending on your situation, you should aim to wake up between 6am-8am.', BUTTON_NEXT_QUESTION);
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'I see but, depending on your situation, you should waking up between 6am-8am.', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
                         updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
@@ -245,7 +246,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_GO_TO_BED_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    var msg1 = 'Depending on your situation, you should aim to go to bed between 8pm-12am';
+                    var msg1 = 'I see but, depending on your situation, you should be going to bed between 8pm-12am';
 
                     var getUp = await userBackground.getGoToBed(fbUserId);
                     var goToBed = await userBackground.getGetUp(fbUserId);
@@ -261,14 +262,12 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         msg2 = false;
                         advice += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-9 hours.'
                     }
-
                     if (sleepEnough === false) {
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg2) ;
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserIs, msg2, BUTTON_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, BUTTON_NEXT_QUESTION);
                     } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserIs, msg1, BUTTON_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg1, BUTTON_NEXT_QUESTION);
                     }
-
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
                         updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, true);
