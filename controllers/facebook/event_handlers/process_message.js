@@ -189,10 +189,10 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    await user.setMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
+                    await user.setMainContext(fbUserId, constants.GO_TO_BED);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
-                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GET_UP]);
+                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED]);
                 } else {  
                     var msg = 'I would like to get an idea about your current sleep health. I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
@@ -201,10 +201,10 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
             case constants.GO_TO_BED:
                 if (subContext === constants.QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
-                        await userBackground.updateBackground(fbUserId, constants.BACKGROUND_GET_UP, message);
+                        await userBackground.updateBackground(fbUserId, constants.GET_UP, message);
                         var goToBedHour = dateAndTimeUtil.getHourFromTimeString(message);
                         if (goToBedHour >= 20 || goToBedHour === 0) { // acceptable go to bed hours
-                            updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, true);
+                            updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GET_UP, constants.QUESTION_ANSWER, true);
                         } else {
                             await user.setSubContext(fbUserId, constants.LATE_GO_TO_BED_EXPECT_EXPLANATION);
                             if (goToBedHour < 3) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you go to bed very late at night?');
@@ -221,13 +221,13 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
-                        updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GET_UP, constants.QUESTION_ANSWER, true);
+                        updateContextsAndAskNextQuestion(fbUserId, constants.GET_UP, constants.QUESTION_ANSWER, true);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
                 }
                 break; 
-            case constants.BACKGROUND_GET_UP:
+            case constants.GET_UP:
                 if (subContext === constants.QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
                         await userBackground.updateBackground(fbUserId, constants.GET_UP, message);
@@ -247,7 +247,6 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
                     var msg1 = 'I see but, depending on your situation, you should waking up between 6am-8am.';
-                    
                     var getUp = await userBackground.getGoToBed(fbUserId);
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);

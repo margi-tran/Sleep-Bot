@@ -1,21 +1,6 @@
 const GET_STARTED_PAYLOAD = 'GET_STARTED_PAYLOAD';
 const FITBIT_AUTH = 'fitbit auth';
 
-const BACKGROUND_QUESTIONS = 'background questions';
-const BACKGROUND_GET_UP = 'background question get_up';
-const BACKGROUND_GO_TO_BED = 'background question go_to_bed';
-const BACKGROUND_ELECTRONICS = 'background question electronics';
-const BACKGROUND_STRESSED = 'background question stressed';
-const BACKGROUND_EAT = 'background question eat';
-const BACKGROUND_ALCOHOL_NICOTINE = 'background question alcohol nicotine';
-const BACKGROUND_CAFFEINE = 'background question caffeine';
-const BACKGROUND_LIGHTS = 'background question lights';
-const BACKGROUND_QUIET = 'background question noise';
-const BACKGROUND_EXERCISE = 'background question exercise';
-const BACKGROUND_JOB = 'background question job';
-const BACKGROUND_WORK_SCHEDULE = 'background work sched';
-
-
 const QUESTION_ANSWER = 'question answer';
 const FINISHED_OPTIONS = 'finished options';
 const QUESTION_ANSWER_DONE = 'question answer done';
@@ -66,18 +51,6 @@ module.exports = {
 	FITBIT_AUTH,
 
 	BACKGROUND_QUESTIONS,
-    BACKGROUND_GET_UP,
-    BACKGROUND_GO_TO_BED,
-    BACKGROUND_ELECTRONICS,
-    BACKGROUND_STRESSED,
-    BACKGROUND_EAT, 
-    BACKGROUND_ALCOHOL_NICOTINE,
-    BACKGROUND_CAFFEINE, 
-    BACKGROUND_LIGHTS, 
-    BACKGROUND_QUIET, 
-    BACKGROUND_EXERCISE, 
-    BACKGROUND_JOB, 
-    BACKGROUND_WORK_SCHEDULE, 
 
     QUESTION_ANSWER,
     FINISHED_OPTIONS,
