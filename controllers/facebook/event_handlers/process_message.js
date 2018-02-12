@@ -232,7 +232,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     if (message === 'yes' || message === 'no') {
                         await userBackground.updateBackground(fbUserId, constants.ELECTRONICS, message);
                         if (message === 'yes') {
-                            var msg = 'You should avoid using electronics before bedtime.';
+                            var msg = 'You should not be using electronics before bedtime.';
                             await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTONS_WHY_AND_NEXT_QUESTION);
                         } else {
@@ -259,7 +259,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.MORE_INFO) {
                         if(message === 'more') {
-                            var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ').payloadStringSplit[2]);
+                            var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ')[2]);
                             var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
                             var nextExplanation = explanationNumber+1;
                             if (nextExplanation >= explanationArray.length-1) {    
