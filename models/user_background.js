@@ -33,9 +33,9 @@ exports.addNewUserBackground = async (fbUserId, age) => {
     var background = 
         { 
             fbUserId_: fbUserId, 
-            age: age,                
+            age: age,  
+            go_to_bed: null,              
             get_up: null,
-            go_to_bed: null,
             electronics: null,
             stressed: null,
             eat: null,
