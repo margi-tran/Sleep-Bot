@@ -214,7 +214,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
             case constants.GO_TO_BED:
                 if (subContext === constants.QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
-                        await userBackground.updateBackground(fbUserId, constants.GET_UP, message);
+                        await userBackground.updateBackground(fbUserId, constants.GO_TO_BED, message);
                         var goToBedHour = dateAndTimeUtil.getHourFromTimeString(message);
                         if (goToBedHour >= 20 || goToBedHour === 0) { // acceptable go to bed hours
                             updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GET_UP, constants.QUESTION_ANSWER, true);
@@ -234,7 +234,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
-                        updateContextsAndAskNextQuestion(fbUserId, constants.GET_UP, constants.QUESTION_ANSWER, true);
+                        updateContextsAndAskNextQuestion(fbUserId, constants.GET_UP, constants.QUESTION_ANSWER, false);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
