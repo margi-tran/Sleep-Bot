@@ -35,15 +35,15 @@ backgroundQuestionsMap[constants.EXERCISE] = 'Are you exercising regularly?';
 backgroundQuestionsMap[constants.JOB] = 'Do you have a job?';
 backgroundQuestionsMap[constants.WORK_SCHEDULE] = 'Is your work schedule irregular?';
 
-var initalAdviceMap = {};
-initalAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
-initalAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
-initalAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
-initalAdviceMap[constants.ALCOHOL_NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
-initalAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before going to bed.';
-initalAdviceMap[constants.LIGHTS] = 'You should be sleep with the lights off.';
-initalAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
-initalAdviceMap[constants.EXERCISE] = 'You should be exercising regularly.';
+var initialAdviceMap = {};
+initialAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
+initialAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
+initialAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
+initialAdviceMap[constants.ALCOHOL_NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
+initialAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before going to bed.';
+initialAdviceMap[constants.LIGHTS] = 'You should be sleep with the lights off.';
+initialAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
+initialAdviceMap[constants.EXERCISE] = 'You should be exercising regularly.';
 
 //\n- Your irregular work schedule may be interferring with your sleep.';
 
