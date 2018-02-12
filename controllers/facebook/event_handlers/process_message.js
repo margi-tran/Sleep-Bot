@@ -211,7 +211,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                 }
                 break;
-            case constants.BACKGROUND_GO_TO_BED:
+            case constants.GO_TO_BED:
                 if (subContext === constants.QUESTION_ANSWER) {
                     if (timeRegex.test(message)) {
                         await userBackground.updateBackground(fbUserId, constants.GO_TO_BED, message);
@@ -239,31 +239,31 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 }
                 break;             
-            case constants.BACKGROUND_ELECTRONICS:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.BACKGROUND_ELECTRONICS, constants.ELECTRONICS, constants.BACKGROUND_EAT subContext);
+            case constants.ELECTRONICS:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.ELECTRONICS, constants.STRESSED, subContext);
                 break;
-            case constants.BACKGROUND_STRESSED:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.BACKGROUND_STRESSED, constants.STRESSED, constants.BACKGROUND_EAT, subContext);
+            case constants.STRESSED:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.STRESSED, constants.EAT, subContext);
                 break;
-            case constants.BACKGROUND_EAT:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+            case constants.EAT:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.EAT, constants.ALCOHOL_NICOTINE, subContext);
                 break;
-            case constants.BACKGROUND_ALCOHOL_NICOTINE:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.ALCOHOL_NICOTINE, constants.ALCOHOL_NICOTINE, constants.BACKGROUND_CAFFEINE, subContext);
+            case constants.ALCOHOL_NICOTINE:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.ALCOHOL_NICOTINE, constants.CAFFEINE, subContext);
                 break;   
-            case constants.BACKGROUND_CAFFEINE:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.CAFFEINE, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+            case constants.CAFFEINE:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.CAFFEINE, constants.LIGHTS, subContext);
                 break; 
-            case constants.BACKGROUND_LIGHTS:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+            case constants.LIGHTS:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.QUIET, subContext);
                 break;     
-            case constants.BACKGROUND_QUIET:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.QUIET, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+            case constants.QUIET:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.QUIET, constants.EXERCISE, subContext);
                 break;  
-            case constants.BACKGROUND_EXERCISE:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.EXERCISE, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+            case constants.EXERCISE:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.EXERCISE, constants.JOB, subContext);
                 break; 
-            case constants.BACKGROUND_JOB:
+            case constants.JOB:
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.JOB, message);
                     if (message === 'yes') {
@@ -276,7 +276,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_JOB], true);
                 }
                 break;
-            case constants.BACKGROUND_WORK_SCHEDULE:
+            case constants.WORK_SCHEDULE:
                 if (message === 'yes' || message === 'no') {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     presentResultsForBackground(fbUserId, true);
@@ -452,13 +452,13 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
     else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[mainContext]);
 }
 
-async function handleBackgroundQuestionReply(fbUserId, event, message, currentMainContext, currentMainContextConstant, nextMainContext, subContext) {
+async function handleBackgroundQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
-            await userBackground.updateBackground(fbUserId, currentMainContextConstant, message);
+            await userBackground.updateBackground(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContextConstant], BUTTONS_WHY_AND_NEXT_QUESTION);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
                 updateContextsAndAskNextQuestion(fbUserId, currentMainContext, constants.QUESTION_ANSWER, true);
             }
@@ -467,7 +467,7 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
         }
     } else if (subContext === constants.QUESTION_ANSWER_DONE) {
         if (message === 'why') {
-            var explanationArray = await factor.getExplanation(currentMainContextConstant);
+            var explanationArray = await factor.getExplanation(currentMainContext);
             if (explanationArray.length === 1) {
                 await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], BUTTON_NEXT_QUESTION);
