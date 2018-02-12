@@ -185,9 +185,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             else if (getUpHour < 17) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the afternoon?');
                             else fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the evening?');
                          } else {
-                            /*await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                            await updateBackgroundandAskNextQuestion(fbUserId, constants.GET_UP, message, constants.BACKGROUND_GO_TO_BED, false);
-                            */updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_GO_TO_BED, true);
+                            updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GO_TO_BED, constants.QUESTION_ANSWER, constants.BACKGROUND_GO_TO_BED, true);
                          }
                     } else {
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
@@ -196,14 +194,8 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
-                    if (message === constants.NEXT_QUESTION) {
-                        /*await user.setMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
-                        await user.setSubContext(fbUserId, constants.CONTEXT_QUESTION_ANSWER);
-                        fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED]);
-                        */updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_GO_TO_BED, true);
-                    } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
-                    }
+                    if (message === constants.NEXT_QUESTION) updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GO_TO_BED, constants.QUESTION_ANSWER, constants.BACKGROUND_GO_TO_BED, false);
+                    else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                 }
                 break;
             case constants.BACKGROUND_GO_TO_BED:
@@ -212,11 +204,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         await userBackground.updateBackground(fbUserId, constants.GO_TO_BED, message);
                         var goToBedHour = dateAndTimeUtil.getHourFromTimeString(message);
                         if (goToBedHour >= 20 || goToBedHour === 0) { // acceptable go to bed hours
-                            /*await user.setMainContext(fbUserId, constants.BACKGROUND_ELECTRONICS);
-                            await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
-                            */
-                            updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_ELECTRONICS, true);
+                            updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_ELECTRONICS, constants.QUESTION_ANSWER, constants.BACKGROUND_ELECTRONICS, true);
                         } else {
                             await user.setSubContext(fbUserId, constants.LATE_GO_TO_BED_EXPECT_EXPLANATION);
                             if (goToBedHour < 3) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you go to bed very late at night?');
@@ -232,11 +220,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'going to bed at these times are not good', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
-                        /*await user.setMainContext(fbUserId, constants.BACKGROUND_ELECTRONICS);
-                        await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
-                        */
-                        updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_ELECTRONICS, true);
+                        updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, constants.BACKGROUND_ELECTRONICS, true);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
@@ -251,10 +235,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTONS_WHY_AND_NEXT_QUESTION);
                         } else {
-                            /*await user.setMainContext(fbUserId, constants.BACKGROUND_STRESSED);
-                            await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_STRESSED], constants.QUICK_REPLIES_YES_OR_NO);
-                            */updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_STRESSED, true);
+                            updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
                         }
                     } else {
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], true);
@@ -271,11 +252,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(constants.ELECTRONICS, 0));
                         }
                     } else if (message === constants.NEXT_QUESTION) {
-                        /*await user.setMainContext(fbUserId, constants.BACKGROUND_ELECTRONICS);
-                        await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_STRESSED], constants.QUICK_REPLIES_YES_OR_NO);
-                        */ updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_STRESSED, true);
-
+                        updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please choose an option.', BUTTONS_WHY_AND_NEXT_QUESTION);
                     }
@@ -297,37 +274,15 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             }
                         }
                 } else if (subContext === constants.FINISHED_OPTIONS) {
-                    if (message === constants.NEXT_QUESTION) {
-                        /*await user.setMainContext(fbUserId, constants.BACKGROUND_ELECTRONICS);
-                        await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_STRESSED], constants.QUICK_REPLIES_YES_OR_NO);
-                        */updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_STRESSED, true);
-                    } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
-                    }
+                    if (message === constants.NEXT_QUESTION) updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
+                    else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
                 } 
                 break;
             case constants.BACKGROUND_STRESSED:
-
                 if (subContext === constants.QUESTION_ANSWER) {
                     fbMessengerBotClient.sendTextMessage(fbUserId, 'heehe');
                 }
-
-                /*if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId,  constants.STRESSED, message, constants.BACKGROUND_EAT, true);
-                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_STRESSED], true);*/
                 break;
-
-                /*if (subContext === constants.QUESTION_ANSWER) {
-                    if (message === 'yes' || message === 'no') {
-                        await userBackground.updateBackground(fbUserId, mainContext, message);
-                    } else {
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], true);
-                    }
-                } else if (subContext === constants.FINISHED_OPTIONS) {
-
-                } 
-                break;*/
-
             case constants.BACKGROUND_EAT:
                 if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.EAT, message, constants.BACKGROUND_ALCOHOL_NICOTINE, true);
                 else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_EAT], true);
