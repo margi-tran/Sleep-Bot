@@ -508,6 +508,6 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
             }
     } else if (subContext === constants.FINISHED_OPTIONS) {
         if (message === constants.NEXT_QUESTION) updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
-        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
+        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
     } 
 }
