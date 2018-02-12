@@ -205,7 +205,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED]);*/
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
-                    updateContextsAndAskNextQuestion(fbUserId, mainCconstants.GO_TO_BED, constants.QUESTION_ANSWER, false);
+                    updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
                 } else {  
                     var msg = 'I would like to get an idea about your current sleep health. I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
