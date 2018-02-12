@@ -18,6 +18,8 @@ const BACKGROUND_WORK_SCHEDULE = 'background work sched';
 
 const QUESTION_ANSWER = 'question answer';
 const FINISHED_OPTIONS = 'finished options';
+const QUESTION_ANSWER_DONE = 'question answer done';
+const MORE_INFO = 'more info';
 const NEXT_QUESTION = 'next question';
 const LATE_WAKEUP_EXPECT_EXPLANATION = 'late wakeup expect explanation';
 const LATE_GO_TO_BED_EXPECT_EXPLANATION = 'late go to bed expect explanation';
@@ -81,6 +83,8 @@ module.exports = {
     QUESTION_ANSWER,
     FINISHED_OPTIONS,
     NEXT_QUESTION,
+    QUESTION_ANSWER_DONE,
+    MORE_INFO,
     LATE_WAKEUP_EXPECT_EXPLANATION,
     LATE_GO_TO_BED_EXPECT_EXPLANATION,
 
