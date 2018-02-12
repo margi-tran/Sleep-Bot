@@ -259,7 +259,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.MORE_INFO) {
                         if(message === 'more') {
-                            var explanationNumber = parseInt(payloadStringSplit[2]);
+                            var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ').payloadStringSplit[2]);
                             var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
                             var nextExplanation = explanationNumber+1;
                             if (nextExplanation >= explanationArray.length-1) {    
