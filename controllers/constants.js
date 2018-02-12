@@ -1,6 +1,7 @@
 const GET_STARTED_PAYLOAD = 'GET_STARTED_PAYLOAD';
 const FITBIT_AUTH = 'fitbit auth';
 
+const BACKGROUND_QUESTIONS = 'background questions';
 const QUESTION_ANSWER = 'question answer';
 const FINISHED_OPTIONS = 'finished options';
 const QUESTION_ANSWER_DONE = 'question answer done';
