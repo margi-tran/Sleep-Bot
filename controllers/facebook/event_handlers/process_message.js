@@ -258,22 +258,17 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please choose an option.', BUTTONS_WHY_AND_NEXT_QUESTION);
                     }
                 } else if (subContext === constants.MORE_INFO) {
-                        if (event.hasOwnProperty('message')) {
-                            if (event.message.hasOwnProperty('quick_reply')) {
-                                if (event.message.quick_reply.hasOwnProperty('payload')) {
-                                    var payloadStringSplit = event.message.quick_reply.payload.split(' ');
-                                    var explanationNumber = parseInt(payloadStringSplit[2]);
-                                    var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
-                                    var nextExplanation = explanationNumber+1;
-                                    if (nextExplanation >= explanationArray.length-1) {    
-                                        await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);   
-                                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_NEXT_QUESTION);
-                                    } else {
-                                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(constants.ELECTRONICS, nextExplanation));
-                                    }
-                                }
+                        if(message === 'more') {
+                            var explanationNumber = parseInt(payloadStringSplit[2]);
+                            var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
+                            var nextExplanation = explanationNumber+1;
+                            if (nextExplanation >= explanationArray.length-1) {    
+                                await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);   
+                                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_NEXT_QUESTION);
+                            } else {
+                                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(constants.ELECTRONICS, nextExplanation));
                             }
-                        } if (message === constants.NEXT_QUESTION) {
+                        } else if (message === constants.NEXT_QUESTION) {
                             updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
                         } else {
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
