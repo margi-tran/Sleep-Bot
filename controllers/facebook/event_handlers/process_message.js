@@ -280,7 +280,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                                     var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
                                     var nextExplanation = explanationNumber+1;
                                     if (nextExplanation >= explanationArray.length-1)                    
-                                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTONS_NEXT_QUESTION);
+                                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_NEXT_QUESTION);
                                     else 
                                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(constants.ELECTRONICS, nextExplanation));
                                 }
