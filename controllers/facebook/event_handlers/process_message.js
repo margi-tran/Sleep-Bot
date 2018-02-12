@@ -50,17 +50,29 @@ initialAdviceMap[constants.WORK_SCHEDULE] = 'Your irregular work schedule may be
 
 const sleepQuestions = 
     [
-        constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
-        constants.SLEEP_ALCOHOL_NICOTINE, constants.SLEEP_CAFFEINE, constants.SLEEP_LIGHTS, constants.SLEEP_QUIET
+        constants.NOTIFIED_SLEEP, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
+        constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS, constants.QUIET
     ];
 var sleepQuestionsMap = {};
-sleepQuestionsMap[constants.SLEEP_ELECTRONICS] = 'Did you use your phone (or any other electronic devices) before going to bed (or in bed)?'; 
-sleepQuestionsMap[constants.SLEEP_STRESSED] = 'Are you stressed or worried about anything?';
-sleepQuestionsMap[constants.SLEEP_EAT] = 'Did you eat before going to bed?';
-sleepQuestionsMap[constants.SLEEP_ALCOHOL_NICOTINE] = 'Did you drink alcohol or take nicotine before going to bed?';
-sleepQuestionsMap[constants.SLEEP_CAFFEINE] = 'Did you drink any beverages with caffeine, such as tea, before going to bed?';
-sleepQuestionsMap[constants.SLEEP_LIGHTS] = 'Did you sleep with the lights on?';
-sleepQuestionsMap[constants.SLEEP_QUIET] = 'Was your bedroom quiet when you went to sleep?';
+sleepQuestionsMap[constants.ELECTRONICS] = 'Did you use your phone (or any other electronic devices) before going to bed (or in bed)?'; 
+sleepQuestionsMap[constants.STRESSED] = 'Are you stressed or worried about anything?';
+sleepQuestionsMap[constants.EAT] = 'Did you eat before going to bed?';
+sleepQuestionsMap[constants.ALCOHOL] = 'Did you drink alcohol before going to bed?';
+sleepQuestionsMap[constants.NICOTINE] = 'Did you take nicotine before going to bed?';
+sleepQuestionsMap[constants.CAFFEINE] = 'Did you drink any beverages with caffeine, such as tea, before going to bed?';
+sleepQuestionsMap[constants.LIGHTS] = 'Did you sleep with the lights on?';
+sleepQuestionsMap[constants.QUIET] = 'Was your bedroom quiet when you went to sleep?';
+
+var sleepAdviceMap = {};
+sleepAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
+sleepAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
+sleepAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
+sleepAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol before going to bed.';
+sleepAdviceMap[constants.NICOTINE] = 'You should be avoiding nicotine before going to bed.';
+sleepAdviceMap[constants.CAFFEINE] = 'You should be avoiding caffeine before going to bed.';
+sleepAdviceMap[constants.LIGHTS] = 'You should be sleeping with the lights off.';
+sleepAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
+
 
 const BUTTONS_WHY_AND_NEXT_QUESTION = 
     [{
@@ -189,10 +201,11 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    await user.setMainContext(fbUserId, constants.GO_TO_BED);
+                    /*await user.setMainContext(fbUserId, constants.GO_TO_BED);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
+                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED]);*/
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
-                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED]);
+                    updateContextsAndAskNextQuestion(fbUserId, mainCconstants.GO_TO_BED, constants.QUESTION_ANSWER, false);
                 } else {  
                     var msg = 'I would like to get an idea about your current sleep health. I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
@@ -449,43 +462,40 @@ async function chatAboutSleep(fbUserId, message, mainContext) {
                 if (message === 'yes') {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
                     await user.setMainContext(fbUserId, constants.SLEEP_ELECTRONICS);
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.SLEEP_ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
-            case constants.SLEEP_ELECTRONICS:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ELECTRONICS, message, constants.SLEEP_STRESSED, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_ELECTRONICS_TEXT, true);
+            case constants.ELECTRONICS:
+                handleSleepQuestionReply(fbUserId, event, message, constants.ELECTRONICS, constants.STRESSED, subContext);
                 break;
-            case constants.SLEEP_STRESSED:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.STRESSED, message, constants.SLEEP_EAT, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_STRESSED, true);
+            case constants.STRESSED:
+                handleSleepQuestionReply(fbUserId, event, message, constants.STRESSED, constants.EAT, subContext);
                 break;
-            case constants.SLEEP_EAT:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.EAT, message, constants.SLEEP_ALCOHOL_NICOTINE, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_EAT, true);
+            case constants.EAT:
+                handleSleepQuestionReply(fbUserId, event, message, constants.ELECTRONICS, constants.ALCOHOL, subContext);
                 break;
-            case constants.SLEEP_ALCOHOL_NICOTINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.SLEEP_CAFFEINE, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_ALCOHOL_NICOTINE, true);
+            case constants.ALCOHOL:
+                handleSleepQuestionReply(fbUserId, event, message, constants.ALCOHOL, constants.NICOTINE, subContext);
                 break;
-            case constants.SLEEP_CAFFEINE:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.SLEEP_LIGHTS, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_CAFFEINE, true);
+            case constants.NICOTINE:
+                handleSleepQuestionReply(fbUserId, event, message, constants.NICOTINE, constants.CAFFEINE, subContext);
                 break;
-            case constants.SLEEP_LIGHTS:
-                if (message === 'yes' || message === 'no') updateSleepAnswersandAskNextQuestion(fbUserId, constants.LIGHTS, message, constants.SLEEP_QUIET, true);
-                else repeatQuestion(fbUserId, constants.SLEEP_LIGHTS, true);
+            case constants.CAFFEINE:
+                handleSleepQuestionReply(fbUserId, event, message, constants.CAFFEINE, constants.LIGHTS, subContext);
                 break;
-            case constants.SLEEP_QUIET:
+            case constants.LIGHTS:
+                handleSleepQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.STRESSED, subContext);
+                break;
+            case constants.QUIET:
                 if (message === 'yes' || message === 'no') {
                     await userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message);
                     await user.setMainContext(fbUserId, null);
                     presentResultsForSleep(fbUserId);
                 } else { 
-                    repeatQuestion(fbUserId, sleepQuestionsMap[constants.SLEEP_QUIET], true);
+                    repeatQuestion(fbUserId, sleepQuestionsMap[constants.QUIET], true);
                 }
                 break;
             default:
@@ -496,11 +506,68 @@ async function chatAboutSleep(fbUserId, message, mainContext) {
     }
 }
 
+async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
+    if (subContext === constants.QUESTION_ANSWER) {
+        if (message === 'yes' || message === 'no') {
+            await userBackground.updateBackground(fbUserId, currentMainContext, message);
+            if (message === 'yes') {
+                await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
+            } else {
+                updateContextsAndAskNextSleepQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
+            }
+        } else {
+            repeatQuestion(fbUserId, sleepQuestionsMap[currentMainContext], true);
+        }
+    } else if (subContext === constants.QUESTION_ANSWER_DONE) {
+        if (message === 'why') {
+            var explanationArray = await factor.getExplanation(currentMainContext);
+            if (explanationArray.length === 1) {
+                await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], BUTTON_NEXT_QUESTION);
+            } else {
+                await user.setSubContext(fbUserId, constants.MORE_INFO);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(currentMainContext, 0));
+            }
+        } else if (message === constants.NEXT_QUESTION) {
+            updateContextsAndAskNextSleepQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
+        } else {
+            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please choose an option.', BUTTONS_WHY_AND_NEXT_QUESTION);
+        }
+    } else if (subContext === constants.MORE_INFO) {
+            if(message === 'more') {
+                var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ')[2]);
+                var explanationArray = await factor.getExplanation(currentMainContext);
+                var nextExplanation = explanationNumber+1;
+                if (nextExplanation >= explanationArray.length-1) {    
+                    await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);   
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_NEXT_QUESTION);
+                } else {
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(currentMainContext, nextExplanation));
+                }
+            } else if (message === constants.NEXT_QUESTION) {
+                updateContextsAndAskNextSleepQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
+            } else {
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+            }
+    } else if (subContext === constants.FINISHED_OPTIONS) {
+        if (message === constants.NEXT_QUESTION) updateContextsAndAskNextSleepQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
+        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+    } 
+}
+
 async function updateSleepAnswersandAskNextQuestion(fbUserId, mainContext, message, nextQuestion, isQuickReplyMessage) {
     await userSleepAnswers.updateSleepAnswer(fbUserId, mainContext, message);
     await user.setMainContext(fbUserId, nextQuestion);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[nextQuestion]);
+}
+
+async function updateContextsAndAskNextSleepQuestion(fbUserId, mainContext, subContext, isQuickReplyMessage) {
+    await user.setMainContext(fbUserId, mainContext);
+    await user.setSubContext(fbUserId, subContext);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[mainContext], constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[mainContext]);
 }
 
 async function presentResultsForSleep(fbUserId) {

@@ -15,10 +15,11 @@ exports.addNewUser = async (fbUserId) => {
             electronics: null,
             stressed: null,
             eat: null,
-            alcohol_nicotine: null,
+            alcohol: null,
+            nicotine: null,
             caffeine: null,
             lights: null,
-            quiet: null,
+            quiet: null
         };
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     await db.collection('sleep_answers').insertOne(user);
