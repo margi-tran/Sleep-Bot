@@ -259,8 +259,8 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var msg2 = '';
                     var sleepEnough = true;
                     if (difference < 7 ) {
-                        msg2 = false;
-                        advice += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-9 hours.'
+                        sleepEnough = false;
+                        msg2 += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-9 hours.'
                     }
                     if (sleepEnough === false) {
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg2) ;
