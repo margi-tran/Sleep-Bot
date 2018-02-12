@@ -64,13 +64,13 @@ sleepQuestionsMap[constants.LIGHTS] = 'Did you sleep with the lights on?';
 sleepQuestionsMap[constants.QUIET] = 'Was your bedroom quiet when you went to sleep?';
 
 var sleepAdviceMap = {};
-sleepAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
+sleepAdviceMap[constants.ELECTRONICS] = 'Avoid using electronic devices before bedtime.';
 sleepAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
-sleepAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
-sleepAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol before going to bed.';
-sleepAdviceMap[constants.NICOTINE] = 'You should be avoiding nicotine before going to bed.';
-sleepAdviceMap[constants.CAFFEINE] = 'You should be avoiding caffeine before going to bed.';
-sleepAdviceMap[constants.LIGHTS] = 'You should be sleeping with the lights off.';
+sleepAdviceMap[constants.EAT] = 'Avoid eating late, especially large heavy meals.';
+sleepAdviceMap[constants.ALCOHOL] = 'Avoiding alcohol before going to bed.';
+sleepAdviceMap[constants.NICOTINE] = 'Avoiding nicotine before going to bed.';
+sleepAdviceMap[constants.CAFFEINE] = 'Avoiding caffeine before going to bed.';
+sleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
 sleepAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
 
 
