@@ -195,7 +195,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         var getUpHour = dateAndTimeUtil.getHourFromTimeString(message);
                         if (getUpHour >= 6 && getUpHour < 9) {
                             updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, true);
-                        } else {}
+                        } else {
                             await user.setSubContext(fbUserId, constants.LATE_WAKEUP_EXPECT_EXPLANATION);
                             if (getUpHour < 6) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you very early in the morning?');
                             else if (getUpHour < 12) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the morning?');
