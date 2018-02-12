@@ -193,15 +193,15 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     if (timeRegex.test(message)) {
                         await userBackground.updateBackground(fbUserId, constants.GET_UP, message);
                         var getUpHour = dateAndTimeUtil.getHourFromTimeString(message);
-                         if (getUpHour < 6 || getUpHour > 10) { // unacceptable get up hours
+                        if (getUpHour >= 6 && getUpHour < 9) {
+                            updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, true);
+                        } else {}
                             await user.setSubContext(fbUserId, constants.LATE_WAKEUP_EXPECT_EXPLANATION);
                             if (getUpHour < 6) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you very early in the morning?');
                             else if (getUpHour < 12) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the morning?');
                             else if (getUpHour < 17) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the afternoon?');
                             else fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you get up late, in the evening?');
-                         } else {
-                            updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, true);
-                         }
+                         } 
                     } else {
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.GET_UP], false);
                     }
