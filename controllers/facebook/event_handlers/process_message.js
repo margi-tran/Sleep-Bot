@@ -217,7 +217,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_GO_TO_BED_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    var msg = 'I see but, depending on your situation, you should be going to bed between 8pm-12am';
+                    var msg = 'I see but, depending on your situation, you should be going to bed between 8pm-12am.';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
@@ -259,7 +259,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var sleepEnough = true;
                     if (difference < 7 ) {
                         sleepEnough = false;
-                        msg2 += 'You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-9 hours.'
+                        msg2 += 'You sleep for ' + difference + ' hours which is not enough. You should be sleeping for atleast 7-9 hours.'
                     }
                     if (sleepEnough === false) {
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg1) ;
