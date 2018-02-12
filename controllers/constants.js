@@ -38,7 +38,8 @@ const GO_TO_BED = 'go_to_bed';
 const ELECTRONICS = 'electronics';
 const STRESSED = 'stressed';
 const EAT = 'eat';
-const ALCOHOL_NICOTINE = 'alcohol_nicotine';
+const ALCOHOL = 'alcohol';
+const NICOTINE = 'nicotine';
 const CAFFEINE = 'caffeine';
 const LIGHTS = 'lights';
 const QUIET = 'quiet';
@@ -102,7 +103,8 @@ module.exports = {
     ELECTRONICS, 
     STRESSED,
     EAT,
-    ALCOHOL_NICOTINE,
+    ALCOHOL,
+    NICOTINE,
     CAFFEINE,
     LIGHTS,
     QUIET,
