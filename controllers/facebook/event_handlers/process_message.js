@@ -196,7 +196,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
         // Check whether the bot asked anything from the user, if this is the case, then the bot is expecting a reply
         switch (mainContext) {
             case constants.FITBIT_AUTH:
-                var msg = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.';
+                var msg = 'You haven\'t given me permission to access your Fitbit yet. Please do that first before we proceed with anything else.'
                                 + 'To do so click on the following link:\nhttps://calm-scrubland-31682.herokuapp.com/prepare_fitbit_auth?fbUserId='
                                 + fbUserId;
                 fbMessengerBotClient.sendTextMessage(fbUserId, msg);
@@ -219,7 +219,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         await userBackground.updateBackground(fbUserId, constants.GO_TO_BED, message);
                         var goToBedHour = dateAndTimeUtil.getHourFromTimeString(message);
                         if (goToBedHour >= 20 || goToBedHour === 0) { // acceptable go to bed hours
-                            updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GET_UP, constants.QUESTION_ANSWER, true);
+                            updateContextsAndAskNextQuestion(fbUserId, constants.GET_UP, constants.QUESTION_ANSWER, true);
                         } else {
                             await user.setSubContext(fbUserId, constants.LATE_GO_TO_BED_EXPECT_EXPLANATION);
                             if (goToBedHour < 3) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you go to bed very late at night?');
