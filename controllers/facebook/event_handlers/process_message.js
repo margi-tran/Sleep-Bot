@@ -537,6 +537,6 @@ function getButtonsForMoreInfo(factor, index) {
 async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constant, isQuickReplyMessage) {
     await user.setMainContext(fbUserId, mainContext);
     await user.setSubContext(fbUserId, subContext);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
-    else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants]);
+    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constant], constants.QUICK_REPLIES_YES_OR_NO);
+    else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constant]);
 }
