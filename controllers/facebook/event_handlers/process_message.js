@@ -22,18 +22,18 @@ var dateAndTimeUtil = require('../../../utility/date_and_time_util');
 
 var backgroundQuestionsMap = {};
 backgroundQuestionsMap[constants.BACKGROUND_QUESTIONS] = 'I need to have some background about your sleep. I only have a couple of questions, could you answer them first?';
-backgroundQuestionsMap[constants.BACKGROUND_GET_UP] = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
-backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED] = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
-backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
-backgroundQuestionsMap[constants.BACKGROUND_STRESSED] = 'Are you stressed or worried about anything?';
-backgroundQuestionsMap[constants.BACKGROUND_EAT] = 'Do you eat before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINE] = 'Do you drink alcohol or take nicotine before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_CAFFEINE] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
-backgroundQuestionsMap[constants.BACKGROUND_LIGHTS] = 'Do you sleep with the lights on?';
-backgroundQuestionsMap[constants.BACKGROUND_QUIET] = 'Is your bedroom quiet when you sleep?';
-backgroundQuestionsMap[constants.BACKGROUND_EXERCISE] = 'Are you exercising regularly?';
-backgroundQuestionsMap[constants.BACKGROUND_JOB] = 'Do you have a job?';
-backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE] = 'Is your work schedule irregular?';
+backgroundQuestionsMap[constants.GET_UP] = 'At what time do you usually get up on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.GO_TO_BED] = 'At what time do you usually go to bed on a weekday? Please give your answer in 24-hour time format (i.e. HH:MM).';
+backgroundQuestionsMap[constants.ELECTRONICS] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
+backgroundQuestionsMap[constants.STRESSED] = 'Are you stressed or worried about anything?';
+backgroundQuestionsMap[constants.EAT] = 'Do you eat before going to bed?';
+backgroundQuestionsMap[constants.ALCOHOL_NICOTINE] = 'Do you drink alcohol or take nicotine before going to bed?';
+backgroundQuestionsMap[constants.CAFFEINE] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
+backgroundQuestionsMap[constants.LIGHTS] = 'Do you sleep with the lights on?';
+backgroundQuestionsMap[constants.QUIET] = 'Is your bedroom quiet when you sleep?';
+backgroundQuestionsMap[constants.EXERCISE] = 'Are you exercising regularly?';
+backgroundQuestionsMap[constants.JOB] = 'Do you have a job?';
+backgroundQuestionsMap[constants.WORK_SCHEDULE] = 'Is your work schedule irregular?';
 
 var initalAdviceMap = {};
 initalAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
@@ -180,7 +180,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     await user.setMainContext(fbUserId, constants.BACKGROUND_GET_UP);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
-                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP]);
+                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GET_UP]);
                 } else {  
                     var msg = 'I would like to get an idea about your current sleep health. I only have a couple of questions, could you answer them first?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
@@ -201,7 +201,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_GO_TO_BED, constants.QUESTION_ANSWER, true);
                          }
                     } else {
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GET_UP], false);
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.GET_UP], false);
                     }
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
@@ -226,7 +226,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             else fbMessengerBotClient.sendTextMessage(fbUserId, 'Why do you go to bed early evening?');
                         }
                     } else {
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED], false);
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED], false);
                     }
                 } else if (subContext === constants.LATE_GO_TO_BED_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
@@ -268,12 +268,12 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     await userBackground.updateBackground(fbUserId, constants.JOB, message);
                     if (message === 'yes') {
                         await user.updateUser(fbUserId, { mainContext: constants.BACKGROUND_WORK_SCHEDULE });
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE], constants.QUICK_REPLIES_YES_OR_NO);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.WORK_SCHEDULE], constants.QUICK_REPLIES_YES_OR_NO);
                     } else { 
                         presentResultsForBackground(fbUserId, false);
                     }
                 } else { 
-                    repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_JOB], true);
+                    repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOB], true);
                 }
                 break;
             case constants.WORK_SCHEDULE:
@@ -281,7 +281,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                     presentResultsForBackground(fbUserId, true);
                 } else { 
-                    repeatQuestion(fbUserId, backgroundQuestionsMap[contants.BACKGROUND_WORK_SCHEDULE], true);
+                    repeatQuestion(fbUserId, backgroundQuestionsMap[contants.WORK_SCHEDULE], true);
                 }
                 break;
             default:
@@ -463,6 +463,7 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
                 updateContextsAndAskNextQuestion(fbUserId, currentMainContext, constants.QUESTION_ANSWER, true);
             }
         } else {
+            console.log('in here;');
             repeatQuestion(fbUserId, backgroundQuestionsMap[currentMainContext], true);
         }
     } else if (subContext === constants.QUESTION_ANSWER_DONE) {
