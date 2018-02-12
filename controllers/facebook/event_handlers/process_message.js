@@ -40,8 +40,8 @@ var initialAdviceMap = {};
 initialAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
 initialAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
 initialAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
-initialAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol and nicotine before going to bed.';
-initialAdviceMap[constants.NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
+initialAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol before going to bed.';
+initialAdviceMap[constants.NICOTINE] = 'You should be avoiding nicotine before going to bed.';
 initialAdviceMap[constants.CAFFEINE] = 'You should be avoiding caffeine before going to bed.';
 initialAdviceMap[constants.LIGHTS] = 'You should be sleeping with the lights off.';
 initialAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
@@ -394,7 +394,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
 async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
     if (hasIrregularWorkSchedule) await fbMessengerBotClient.sendTextMessage(fbUserId, initialAdviceMap[constants.WORK_SCHEDULE]);
     var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
-    var msg2 = 'Feel free to ask me questions about sleep! If you need a reminder of what I can assist you with, just type !help';
+    var msg2 = 'Feel free to ask me questions about sleep. If you need a reminder of what I can assist you with, just type !help';
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
 }
@@ -456,6 +456,7 @@ async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
 }
 
 async function chatAboutSleep(fbUserId, message, mainContext) {
+    console.log('beeeh', mainContext);
     try {
         switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
