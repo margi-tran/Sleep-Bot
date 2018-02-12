@@ -228,7 +228,9 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;             
             case constants.BACKGROUND_ELECTRONICS:
                 if (subContext === constants.QUESTION_ANSWER) {
+                    console.log('outer');
                     if (message === 'yes' || message === 'no') {
+                        console.log('first');
                         await userBackground.updateBackground(fbUserId, constants.ELECTRONICS, message);
                         if (message === 'yes') {
                             var msg = 'You should avoid using electronics before bedtime.';
