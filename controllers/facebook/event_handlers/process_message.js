@@ -202,7 +202,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED]);
                         */updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_GO_TO_BED, true);
                     } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
                 }
                 break;
@@ -238,7 +238,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         */
                         updateContextsAndAskNextQuestion(fbUserId, mainContext, subContext, constants.BACKGROUND_ELECTRONICS, true);
                     } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTONS_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
                 }
                 break;             
