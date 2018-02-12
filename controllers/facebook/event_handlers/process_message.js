@@ -541,7 +541,7 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
     else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[mainContext]);
 }
 
-async function algo(fbUserId, event, message, currentMainContext, currentMainContextConstant, nextMainContext) {
+async function algo(fbUserId, event, message, currentMainContext, currentMainContextConstant, nextMainContext, subContext) {
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
             await userBackground.updateBackground(fbUserId, currentMainContextConstant, message);
