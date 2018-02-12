@@ -27,7 +27,8 @@ backgroundQuestionsMap[constants.GO_TO_BED] = 'At what time do you usually go to
 backgroundQuestionsMap[constants.ELECTRONICS] = 'Do you use your phone (or any other electronic devices) before going to bed (or in bed)?';
 backgroundQuestionsMap[constants.STRESSED] = 'Are you stressed or worried about anything?';
 backgroundQuestionsMap[constants.EAT] = 'Do you eat before going to bed?';
-backgroundQuestionsMap[constants.ALCOHOL_NICOTINE] = 'Do you drink alcohol or take nicotine before going to bed?';
+backgroundQuestionsMap[constants.ALCOHOL] = 'Do you drink alcohol before going to bed?';
+backgroundQuestionsMap[constants.NICOTINE] = 'Do you take nicotine before going to bed?';
 backgroundQuestionsMap[constants.CAFFEINE] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
 backgroundQuestionsMap[constants.LIGHTS] = 'Do you sleep with the lights on?';
 backgroundQuestionsMap[constants.QUIET] = 'Is your bedroom quiet when you sleep?';
@@ -39,7 +40,8 @@ var initialAdviceMap = {};
 initialAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
 initialAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
 initialAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
-initialAdviceMap[constants.ALCOHOL_NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
+initialAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol and nicotine before going to bed.';
+initialAdviceMap[constants.NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
 initialAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before going to bed.';
 initialAdviceMap[constants.LIGHTS] = 'You should be sleep with the lights off.';
 initialAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
@@ -248,9 +250,12 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
             case constants.EAT:
                 handleBackgroundQuestionReply(fbUserId, event, message, constants.EAT, constants.ALCOHOL_NICOTINE, subContext);
                 break;
-            case constants.ALCOHOL_NICOTINE:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.ALCOHOL_NICOTINE, constants.CAFFEINE, subContext);
+            case constants.ALCOHOL:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.ALCOHOL, constants.NICOTINE, subContext);
                 break;   
+            case constants.NICOTINE:
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.NICOTINE, constants.CAFFEINE, subContext);
+                break;  
             case constants.CAFFEINE:
                 handleBackgroundQuestionReply(fbUserId, event, message, constants.CAFFEINE, constants.LIGHTS, subContext);
                 break; 
@@ -460,7 +465,7 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
-                updateContextsAndAskNextQuestion(fbUserId, currentMainContext, constants.QUESTION_ANSWER, true);
+                updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
             }
         } else {
             console.log('in here;');
