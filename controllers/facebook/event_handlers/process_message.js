@@ -220,7 +220,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'going to bed at these times are not good', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
-                        updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, constants.BACKGROUND_ELECTRONICS, true);
+                        updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_ELECTRONICS, constants.QUESTION_ANSWER, constants.BACKGROUND_ELECTRONICS, true);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
@@ -228,9 +228,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;             
             case constants.BACKGROUND_ELECTRONICS:
                 if (subContext === constants.QUESTION_ANSWER) {
-                    console.log('outer');
                     if (message === 'yes' || message === 'no') {
-                        console.log('first');
                         await userBackground.updateBackground(fbUserId, constants.ELECTRONICS, message);
                         if (message === 'yes') {
                             var msg = 'You should avoid using electronics before bedtime.';
@@ -240,7 +238,6 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
                         }
                     } else {
-                        console.log('in here');
                         repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], true);
                     }
                 } else if (subContext === constants.QUESTION_ANSWER_DONE) {
