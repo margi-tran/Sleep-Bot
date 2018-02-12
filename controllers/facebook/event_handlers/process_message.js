@@ -216,7 +216,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTON_NEXT_QUESTION);
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Depending on your situation, you should aim to wake up between 6am-8am.', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
                         updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
@@ -245,9 +245,9 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_GO_TO_BED_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'going to bed at these times are not good', BUTTON_NEXT_QUESTION);
-                    
-                    /*var getUp = await userBackground.getGoToBed(fbUserId);
+                    var msg1 = 'Depending on your situation, you should aim to go to bed between 8pm-12am';
+
+                    var getUp = await userBackground.getGoToBed(fbUserId);
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
@@ -255,12 +255,19 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var date1 = new Date(2018, 1, 1, getUpHour);
                     var date2 = new Date(2018, 1, 1, goToBedHour);
                     var diff = (new Date(date2 - date1)).getHours();
-                    var sleepEnough = false;
-                    if(difference >= 7) {
-                        sleepEnough = true;
-                    } else if (difference < 7 ) {
-                        advice += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-8 hours.'
-                    }*/
+                    var msg2 = '';
+                    var sleepEnough = true;
+                    if (difference < 7 ) {
+                        msg2 = false;
+                        advice += '\n- You sleep for ' + difference + ' hours which is not enough. You should be sleeping for at least 7-9 hours.'
+                    }
+
+                    if (sleepEnough === false) {
+                        fbMessengerBotClient.sendTextMessage(fbUserId, msg2) ;
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserIs, msg2, BUTTON_NEXT_QUESTION);
+                    } else {
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserIs, msg1, BUTTON_NEXT_QUESTION);
+                    }
 
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
@@ -374,7 +381,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
 
 async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
     if (hasIrregularWorkSchedule) await fbMessengerBotClient.sendTextMessage(fbUserId, initialAdviceMap[constants.WORK_SCHEDULE]);
-    var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analysing you sleep in the future!';
+    var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
     var msg2 = 'Feel free to ask me questions about sleep! If you need a reminder of what I can assist you with, just type !help';
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
@@ -391,7 +398,6 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
                 updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
             }
         } else {
-            console.log('in here;');
             repeatQuestion(fbUserId, backgroundQuestionsMap[currentMainContext], true);
         }
     } else if (subContext === constants.QUESTION_ANSWER_DONE) {
