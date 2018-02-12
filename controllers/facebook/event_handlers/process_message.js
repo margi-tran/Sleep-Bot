@@ -105,6 +105,18 @@ const BUTTON_NEXT_QUESTION =
         "payload": "next question"
     }];
 
+const BUTTONS_WHY_AND_DONE = 
+    [{
+        "content_type": "text",
+        "title": "why",
+        "payload": "why"
+    },
+    {
+        "content_type": "text",
+        "title": "done",
+        "payload": "done"
+    }];
+
 module.exports = async (event) => {
     try { 
         const fbUserId = event.sender.id;
@@ -497,12 +509,17 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                 if (message === 'yes' || message === 'no') {
                     await userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message);
                     await user.setMainContext(fbUserId, null);
-                    presentResultsForSleep(fbUserId);
+                    if (message === 'no') {
+                        await fbMessengerBotClient.sendTextMessage(fbUserId, sleepAdviceMap[constants.QUIET]);
+                    }
+                    var msg1 = 'That was the last question. Thank you for answering my questions';
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+
+                    // check whole answers if anything impacted
+                    
                 } else { 
                     repeatQuestion(fbUserId, sleepQuestionsMap[constants.QUIET], true);
                 }
-                break;
-            default:
                 break;
         }
     } catch (err) {
