@@ -180,7 +180,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     if (message === 'next question') {
                         await user.setMainContext(fbUserId, constants.BACKGROUND_GO_TO_BED);
                         await user.setSubContext(fbUserId, constants.CONTEXT_QUESTION_ANSWER);
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED], false);
+                        fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_GO_TO_BED]);
                     } else {
                         await fbMessengerBotClient.sendTextMessage(fbUserId, 'Sorry, I didn\'t get that. Let\'s try again.');
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'here are your options again', BUTTONS1);
