@@ -277,8 +277,8 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                                 if (event.message.quick_reply.hasOwnProperty('payload')) {
                                     console.log('in here');
                                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
-                                    var context = payloadStringSplit[0];
                                     var explanationNumber = parseInt(payloadStringSplit[2]);
+                                    console.log('explaination number ', explanationNumber);
                                     var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
                                     var nextExplanation = explanationNumber+1;
                                     if (nextExplanation >= explanationArray.length-1)                    
