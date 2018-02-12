@@ -238,7 +238,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             updateContextsAndAskNextQuestion(fbUserId, constants.BACKGROUND_STRESSED, constants.QUESTION_ANSWER, constants.BACKGROUND_STRESSED, true);
                         }
                     } else {
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ELECTRONICS], true);
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.ELECTRONICS], true);
                     }
                 } else if (subContext === constants.QUESTION_ANSWER_DONE) {
                     if (message === 'why') {
