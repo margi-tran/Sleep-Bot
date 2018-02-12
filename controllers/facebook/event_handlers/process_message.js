@@ -120,6 +120,8 @@ module.exports = async (event) => {
             return;
         }
 
+        console.log('beeeh', mainContext);
+
         // 'Interview' user about their sleep
         if (sleepQuestions.includes(mainContext)) {
             chatAboutSleep(fbUserId, message, mainContext);
@@ -456,7 +458,6 @@ async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
 }
 
 async function chatAboutSleep(fbUserId, message, mainContext) {
-    console.log('beeeh', mainContext);
     try {
         switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
