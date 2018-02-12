@@ -261,7 +261,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         }
                         else {
                             await user.setSubContext(fbUserId, constants.MORE_INFO);
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], BUTTONS_MORE_AND_NEXT_QUESTION);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(constants.ELECTRONICS, 0));
                         }
                     } else if (message === constants.NEXT_QUESTION) {
                         await user.setMainContext(fbUserId, constants.BACKGROUND_ELECTRONICS);
@@ -275,10 +275,8 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         if (event.hasOwnProperty('message')) {
                             if (event.message.hasOwnProperty('quick_reply')) {
                                 if (event.message.quick_reply.hasOwnProperty('payload')) {
-                                    console.log('in here');
                                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                                     var explanationNumber = parseInt(payloadStringSplit[2]);
-                                    console.log('explaination number ', explanationNumber);
                                     var explanationArray = await factor.getExplanation(constants.ELECTRONICS);
                                     var nextExplanation = explanationNumber+1;
                                     if (nextExplanation >= explanationArray.length-1)                    
