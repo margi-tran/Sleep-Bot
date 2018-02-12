@@ -35,6 +35,18 @@ backgroundQuestionsMap[constants.BACKGROUND_EXERCISE] = 'Are you exercising regu
 backgroundQuestionsMap[constants.BACKGROUND_JOB] = 'Do you have a job?';
 backgroundQuestionsMap[constants.BACKGROUND_WORK_SCHEDULE] = 'Is your work schedule irregular?';
 
+var initalAdviceMap = {};
+initalAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
+initalAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
+initalAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
+initalAdviceMap[constants.ALCOHOL_NICOTINE] = 'You should be avoiding alcohol and nicotine before going to bed.';
+initalAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before going to bed.';
+initalAdviceMap[constants.LIGHTS] = 'You should be sleep with the lights off.';
+initalAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
+initalAdviceMap[constants.EXERCISE] = 'You should be exercising regularly.';
+
+//\n- Your irregular work schedule may be interferring with your sleep.';
+
 const sleepQuestions = 
     [
         constants.NOTIFIED_SLEEP, constants.SLEEP_ELECTRONICS, constants.SLEEP_STRESSED, constants.SLEEP_EAT, 
@@ -330,12 +342,10 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 } 
                 break;
             case constants.BACKGROUND_EAT:
-                var message = 'You should avoid eating late, especially large heavy meals.'
-                algo(fbUserId, event, message, constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
+                algo(fbUserId, event, message, initalAdviceMap[constants.EAT], constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
                 break;
             case constants.BACKGROUND_ALCOHOL_NICOTINE:
-                if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.BACKGROUND_CAFFEINE, true);
-                else repeatQuestion(fbUserId, backgroundQuestionsMap[constants.BACKGROUND_ALCOHOL_NICOTINE], true);
+                algo(fbUserId, event, message, initalAdviceMap[constants.ALCOHOL_NICOTINE], constants.BACKGROUND_ALCOHOL_NICOTINE, constants.ALCOHOL_NICOTINE, constants.BACKGROUND_CAFFEINE, subContext);
                 break;   
             case constants.BACKGROUND_CAFFEINE:
                 if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.CAFFEINE, message, constants.BACKGROUND_LIGHTS, true);
@@ -542,13 +552,13 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
     else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[mainContext]);
 }
 
-async function algo(fbUserId, event, message, currentMainContext, currentMainContextConstant, nextMainContext, subContext) {
+async function algo(fbUserId, event, message, advice, currentMainContext, currentMainContextConstant, nextMainContext, subContext) {
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
             await userBackground.updateBackground(fbUserId, currentMainContextConstant, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTONS_WHY_AND_NEXT_QUESTION);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, advice, BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
                 updateContextsAndAskNextQuestion(fbUserId, currentMainContext, constants.QUESTION_ANSWER, true);
             }
