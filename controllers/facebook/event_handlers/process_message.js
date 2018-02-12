@@ -394,6 +394,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
 }
 
 async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
+    await user.updateUserIsNew(fbUserId, false);
     if (hasIrregularWorkSchedule) await fbMessengerBotClient.sendTextMessage(fbUserId, initialAdviceMap[constants.WORK_SCHEDULE]);
     var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
     var msg2 = 'Feel free to ask me questions about sleep. If you need a reminder of what I can assist you with, just type !help';
@@ -463,7 +464,7 @@ async function chatAboutSleep(fbUserId, message, mainContext) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
-                    await user.setMainContext(fbUserId, constants.SLEEP_ELECTRONICS);
+                    await user.setMainContext(fbUserId, constants.ELECTRONICS);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
@@ -477,7 +478,7 @@ async function chatAboutSleep(fbUserId, message, mainContext) {
                 handleSleepQuestionReply(fbUserId, event, message, constants.STRESSED, constants.EAT, subContext);
                 break;
             case constants.EAT:
-                handleSleepQuestionReply(fbUserId, event, message, constants.ELECTRONICS, constants.ALCOHOL, subContext);
+                handleSleepQuestionReply(fbUserId, event, message, constants.EAT, constants.ALCOHOL, subContext);
                 break;
             case constants.ALCOHOL:
                 handleSleepQuestionReply(fbUserId, event, message, constants.ALCOHOL, constants.NICOTINE, subContext);
