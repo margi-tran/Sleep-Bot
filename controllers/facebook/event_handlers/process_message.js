@@ -330,7 +330,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 } 
                 break;
             case constants.BACKGROUND_EAT:
-                algo(fbUserId, event, message, constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE);
+                algo(fbUserId, event, message, constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
                 break;
             case constants.BACKGROUND_ALCOHOL_NICOTINE:
                 if (message === 'yes' || message === 'no') updateBackgroundandAskNextQuestion(fbUserId, constants.ALCOHOL_NICOTINE, message, constants.BACKGROUND_CAFFEINE, true);
