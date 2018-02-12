@@ -213,7 +213,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
                     }
                     else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
                 }
                 break;
@@ -241,7 +241,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     if (message === constants.NEXT_QUESTION) {
                         updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, true);
                     } else {
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press the button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
                     }
                 }
                 break;             
@@ -252,7 +252,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 handleBackgroundQuestionReply(fbUserId, event, message, constants.STRESSED, constants.EAT, subContext);
                 break;
             case constants.EAT:
-                handleBackgroundQuestionReply(fbUserId, event, message, constants.EAT, constants.ALCOHOL_NICOTINE, subContext);
+                handleBackgroundQuestionReply(fbUserId, event, message, constants.EAT, constants.ALCOHOL, subContext);
                 break;
             case constants.ALCOHOL:
                 handleBackgroundQuestionReply(fbUserId, event, message, constants.ALCOHOL, constants.NICOTINE, subContext);
@@ -504,10 +504,10 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
             } else if (message === constants.NEXT_QUESTION) {
                 updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
             } else {
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
             }
     } else if (subContext === constants.FINISHED_OPTIONS) {
         if (message === constants.NEXT_QUESTION) updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
-        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please touch this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
+        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are ready for the next question.', BUTTON_NEXT_QUESTION);
     } 
 }
