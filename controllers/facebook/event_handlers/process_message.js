@@ -330,6 +330,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 } 
                 break;
             case constants.BACKGROUND_EAT:
+                var message = 'You should avoid eating late, especially large heavy meals.'
                 algo(fbUserId, event, message, constants.BACKGROUND_EAT, constants.EAT, constants.BACKGROUND_ALCOHOL_NICOTINE, subContext);
                 break;
             case constants.BACKGROUND_ALCOHOL_NICOTINE:
