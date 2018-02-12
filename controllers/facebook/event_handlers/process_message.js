@@ -210,7 +210,6 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'late wakeup aint good', BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
-                        console.log('in here');
                         updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
                     }
                     else {
@@ -484,7 +483,7 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], BUTTON_NEXT_QUESTION);
             } else {
                 await user.setSubContext(fbUserId, constants.MORE_INFO);
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(currentMainContextConstant, 0));
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(currentMainContext, 0));
             }
         } else if (message === constants.NEXT_QUESTION) {
             updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
@@ -494,13 +493,13 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
     } else if (subContext === constants.MORE_INFO) {
             if(message === 'more') {
                 var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ')[2]);
-                var explanationArray = await factor.getExplanation(currentMainContextConstant);
+                var explanationArray = await factor.getExplanation(currentMainContext);
                 var nextExplanation = explanationNumber+1;
                 if (nextExplanation >= explanationArray.length-1) {    
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);   
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_NEXT_QUESTION);
                 } else {
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(currentMainContextConstant, nextExplanation));
+                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(currentMainContext, nextExplanation));
                 }
             } else if (message === constants.NEXT_QUESTION) {
                 updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
