@@ -275,6 +275,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         if (event.hasOwnProperty('message')) {
                             if (event.message.hasOwnProperty('quick_reply')) {
                                 if (event.message.quick_reply.hasOwnProperty('payload')) {
+                                    console.log('in here');
                                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                                     var context = payloadStringSplit[0];
                                     var explanationNumber = parseInt(payloadStringSplit[2]);
