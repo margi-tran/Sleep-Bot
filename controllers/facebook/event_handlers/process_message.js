@@ -34,7 +34,7 @@ backgroundQuestionsMap[constants.LIGHTS] = 'Do you sleep with the lights on?';
 backgroundQuestionsMap[constants.QUIET] = 'Is your bedroom quiet when you sleep?';
 backgroundQuestionsMap[constants.EXERCISE] = 'Are you exercising regularly?';
 backgroundQuestionsMap[constants.JOB] = 'Do you have a job?';
-backgroundQuestionsMap[constants.WORK_SCHEDULE] = 'Is your work schedule irregular?';
+backgroundQuestionsMap[constants.WORK_SCHEDULE] = 'Does your job involve shifts at irregular hours (e.g. night shifts)?';
 
 var initialAdviceMap = {};
 initialAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of electronic devices before bedtime.';
@@ -46,7 +46,7 @@ initialAdviceMap[constants.CAFFEINE] = 'You should be avoiding caffeine before g
 initialAdviceMap[constants.LIGHTS] = 'You should be sleeping with the lights off.';
 initialAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
 initialAdviceMap[constants.EXERCISE] = 'You should be exercising regularly.';
-initialAdviceMap[constants.WORK_SCHEDULE] = 'Your irregular work schedule may be interferring with your sleep.';
+initialAdviceMap[constants.WORK_SCHEDULE] = 'Your shifts at irregular hours may be interferring with your sleep.';
 
 const sleepQuestions = 
     [
@@ -117,6 +117,14 @@ const BUTTONS_WHY_AND_DONE =
         "payload": "done"
     }];
 
+const BUTTONS_DONE = 
+    [{
+        "content_type": "text",
+        "title": "done",
+        "payload": "done"
+    }];
+
+
 module.exports = async (event) => {
     try { 
         const fbUserId = event.sender.id;
@@ -131,8 +139,6 @@ module.exports = async (event) => {
             getNewUserBackground(fbUserId, message, event, mainContext);
             return;
         }
-
-        console.log('beeeh', mainContext);
 
         // 'Interview' user about their sleep
         if (sleepQuestions.includes(mainContext)) {
@@ -377,26 +383,36 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 } 
                 break; 
             case constants.JOB:
-                if (message === 'yes' || message === 'no') {
-                    await userBackground.updateBackground(fbUserId, constants.JOB, message);
-                    if (message === 'yes') {
-                        await user.updateUser(fbUserId, { mainContext: constants.WORK_SCHEDULE });
-                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.WORK_SCHEDULE], constants.QUICK_REPLIES_YES_OR_NO);
-                    } else { 
-                        finishSleepBackgroundChat(fbUserId, false);
+                if (subContext === constants.QUESTION_ANSWER) {
+                    if (message === 'yes' || message === 'no') {
+                        await userBackground.updateBackground(fbUserId, constants.EXERCISE, message);
+                        if (message === 'yes') {
+                            await user.updateUser(fbUserId, { mainContext: constants.WORK_SCHEDULE });
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.WORK_SCHEDULE], constants.QUICK_REPLIES_YES_OR_NO);
+                        } else {
+                            finishSleepBackgroundChat(fbUserId, false);
+                        }
+                    } else {           
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOBS], true);
                     }
-                } else { 
-                    repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOB], true);
                 }
-                break;
             case constants.WORK_SCHEDULE:
-                if (message === 'yes' || message === 'no') {
-                    await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
-                    finishSleepBackgroundChat(fbUserId, true);
-                } else { 
-                    repeatQuestion(fbUserId, backgroundQuestionsMap[contants.WORK_SCHEDULE], true);
+                if (subContext === constants.QUESTION_ANSWER) {
+                    if (message === 'yes' || message === 'no') {
+                        await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
+                        if (message === 'yes') {
+                            await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[constants.WORK_SCHEDULE], BUTTON_DONE);
+                        } else {
+                            finishSleepBackgroundChat(fbUserId);
+                        }
+                    } else {           
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOBS], true);
+                    }
+                } else if (subContext === constants.FINISHED_OPTIONS) {
+                    if (message === 'done') finishSleepBackgroundChat(fbUserId);
+                    else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are done.', BUTTON_DONE);  
                 }
-                break;
             default:
                 break;
         }
@@ -406,10 +422,9 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
 }
 
 async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
-    await user.updateUserIsNew(fbUserId, false);
-    if (hasIrregularWorkSchedule) await fbMessengerBotClient.sendTextMessage(fbUserId, initialAdviceMap[constants.WORK_SCHEDULE]);
     var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
     var msg2 = 'Feel free to ask me questions about sleep. If you need a reminder of what I can assist you with, just type !help';
+    user.setMainContext(fbUserId, null);
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
 }
@@ -577,24 +592,11 @@ async function handleSleepQuestionReply(fbUserId, event, message, currentMainCon
     } 
 }
 
-async function updateSleepAnswersandAskNextQuestion(fbUserId, mainContext, message, nextQuestion, isQuickReplyMessage) {
-    await userSleepAnswers.updateSleepAnswer(fbUserId, mainContext, message);
-    await user.setMainContext(fbUserId, nextQuestion);
-    if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[nextQuestion], constants.QUICK_REPLIES_YES_OR_NO);
-    else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[nextQuestion]);
-}
-
 async function updateContextsAndAskNextSleepQuestion(fbUserId, mainContext, subContext, isQuickReplyMessage) {
     await user.setMainContext(fbUserId, mainContext);
     await user.setSubContext(fbUserId, subContext);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[mainContext], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, sleepQuestionsMap[mainContext]);
-}
-
-async function presentResultsForSleep(fbUserId) {
-    await user.setMainContext(fbUserId, null);
-    await user.setNotifiedSleepToTrue(fbUserId);
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Being stressed can ruin your sleep. My advice to you is to try some destressing techniques. Maybe even try yoga!');
 }
 
 function getButtonsForFactorsReply(factor, index) {
