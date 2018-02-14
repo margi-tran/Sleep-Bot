@@ -432,7 +432,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                             finishSleepBackgroundChat(fbUserId, false);
                         }
                     } else {           
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOBS], true);
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.JOB], true);
                     }
                 }
                 break;
