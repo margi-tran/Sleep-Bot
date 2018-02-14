@@ -595,7 +595,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                            finishSleepChat(fbUserId);
                         }
                     } else {           
-                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.QUIET], true);
+                        repeatQuestion(fbUserId, sleepQuestionsMap[constants.QUIET], true);
                     }
                 } else if (subContext === constants.QUESTION_ANSWER_DONE) {
                     if (message === 'why') {
@@ -650,7 +650,7 @@ async function handleSleepQuestionReply(fbUserId, event, message, currentMainCon
             await userSleepAnswers.updateSleepAnswer(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
-                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
+                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
                 updateContextsAndAskNextSleepQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
             }
