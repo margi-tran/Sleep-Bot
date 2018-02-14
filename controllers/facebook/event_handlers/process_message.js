@@ -131,7 +131,7 @@ module.exports = async (event) => {
 
         if (message === 'test') {
             answer = userSleepAnswers.getElectronicsAnswer(fbUserId);
-            fbMessengerBotClient.sendTextMessage(fbuserId,answer );
+            fbMessengerBotClient.sendTextMessage(fbUserId,answer );
             return;
         }
 
