@@ -134,14 +134,18 @@ module.exports = async (event) => {
 
 
             var date = dateAndTimeUtil.dateToString(new Date());
-            var fbUserId = usersToNotify[i];
+            var noSleepDataMsg = 'no sleep data';
 
             var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
-            if (mainSleepExists === false) continue;
+            if (mainSleepExists === false) {
+                fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
+                return;
+            }
         
             var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
             var lengthOfData = mainSleepLevelsData.length;
             if (lengthOfData === 0) { // User does not have break down of their sleep (i.e. they manually added a sleep log)
+                fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
                 return;
             }
 
