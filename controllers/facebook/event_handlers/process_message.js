@@ -129,110 +129,6 @@ module.exports = async (event) => {
             return;
         }
 
-
-        if (message === 'test') {
-            var date = dateAndTimeUtil.dateToString(new Date());
-            var noSleepDataMsg = 'no sleep data';
-
-            var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
-            if (mainSleepExists === false) {
-                fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
-                return;
-            }
-        
-            var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
-            var lengthOfData = mainSleepLevelsData.length;
-            if (lengthOfData === 0) { // User does not have break down of their sleep (i.e. they manually added a sleep log)
-                fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
-                return;
-            }
-
-            var maxAwake = 0; // Time awake in seconds
-            var tmp = 0;
-            var timeOfAwake = 0;
-            for (var j = 0; j < lengthOfData; j++) {
-                timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
-                for (var k = j; k < lengthOfData; k++) {
-                    var data = mainSleepLevelsData[k];
-                    if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
-                    else break;
-                }
-                if (tmp > maxAwake) maxAwake = tmp;
-                tmp = 0;
-            }
-
-            if (maxAwake >= 600) flag = true;
-            
-            if (flag) {
-                const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
-                var minutesAwake = Math.floor(maxAwake / 60);
-                var factorsConcerned = [];
-                var numberOfSleepQuestions = sleepQuestions.length;
-                for (var i = 0; i < numberOfSleepQuestions; i++) {
-                    var factor = sleepQuestions[i];
-                    var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
-                    if (answer === 'yes') factorsConcerned.push(factor);
-                }   
-                var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
-                if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
-                var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
-                if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
-                var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
-                if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
-
-                var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
-                await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
-                
-                console.log(factorsConcerned, factorsConcerned.length);
-                if (factorsConcerned.length === 0) {
-                    var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
-                                + ' what lifestyle or environmental factors affected your sleep.';
-                    var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
-                                + ' go see your doctor. Your doctor may be able to find out the cause(s) of your sleep' 
-                                + ' disturbances. The causes of your sleep disturbances could be caused by some medical'
-                                + ' condition or another factor (which I was not programmed to identify).';
-
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
-                    fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
-                } else {
-                    if (factorsConcerned.length === 1) {
-                        var msg = 'Earlier we had a chat about your sleep last night. I determined that a possible cause for your sleep disturbance was due to you ';
-                        if (factorsConcerned[0] === constants.ELECTRONICS) msg += 'using your phone (or any other electronic devices) before going to bed (or in bed)';
-                        else if (factorsConcerned[0] === constants.STRESSED) msg += 'being stressed or worried.';
-                        else if (factorsConcerned[0] === constants.EAT) msg += 'eating before going to bed.';
-                        else if (factorsConcerned[0] === constants.ALCOHOL) msg += 'drinking alcohol before going to bed.';
-                        else if (factorsConcerned[0] === constants.NICOTINE) msg += 'taking nicotine before going to bed.';
-                        else if (factorsConcerned[0] === constants.CAFFEINE) msg += 'drinking any beverages with caffeine, such as tea, before going to bed.';
-                        else if (factorsConcerned[0] === constants.LIGHTS) msg += 'sleeping with the lights on.';
-                        else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
-                        else if (factorsConcerned[0] === constants.EXERCISE) msg += 'not exercising regularly.';
-                        else if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += 'doing shifts at irregular hours.';
-                        fbMessengerBotClient.sendTextMessage(fbUserId, msg);
-                    } else {
-                        var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
-                        var numberOfFactorsConcerned = factorsConcerned.length;
-                        for (var i = 0; i < numberOfFactorsConcerned; i++) {
-                            if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other\n  electronic devices) before\n  going to bed (or in bed)';
-                            else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
-                            else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
-                            else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
-                            else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine\n  before going to bed.';
-                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
-                            else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
-                            else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
-                        }              
-                        if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
-                        if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
-                        fbMessengerBotClient.sendTextMessage(fbUserId, msg);
-                    }
-                }
-            } else {
-                var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
-                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
-            }
-            return;
-        }
-
         // 'Interview' user about their sleep
         if (sleepQuestions.includes(mainContext)) {
             chatAboutSleep(fbUserId, message, event, mainContext);
@@ -292,7 +188,7 @@ module.exports = async (event) => {
         } else if (intent === constants.INTENT_GENERAL_SLEEP_ADVICE) {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'general sleep advice');
         } else if (intent === constants.INTENT_HOW_WAS_SLEEP_LAST_NIGHT) {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'sleep last night');
+            answerAboutSleepLastNight(fbUserId);
         } else if (intent === constants.INTENT_PERSONAL_SLEEP_ADVICE) {
             fbMessengerBotClient.sendTextMessage(fbUserId, 'personal sleep advice');
         } else if (intent === constants.INTENT_CONSEQUENCES_OF_POOR_SLEEP) {
@@ -755,7 +651,22 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
 
 async function finishSleepChat(fbUserId) {
     user.setMainContext(fbUserId, null);
-    fbMessengerBotClient.sendTextMessage(fbUserId, 'Finished chat');
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Finished chat');
+
+    const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
+    var factorsConcerned = [];
+    var numberOfSleepQuestions = sleepQuestions.length;
+    for (var i = 0; i < numberOfSleepQuestions; i++) {
+        var factor = sleepQuestions[i];
+        var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
+        if (answer === 'yes') factorsConcerned.push(factor);
+    }   
+    var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
+    if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
+    var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
+    if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
+    var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
+    if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
 }
 
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
@@ -848,4 +759,105 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
     await user.setSubContext(fbUserId, subContext);
     if (isQuickReplyMessage) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, backgroundQuestionsMap[mainContext], constants.QUICK_REPLIES_YES_OR_NO);
     else fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[mainContext]);
+}
+
+async function answerAboutSleepLastNight(fbUserId) {
+    var date = dateAndTimeUtil.dateToString(new Date());
+    var noSleepDataMsg = 'no sleep data';
+
+    var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
+    if (mainSleepExists === false) {
+        fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
+        return;
+    }
+        
+    var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+    var lengthOfData = mainSleepLevelsData.length;
+    if (lengthOfData === 0) { // User does not have break down of their sleep (i.e. they manually added a sleep log)
+        fbMessengerBotClient.sendTextMessage(fbUserId, noSleepDataMsg);
+        return;
+    }
+
+    var maxAwake = 0; // Time awake in seconds
+    var tmp = 0;
+    var timeOfAwake = 0;
+    for (var j = 0; j < lengthOfData; j++) {
+        timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
+        for (var k = j; k < lengthOfData; k++) {
+            var data = mainSleepLevelsData[k];
+            if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
+            else break;
+        }
+        if (tmp > maxAwake) maxAwake = tmp;
+        tmp = 0;
+    }
+
+    if (maxAwake >= 600) flag = true;
+            
+    if (flag) {
+        const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
+        var minutesAwake = Math.floor(maxAwake / 60);
+        var factorsConcerned = [];
+        var numberOfSleepQuestions = sleepQuestions.length;
+        for (var i = 0; i < numberOfSleepQuestions; i++) {
+            var factor = sleepQuestions[i];
+            var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
+            if (answer === 'yes') factorsConcerned.push(factor);
+        }   
+        var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
+        if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
+        var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
+        if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
+        var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
+        if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
+
+        var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+                
+        if (factorsConcerned.length === 0) {
+            var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
+                        + ' what lifestyle or environmental factors caused your sleep disturbance.';
+            var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
+                        + ' go see your doctor. Your doctor may be able to find out the cause(s) of your sleep' 
+                        + ' disturbances. The causes of your sleep disturbances could be caused by some medical'
+                        + ' condition or another factor (which I was not programmed to identify).';
+
+            await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+            fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
+        } else {
+            if (factorsConcerned.length === 1) {
+                var msg = 'Earlier we had a chat about your sleep last night. I determined that a possible cause for your sleep disturbance was due to you ';
+                if (factorsConcerned[0] === constants.ELECTRONICS) msg += 'using your phone (or any other electronic devices) before going to bed (or in bed)';
+                else if (factorsConcerned[0] === constants.STRESSED) msg += 'being stressed or worried.';
+                else if (factorsConcerned[0] === constants.EAT) msg += 'eating before going to bed.';
+                else if (factorsConcerned[0] === constants.ALCOHOL) msg += 'drinking alcohol before going to bed.';
+                else if (factorsConcerned[0] === constants.NICOTINE) msg += 'taking nicotine before going to bed.';
+                else if (factorsConcerned[0] === constants.CAFFEINE) msg += 'drinking any beverages with caffeine, such as tea, before going to bed.';
+                else if (factorsConcerned[0] === constants.LIGHTS) msg += 'sleeping with the lights on.';
+                else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
+                else if (factorsConcerned[0] === constants.EXERCISE) msg += 'not exercising regularly.';
+                else if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += 'doing shifts at irregular hours.';
+                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+            } else {
+                var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
+                var numberOfFactorsConcerned = factorsConcerned.length;
+                for (var i = 0; i < numberOfFactorsConcerned; i++) {
+                    if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other\n  electronic devices) before\n  going to bed (or in bed)';
+                    else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
+                    else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
+                    else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
+                    else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine\n  before going to bed.';
+                    else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
+                    else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
+                    else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
+                }              
+                if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
+                if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
+                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+            }
+        }
+    } else {
+        var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
+        fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+    }
 }
