@@ -26,6 +26,14 @@ exports.addNewUser = async (fbUserId) => {
     db.close();
 };
 
+exports.getAnswer = async (fbUserId, factor) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    var obj = result[0];
+    return obj[factor];
+}
+
 exports.getElectronicsAnswer = async (fbUserId) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();

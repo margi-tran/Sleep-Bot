@@ -130,11 +130,22 @@ module.exports = async (event) => {
 
 
         if (message === 'test') {
-            answer = userSleepAnswers.getElectronicsAnswer(fbUserId);
+            const sleepQuestions = 
+                [
+                    constants.NOTIFIED_SLEEP, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
+                    constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS, constants.QUIET
+                ];
+            var answer = await userSleepAnswers.getElectronicsAnswer(fbUserId);
+
+            hol = await userSleepAnswers.getAnswer(fbUserId, constants.EAT);
+            console.log(fbUserId, hol);
+
+            var numberOfSleepQuestions = sleepQuestions.length-1;
+            for (var i = 1; i < numberOfSleepQuestions; i++) {
+                
+            }
             fbMessengerBotClient.sendTextMessage(fbUserId,answer );
             return;
-
-            
         }
 
         // 'Interview' user about their sleep
