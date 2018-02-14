@@ -162,16 +162,19 @@ module.exports = async (event) => {
             }
 
             if (maxAwake >= 600) flag = true;
-        
+            
             if (flag) {
+                const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
                 var minutesAwake = Math.floor(maxAwake / 60);
                 var factorsConcerned = [];
                 var numberOfSleepQuestions = sleepQuestions.length;
-                for (var i = 1; i < numberOfSleepQuestions; i++) {
+                for (var i = 0; i < numberOfSleepQuestions; i++) {
                     var factor = sleepQuestions[i];
                     var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
-                    if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
+                    if (answer === 'yes') factorsConcerned.push(factor);
                 }   
+                var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
+                if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
                 var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
                 if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
                 var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
@@ -201,7 +204,7 @@ module.exports = async (event) => {
                         else if (factorsConcerned[0] === constants.NICOTINE) msg += 'taking nicotine before going to bed.';
                         else if (factorsConcerned[0] === constants.CAFFEINE) msg += 'drinking any beverages with caffeine, such as tea, before going to bed.';
                         else if (factorsConcerned[0] === constants.LIGHTS) msg += 'sleeping with the lights on.';
-                        else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom is noisy.';
+                        else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
                         else if (factorsConcerned[0] === constants.EXERCISE) msg += 'not exercising regularly.';
                         else if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += 'doing shifts at irregular hours.';
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg);
@@ -216,7 +219,7 @@ module.exports = async (event) => {
                             else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine\n  before going to bed.';
                             else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
                             else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
-                            else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom is noisy.';
+                            else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
                         }              
                         if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
                         if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
