@@ -140,7 +140,7 @@ module.exports = async (event) => {
             var numberOfSleepQuestions = sleepQuestions.length-1;
             for (var i = 1; i < numberOfSleepQuestions; i++) {
                 var factor = sleepQuestions[i];
-                var answer = await userSleepAnswer.getAnswer(fbUserId, factor);
+                var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
                 if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
             }   
 
