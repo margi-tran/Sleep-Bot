@@ -137,12 +137,17 @@ module.exports = async (event) => {
                 ];
             
             var factorsConcerned = [];
-            var numberOfSleepQuestions = sleepQuestions.length-1;
+            var numberOfSleepQuestions = sleepQuestions.length;
             for (var i = 1; i < numberOfSleepQuestions; i++) {
                 var factor = sleepQuestions[i];
                 var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
                 if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
             }   
+
+            var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
+            if (exerciseAnswer === yes) factorsConcerned.push(exerciseAnswer);
+            var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
+            if (exerciseAnswer === yes) factorsConcerned.push(workScheduleAnswer);
 
             console.log('asasasas', factorsConcerned);
 

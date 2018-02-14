@@ -52,3 +52,17 @@ exports.addNewUserBackground = async (fbUserId, age) => {
     await db.collection('background').insertOne(background);
     db.close();
 };
+
+exports.getExerciseAnswer = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    return result[0].exercise;
+};
+
+exports.getWorkScheduleAnswer = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('background').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    return result[0].work_schedule;
+};
