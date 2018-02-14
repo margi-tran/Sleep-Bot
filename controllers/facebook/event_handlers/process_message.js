@@ -16,6 +16,7 @@ var user = require('../../../models/user');
 var userBackground = require('../../../models/user_background');
 var userSleepAnswers = require('../../../models/user_sleep_answers');
 var factor = require('../../../models/factor');
+var sleep = require('../../../models/sleep');
 
 var constants = require('../../constants');
 var dateAndTimeUtil = require('../../../utility/date_and_time_util');
@@ -200,7 +201,7 @@ module.exports = async (event) => {
                 var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
                 fbMessengerBotClient.sendTextMessage(fbUserId, msg);
             }
-            return; // end here
+            return;
         }
 
         // 'Interview' user about their sleep
