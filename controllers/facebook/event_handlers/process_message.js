@@ -209,7 +209,7 @@ module.exports = async (event) => {
                         var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
                         
         
-
+                        console.log('blah', factorsConcerned);
                         for (var i = 1; i < numberOfSleepQuestions; i++) {
                             console.log(factorsConcerned[i]);
                             if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other electronic devices)\n   before going to bed (or in bed)';
