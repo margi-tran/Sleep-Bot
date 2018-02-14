@@ -11,13 +11,6 @@ const LATE_WAKEUP_EXPECT_EXPLANATION = 'late wakeup expect explanation';
 const LATE_GO_TO_BED_EXPECT_EXPLANATION = 'late go to bed expect explanation';
 
 const NOTIFIED_SLEEP = 'notified sleep';
-const SLEEP_ELECTRONICS = 'sleep electronics';
-const SLEEP_STRESSED = 'sleep stressed';
-const SLEEP_EAT = 'sleep eat';
-const SLEEP_ALCOHOL_NICOTINE = 'sleep alcohol nicotine';
-const SLEEP_CAFFEINE = 'sleep caffeine';
-const SLEEP_LIGHTS = 'sleep lights';
-const SLEEP_QUIET = 'sleep quiet';
 
 const GET_UP = 'get_up';
 const GO_TO_BED = 'go_to_bed';
@@ -62,13 +55,6 @@ module.exports = {
     LATE_GO_TO_BED_EXPECT_EXPLANATION,
 
     NOTIFIED_SLEEP,
-    SLEEP_ELECTRONICS, 
-    SLEEP_STRESSED,
-    SLEEP_EAT,
-    SLEEP_ALCOHOL_NICOTINE,
-    SLEEP_CAFFEINE,
-    SLEEP_LIGHTS,
-    SLEEP_QUIET,
 
     GET_UP,
     GO_TO_BED,

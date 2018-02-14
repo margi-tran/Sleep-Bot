@@ -556,6 +556,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                 if (message === 'yes') {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
                     await user.setMainContext(fbUserId, constants.ELECTRONICS);
+                    await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
