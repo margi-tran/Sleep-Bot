@@ -186,7 +186,7 @@ module.exports = async (event) => {
                     var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
                                 + ' go see your doctor. Your doctor may be able to find out the cause(s) of your sleep' 
                                 + ' disturbances. The causes of your sleep disturbances could be caused by some medical'
-                                + ' condition or another factor (which I was not programmed to identify).'
+                                + ' condition or another factor (which I was not programmed to identify).';
 
                     await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
                     fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
