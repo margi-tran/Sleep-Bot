@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 						res.cookie('fb_id', event.sender.id);
 						processPostback(event);
 					} else {
-						console.log('Invalid event recieved.');
+						//console.log('Invalid event recieved.');
 					}
          		});
     		});
