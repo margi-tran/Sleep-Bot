@@ -212,9 +212,9 @@ module.exports = async (event) => {
                             if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other\n  electronic devices) before\n  going to bed (or in bed)';
                             else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                             else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
-                            else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol before going to bed.';
-                            else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine before going to bed.';
-                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,\n   before going to bed.';
+                            else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
+                            else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine\n  before going to bed.';
+                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
                             else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
                             else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom is noisy.';
                         }              
