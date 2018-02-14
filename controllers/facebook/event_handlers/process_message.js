@@ -582,7 +582,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                 handleSleepQuestionReply(fbUserId, event, message, constants.CAFFEINE, constants.LIGHTS, subContext);
                 break;
             case constants.LIGHTS:
-                handleSleepQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.STRESSED, subContext);
+                handleSleepQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.QUIET, subContext);
                 break;
             case constants.QUIET:
                 if (subContext === constants.QUESTION_ANSWER) {
@@ -647,7 +647,7 @@ async function finishSleepChat(fbUserId) {
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
-            await userBackground.updateBackground(fbUserId, currentMainContext, message);
+            await userSleepAnswers.updateSleepAnswer(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
