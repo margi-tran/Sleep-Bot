@@ -496,6 +496,7 @@ async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
     var msg2 = 'Feel free to ask me any questions about sleep. If you need a reminder of what I can assist you with, just type !help';
     user.setMainContext(fbUserId, null);
     user.updateUserIsNew(fbUserId, false);
+    user.setNotifiedSleepToFalse(fbUserId);
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
 }
