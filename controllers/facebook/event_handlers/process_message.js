@@ -71,7 +71,7 @@ sleepAdviceMap[constants.ALCOHOL] = 'Avoiding alcohol before going to bed.';
 sleepAdviceMap[constants.NICOTINE] = 'Avoiding nicotine before going to bed.';
 sleepAdviceMap[constants.CAFFEINE] = 'Avoiding caffeine before going to bed.';
 sleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
-sleepAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
+sleepAdviceMap[constants.QUIET] = 'Your bedroom should be as quiet as possible for sleeping.';
 
 
 const BUTTONS_WHY_AND_NEXT_QUESTION = 
@@ -429,7 +429,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 }
                 break;
             case constants.WORK_SCHEDULE:
-            if (subContext === constants.QUESTION_ANSWER) {
+                if (subContext === constants.QUESTION_ANSWER) {
                     if (message === 'yes' || message === 'no') {
                         await userBackground.updateBackground(fbUserId, constants.WORK_SCHEDULE, message);
                         if (message === 'yes') {
@@ -476,7 +476,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     if (message === 'done') finishSleepBackgroundChat(fbUserId);
                     else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are done.', BUTTON_DONE);
                 } 
-                break; 
+            break; 
         }
     } catch (err) {
         console.log('[ERROR]', err);
@@ -585,25 +585,63 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                 handleSleepQuestionReply(fbUserId, event, message, constants.LIGHTS, constants.STRESSED, subContext);
                 break;
             case constants.QUIET:
-                if (message === 'yes' || message === 'no') {
-                    await userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message);
-                    await user.setMainContext(fbUserId, null);
-                    if (message === 'no') {
-                        await fbMessengerBotClient.sendTextMessage(fbUserId, sleepAdviceMap[constants.QUIET]);
+                if (subContext === constants.QUESTION_ANSWER) {
+                    if (message === 'yes' || message === 'no') {
+                        await userBackground.updateBackground(fbUserId, constants.QUIET, message);
+                        if (message === 'no') {
+                            await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepAdviceMap[constants.QUIET], BUTTONS_WHY_AND_DONE);
+                        } else {
+                           finishSleepChat(fbUserId);
+                        }
+                    } else {           
+                        repeatQuestion(fbUserId, backgroundQuestionsMap[constants.QUIET], true);
                     }
-                    var msg1 = 'That was the last question. Thank you for answering my questions';
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
-
-                    // check whole answers if anything impacted
-                    
-                } else { 
-                    repeatQuestion(fbUserId, sleepQuestionsMap[constants.QUIET], true);
-                }
-                break;
+                } else if (subContext === constants.QUESTION_ANSWER_DONE) {
+                    if (message === 'why') {
+                        var explanationArray = await factor.getExplanation(constants.QUIET);
+                        if (explanationArray.length === 1) {
+                            await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], BUTTON_DONE);
+                        } else {
+                            await user.setSubContext(fbUserId, constants.MORE_INFO);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForMoreInfo(constants.QUIET, 0));
+                        }
+                    } else if (message === 'done') {
+                        finishSleepChat(fbUserId);
+                    } else {
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please choose an option.', BUTTONS_WHY_AND_DONE);
+                    }
+                } else if (subContext === constants.MORE_INFO) {
+                        if(message === 'more') {
+                            var explanationNumber = parseInt(event.message.quick_reply.payload.split(' ')[2]);
+                            var explanationArray = await factor.getExplanation(constants.QUIET);
+                            var nextExplanation = explanationNumber+1;
+                            if (nextExplanation >= explanationArray.length-1) {    
+                                await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);   
+                                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_DONE);
+                            } else {
+                                fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForMoreInfo(constants.WORK_SCHEDULE, nextExplanation));
+                            }
+                        } else if (message === 'done') {
+                            finishSleepChat(fbUserId);
+                        } else {
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are done.', BUTTON_DONE);
+                        }
+                } else if (subContext === constants.FINISHED_OPTIONS) {
+                    if (message === 'done') finishSleepChat(fbUserId);
+                    else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, 'Sorry, I didn\'t get that. Please press this button if you are done.', BUTTON_DONE);
+                } 
+            break;
         }
     } catch (err) {
         console.log('[ERROR]', err);
     }
+}
+
+async function finishSleepChat(fbUserId) {
+    user.setMainContext(fbUserId, null);
+    fbMessengerBotClient.sendTextMessage(fbUserId, 'Finished chat');
 }
 
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
