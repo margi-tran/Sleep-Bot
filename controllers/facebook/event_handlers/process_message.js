@@ -209,9 +209,6 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                 break;
             case constants.BACKGROUND_QUESTIONS:
                 if (message === 'yes') {
-                    /*await user.setMainContext(fbUserId, constants.GO_TO_BED);
-                    await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                    fbMessengerBotClient.sendTextMessage(fbUserId, backgroundQuestionsMap[constants.GO_TO_BED]);*/
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. Let\'s begin.');
                     updateContextsAndAskNextQuestion(fbUserId, constants.GO_TO_BED, constants.QUESTION_ANSWER, false);
                 } else {  
@@ -490,6 +487,7 @@ async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
     var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
     var msg2 = 'Feel free to ask me any questions about sleep. If you need a reminder of what I can assist you with, just type !help';
     user.setMainContext(fbUserId, null);
+    user.updateUserIsNew(fbUserId, false);
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
 }
