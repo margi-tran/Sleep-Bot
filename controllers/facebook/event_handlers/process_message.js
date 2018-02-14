@@ -651,7 +651,6 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
 
 async function finishSleepChat(fbUserId) {
     user.setMainContext(fbUserId, null);
-    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Finished chat');
 
     const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
     var factorsConcerned = [];
@@ -667,6 +666,21 @@ async function finishSleepChat(fbUserId) {
     if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
     var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
     if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
+
+    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Thank you that was the last question.');
+    if (factorsConcerned.length === 0) {
+        var msg1 = 'Unfortunately I could not determine what lifestyle or environmental factors caused your sleep disturbance.';
+        var msg2 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
+                        + ' go see your doctor. Your doctor may be determine the causes of your sleep disturbances.' 
+                        + ' Your sleep disturbances could be caused by some medical condition or another factor'
+                        + ' (which I was not programmed to identify).';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+    } else {
+        fbMessengerBotClient.sendTextMessage(fbUserId, 'placeholder message');
+    }
+    var msg = 'That concludes our chat. Thank you for talking to me about your sleep. Don\'t forget to come back later to talk to me about your sleep!';
+    fbMessengerBotClient.sendTextMessage(fbUserId, msg);
 }
 
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
@@ -818,9 +832,9 @@ async function answerAboutSleepLastNight(fbUserId) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
             var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
-                        + ' go see your doctor. Your doctor may be able to find out the cause(s) of your sleep' 
-                        + ' disturbances. The causes of your sleep disturbances could be caused by some medical'
-                        + ' condition or another factor (which I was not programmed to identify).';
+                        + ' go see your doctor. Your doctor may be determine the causes of your sleep disturbances.' 
+                        + ' Your sleep disturbances could be caused by some medical condition or another factor'
+                        + ' (which I was not programmed to identify).';
 
             await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
             fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
