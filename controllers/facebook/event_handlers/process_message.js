@@ -675,8 +675,8 @@ function getButtonsForFactorsReply(factor, index) {
 }
 
 function getButtonsForMoreInfo(factor, index) {
-    var title = (factor === constants.WORK_SCHEDULE) 'done' : 'next question';
-    var payload = (factor === constants.WORK_SCHEDULE) 'done' : 'next question';
+    var title = (factor === constants.WORK_SCHEDULE) ? 'done' : 'next question';
+    var payload = (factor === constants.WORK_SCHEDULE) ? 'done' : 'next question';
 
     var buttons = 
         [{
