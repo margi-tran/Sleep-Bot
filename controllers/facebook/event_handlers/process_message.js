@@ -105,7 +105,7 @@ const BUTTONS_WHY_AND_DONE =
         "payload": "done"
     }];
 
-const BUTTONS_DONE = 
+const BUTTON_DONE = 
     [{
         "content_type": "text",
         "title": "done",
@@ -488,7 +488,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
 
 async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
     var msg1 = 'That was the last question. Thank you for answering my questions, they will be useful in helping me analyse your sleep in the future!';
-    var msg2 = 'Feel free to ask me questions about sleep. If you need a reminder of what I can assist you with, just type !help';
+    var msg2 = 'Feel free to ask me any questions about sleep. If you need a reminder of what I can assist you with, just type !help';
     user.setMainContext(fbUserId, null);
     await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
     fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
