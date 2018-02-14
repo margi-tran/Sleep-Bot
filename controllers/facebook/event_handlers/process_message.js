@@ -209,12 +209,12 @@ module.exports = async (event) => {
                         var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
                         var numberOfFactorsConcerned = factorsConcerned.length;
                         for (var i = 0; i < numberOfFactorsConcerned; i++) {
-                            if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other electronic devices)\n   before going to bed (or in bed)';
+                            if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other\n  electronic devices) before\n  going to bed (or in bed)';
                             else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                             else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
                             else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol before going to bed.';
                             else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine before going to bed.';
-                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with caffeine, such as tea,\n   before going to bed.';
+                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,\n   before going to bed.';
                             else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
                             else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom is noisy.';
                         }              
