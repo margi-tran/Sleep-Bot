@@ -26,56 +26,56 @@ exports.addNewUser = async (fbUserId) => {
     db.close();
 };
 
-exports.getElectronicsAnswer(fbUserId, factor) {
+exports.getElectronicsAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].electronics;
 }
 
-exports.getStressedAnswer(fbUserId, factor) {
+exports.getStressedAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].stressed;
 }
 
-exports.getEatAnswer(fbUserId, factor) {
+exports.getEatAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].eat;
 }
 
-exports.getAlcoholAnswer(fbUserId, factor) {
+exports.getAlcoholAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].alcohol;
 }
 
-exports.getNicotineAnswer(fbUserId, factor) {
+exports.getNicotineAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].nicotine;
 }
 
-exports.getCaffeineAnswer(fbUserId, factor) {
+exports.getCaffeineAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].caffeine;
 }
 
-exports.getLightsAnswer(fbUserId, factor) {
+exports.getLightsAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
     return result[0].lights;
 }
 
-exports.getQuietAnswer(fbUserId, factor) {
+exports.getQuietAnswer = async (fbUserId, factor) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
