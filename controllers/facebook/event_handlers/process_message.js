@@ -324,7 +324,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         await userBackground.updateBackground(fbUserId, constants.EXERCISE, message);
                         if (message === 'no') {
                             await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[constants.EXERCISE], BUTTONS_WHY_AND_NEXT_QUESTION);
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[constants.QUIET], BUTTONS_WHY_AND_NEXT_QUESTION);
                         } else {
                             updateContextsAndAskNextQuestion(fbUserId, constants.EXERCISE, constants.QUESTION_ANSWER, true);
                         }
