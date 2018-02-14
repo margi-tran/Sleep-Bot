@@ -211,6 +211,7 @@ module.exports = async (event) => {
         
 
                         for (var i = 1; i < numberOfSleepQuestions; i++) {
+                            console.log(factorsConcerned[i]);
                             if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other electronic devices)\n   before going to bed (or in bed)';
                             else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                             else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
