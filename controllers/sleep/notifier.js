@@ -54,19 +54,13 @@ async function notifySleep() {
 						+ ' for ' + minutesAwake + ' minutes.';
 			var msg2 = 'Could we have a little chat about that?'; 
 
-			
+
 			await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
-        	var button =
-        		[{
-        			"content_type": "text",
-        			"title": "got it",
-        			"payload": "got it"
-        		}];
-        	var msg = 'Hey! I analysed your sleep and you had no sleep disturbances last night, which is great!';
+        	var msg = 'Hey. I analysed your sleep last night and you did not appear to have any sleep disturbances, which is great!';
         	await user.setNotifiedSleepToTrue(fbUserId);
-        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, button);
+        	fbMessengerBotClient.sendTextMessage(fbUserId, msg);
         }
 	}
 }

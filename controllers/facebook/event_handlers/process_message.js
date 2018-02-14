@@ -130,29 +130,73 @@ module.exports = async (event) => {
 
 
         if (message === 'test') {
-            const sleepQuestions = 
-                [
-                    constants.NOTIFIED_SLEEP, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
-                    constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS, constants.QUIET
-                ];
-            
-            var factorsConcerned = [];
-            var numberOfSleepQuestions = sleepQuestions.length;
-            for (var i = 1; i < numberOfSleepQuestions; i++) {
-                var factor = sleepQuestions[i];
-                var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
-                if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
-            }   
 
-            var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
-            if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
-            var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
-            if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
 
-            console.log('asasasas', factorsConcerned);
 
-            //fbMessengerBotClient.sendTextMessage(fbUserId,answer );
-            return;
+            var date = dateAndTimeUtil.dateToString(new Date());
+            var fbUserId = usersToNotify[i];
+
+            var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
+            if (mainSleepExists === false) continue;
+        
+            var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+            var lengthOfData = mainSleepLevelsData.length;
+            if (lengthOfData === 0) { // User does not have break down of their sleep (i.e. they manually added a sleep log)
+                return;
+            }
+
+            var maxAwake = 0; // Time awake in seconds
+            var tmp = 0;
+            var timeOfAwake = 0;
+            for (var j = 0; j < lengthOfData; j++) {
+                timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
+                for (var k = j; k < lengthOfData; k++) {
+                    var data = mainSleepLevelsData[k];
+                    if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
+                    else break;
+                }
+                if (tmp > maxAwake) maxAwake = tmp;
+                tmp = 0;
+            }
+
+            if (maxAwake >= 600) flag = true;
+        
+            if (flag) {
+                var minutesAwake = Math.floor(maxAwake / 60);
+                var factorsConcerned = [];
+                var numberOfSleepQuestions = sleepQuestions.length;
+                for (var i = 1; i < numberOfSleepQuestions; i++) {
+                    var factor = sleepQuestions[i];
+                    var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
+                    if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
+                }   
+                var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
+                if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
+                var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
+                if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
+
+                var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
+                fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+                
+                if (factorsConcerned === []) {
+                    var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately we could not determine'
+                                + ' what lifestyle or environmental factors affected your sleep.';
+                    var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
+                                + ' go see your doctor. Your doctor may be able to find out the cause(s) of your sleep' 
+                                + ' disturbances. The causes of your sleep disturbances could be caused by some medical'
+                                + ' condition or another factor (which I was not programmed to identify).'
+
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+                    fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
+                } else {
+                    fbMessengerBotClient.sendTextMessage(fbUserId, 'omegalul');
+                    fbMessengerBotClient.sendTextMessage(fbUserId, factorsConcerned);
+                }
+            } else {
+                var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
+                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+            }
+            return; // end here
         }
 
         // 'Interview' user about their sleep
