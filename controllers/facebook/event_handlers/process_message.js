@@ -145,9 +145,9 @@ module.exports = async (event) => {
             }   
 
             var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
-            if (exerciseAnswer === 'no') factorsConcerned.push(exerciseAnswer);
+            if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
             var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
-            if (workScheduleAnswer === 'yes') factorsConcerned.push(workScheduleAnswer);
+            if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
 
             console.log('asasasas', factorsConcerned);
 
