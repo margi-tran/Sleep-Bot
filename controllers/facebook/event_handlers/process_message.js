@@ -180,6 +180,7 @@ module.exports = async (event) => {
                 var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
                 await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
                 
+                console.log(factorsConcerned);
                 if (factorsConcerned === []) {
                     var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                                 + ' what lifestyle or environmental factors affected your sleep.';
