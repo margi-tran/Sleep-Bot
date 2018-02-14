@@ -135,16 +135,18 @@ module.exports = async (event) => {
                     constants.NOTIFIED_SLEEP, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
                     constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS, constants.QUIET
                 ];
-            var answer = await userSleepAnswers.getElectronicsAnswer(fbUserId);
-
-            hol = await userSleepAnswers.getAnswer(fbUserId, constants.EAT);
-            console.log(fbUserId, hol);
-
+            
+            var factorsConcerned = [];
             var numberOfSleepQuestions = sleepQuestions.length-1;
             for (var i = 1; i < numberOfSleepQuestions; i++) {
-                
-            }
-            fbMessengerBotClient.sendTextMessage(fbUserId,answer );
+                var factor = sleepQuestions[i];
+                var answer = await userSleepAnswer.getAnswer(fbUserId, factor);
+                if (answer === 'yes' || factor === constants.QUIET) factorsConcerned.push(factor);
+            }   
+
+            console.log('asasasas', factorsConcerned);
+
+            //fbMessengerBotClient.sendTextMessage(fbUserId,answer );
             return;
         }
 
