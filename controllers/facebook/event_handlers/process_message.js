@@ -184,6 +184,14 @@ module.exports = async (event) => {
                 fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[0]);
              else 
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForFactorsReply(factorParameter, 0));
+        } else if (intent === constants.INTENT_GENERAL_SLEEP_ADVICE) {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'general sleep advice');
+        } else if (intent === constants.INTENT_HOW_WAS_SLEEP_LAST_NIGHT) {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'sleep last night');
+        } else if (intent === constants.INTENT_PERSONAL_SLEEP_ADVICE) {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'personal sleep advice');
+        } else if (intent === constants.INTENT_CONSEQUENCES_OF_POOR_SLEEP) {
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'consequences');
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);

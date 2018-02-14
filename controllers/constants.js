@@ -27,6 +27,10 @@ const WORK_SCHEDULE = 'work_schedule';
 const EXERCISE = 'exercise';
 
 const INTENT_EFFECTS_OF_FACTORS = 'effects-of-factors-on-sleep';
+const INTENT_GENERAL_SLEEP_ADVICE = 'general-sleep-advice';
+const INTENT_HOW_WAS_SLEEP_LAST_NIGHT = 'how-was-sleep-last-night';
+const INTENT_PERSONAL_SLEEP_ADVICE = 'personal-sleep-advice';
+const INTENT_CONSEQUENCES_OF_POOR_SLEEP = 'consequences-of-poor-sleep';
 
 const QUICK_REPLIES_YES_OR_NO = 
     [{
@@ -71,6 +75,10 @@ module.exports = {
     WORK_SCHEDULE,
 
     INTENT_EFFECTS_OF_FACTORS,
+    INTENT_GENERAL_SLEEP_ADVICE,
+    INTENT_HOW_WAS_SLEEP_LAST_NIGHT,
+    INTENT_PERSONAL_SLEEP_ADVICE,
+    INTENT_CONSEQUENCES_OF_POOR_SLEEP,
 
 	QUICK_REPLIES_YES_OR_NO
 };
