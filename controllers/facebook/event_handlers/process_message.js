@@ -207,16 +207,21 @@ module.exports = async (event) => {
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg);
                     } else {
                         var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
-                        if (factorsConcerned[0] === constants.ELECTRONICS) msg += '\n- using your phone (or any other electronic devices) before going to bed (or in bed)';
-                        if (factorsConcerned[0] === constants.STRESSED) msg += '\n- being stressed or worried.';
-                        if (factorsConcerned[0] === constants.EAT) msg += '\n- eating before going to bed.';
-                        if (factorsConcerned[0] === constants.ALCOHOL) msg += '\n- drinking alcohol before going to bed.';
-                        if (factorsConcerned[0] === constants.NICOTINE) msg += '\n- taking nicotine before going to bed.';
-                        if (factorsConcerned[0] === constants.CAFFEINE) msg += '\n- drinking any beverages with caffeine, such as tea, before going to bed.';
-                        if (factorsConcerned[0] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
-                        if (factorsConcerned[0] === constants.QUIET) msg += '\n- sleeping while your bedroom is noisy.';
-                        if (factorsConcerned[0] === constants.EXERCISE) msg += '\n- not exercising regularly.';
-                        if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += '\n- doing shifts at irregular hours.';
+                        
+        
+
+                        for (var i = 1; i < numberOfSleepQuestions; i++) {
+                            if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other electronic devices)\n before going to bed (or in bed)';
+                            else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
+                            else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
+                            else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol before going to bed.';
+                            else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine before going to bed.';
+                            else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with caffeine, such as tea,\n before going to bed.';
+                            else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
+                            else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom is noisy.';
+                        }              
+                        if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
+                        if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
                         fbMessengerBotClient.sendTextMessage(fbUserId, msg);
                     }
                 }
