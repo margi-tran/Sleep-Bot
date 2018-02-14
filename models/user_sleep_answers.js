@@ -30,6 +30,7 @@ exports.getElectronicsAnswer = async (fbUserId) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId }).toArray();
     db.close();
+    console.log('result ', result);
     return result[0].electronics;
 }
 
