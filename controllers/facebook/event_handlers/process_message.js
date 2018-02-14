@@ -133,6 +133,8 @@ module.exports = async (event) => {
             answer = userSleepAnswers.getElectronicsAnswer(fbUserId);
             fbMessengerBotClient.sendTextMessage(fbUserId,answer );
             return;
+
+            
         }
 
         // 'Interview' user about their sleep
