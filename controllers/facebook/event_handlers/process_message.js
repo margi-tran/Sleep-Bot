@@ -243,7 +243,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_GO_TO_BED_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    var msg = 'I see but, depending on your situation, you should be going to bed between 8pm-12am.';
+                    var msg = 'I see but you should be going to bed between 8pm-12am.';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTON_NEXT_QUESTION);
                 } else if (subContext === constants.FINISHED_OPTIONS) {
                     if (message === constants.NEXT_QUESTION) {
@@ -272,7 +272,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    var msg1 = 'I see but, depending on your situation, you should waking up between 6am-8am.';
+                    var msg1 = 'I see but you should waking up between 6am-8am.';
                     var getUp = await userBackground.getGoToBed(fbUserId);
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
@@ -288,7 +288,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                         msg2 += 'You sleep for ' + difference + ' hours which is not enough. The recommended amount of sleep (by the National Sleep Foundation) for adults is 7-8 hours).';
                     }
                     if (sleepEnough === false) {
-                        fbMessengerBotClient.sendTextMessage(fbUserId, msg1) ;
+                        await fbMessengerBotClient.sendTextMessage(fbUserId, msg1) ;
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, BUTTON_NEXT_QUESTION);
                     } else {
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg1, BUTTON_NEXT_QUESTION);
