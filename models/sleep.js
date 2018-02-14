@@ -36,7 +36,3 @@ async function getMainSleep(fbUserId, date) {
             return sleepItem;
     }
 }
-
-
-
-

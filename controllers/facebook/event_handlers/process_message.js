@@ -128,6 +128,13 @@ module.exports = async (event) => {
             return;
         }
 
+
+        if (message === 'test') {
+            answer = userSleepAnswers.getElectronicsAnswer(fbUserId);
+            fbMessengerBotClient.sendTextMessage(fbuserId,answer );
+            return;
+        }
+
         // 'Interview' user about their sleep
         if (sleepQuestions.includes(mainContext)) {
             chatAboutSleep(fbUserId, message, event, mainContext);

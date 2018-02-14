@@ -10,7 +10,7 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('42 5-23 * * *', notifySleep);
+schedule.scheduleJob('00 5-23 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
@@ -53,6 +53,8 @@ async function notifySleep() {
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
 						+ ' for ' + minutesAwake + ' minutes.';
 			var msg2 = 'Could we have a little chat about that?'; 
+
+			
 			await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
