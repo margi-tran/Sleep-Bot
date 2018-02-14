@@ -184,7 +184,7 @@ module.exports = async (event) => {
                 await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
                 
                 console.log(factorsConcerned, factorsConcerned.length);
-                if (factorsConcerned === []) {
+                if (factorsConcerned.length === 0) {
                     var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                                 + ' what lifestyle or environmental factors affected your sleep.';
                     var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
