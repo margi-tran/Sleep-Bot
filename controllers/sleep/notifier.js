@@ -6,12 +6,12 @@ var messengerBotClient = new MessengerBot({ token: process.env.FB_PAGE_ACCESS_TO
 
 var user = require('../../models/user');
 var sleep = require('../../models/sleep');
-var userSleepAnswers = require('../../models/sleep');
+var userSleepAnswers = require('../../models/user_sleep_answers');
 
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('28 3-23 * * *', notifySleep);
+schedule.scheduleJob('32 3-23 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
