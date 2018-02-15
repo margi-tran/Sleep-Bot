@@ -885,7 +885,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         dateArr.push(dateAndTimeUtil.dateToString(date));
     }
 
-    console.log(date);
+    console.log(dateArr);
     //var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 }
 
