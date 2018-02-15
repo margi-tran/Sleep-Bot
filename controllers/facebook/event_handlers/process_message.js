@@ -878,6 +878,7 @@ async function answerAboutSleepLastNight(fbUserId) {
 }
 
 async function givePersonalSleepAdvice(fbUserId) {
+    console.log('in here');
     var dateArr = [];
     var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
