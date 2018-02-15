@@ -674,13 +674,14 @@ async function finishSleepChat(fbUserId) {
                         + ' go see your doctor. Your doctor may be determine the causes of your sleep disturbances.' 
                         + ' Your sleep disturbances could be caused by some medical condition or another factor'
                         + ' (which I was not programmed to identify).';
+        var msg3 = 'This concludes our chat. Thank you for talking to me about your sleep. Also don\'t forget to come back later to talk to me about your sleep!';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg3);
     } else {
-        fbMessengerBotClient.sendTextMessage(fbUserId, 'placeholder message');
+        var msg = 'This concludes our chat. Please keep in mind the advice I have given you to improve your sleep disturbances. Also don\'t forget to come back later to talk to me about your sleep!';
+        fbMessengerBotClient.sendTextMessage(fbUserId, msg);
     }
-    var msg = 'That concludes our chat. Thank you for talking to me about your sleep. Don\'t forget to come back later to talk to me about your sleep!';
-    fbMessengerBotClient.sendTextMessage(fbUserId, msg);
 }
 
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
