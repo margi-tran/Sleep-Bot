@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 
-exports.updateSleepAnswer = async (fbUserId, context, value) => {
+exports.updateSleepAnswer = async (fbUserId, context, value, date) => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
 	var obj = {};
 	obj[context] = value;
@@ -9,6 +9,25 @@ exports.updateSleepAnswer = async (fbUserId, context, value) => {
 };
 
 exports.addNewUser = async (fbUserId, date) => {
+    var user = 
+        { 
+            fbUserId_: fbUserId, 
+            date: date,
+            electronics: null,
+            stressed: null,
+            eat: null,
+            alcohol: null,
+            nicotine: null,
+            caffeine: null,
+            lights: null,
+            quiet: null
+        };
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('sleep_answers').insertOne(user);
+    db.close();
+};
+
+exports.addNewEntry = async (fbUserId, date) => {
     var user = 
         { 
             fbUserId_: fbUserId, 
