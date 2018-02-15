@@ -10,7 +10,7 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('00 5-23 * * *', notifySleep);
+schedule.scheduleJob('23 3-23 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
@@ -48,6 +48,7 @@ async function notifySleep() {
 		if (maxAwake >= 600) flag = true;
 		
 		if (flag) {
+			await sleep.addNewEntry(fbUserId, date);
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake

@@ -651,17 +651,16 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
 
 async function finishSleepChat(fbUserId) {
     user.setMainContext(fbUserId, null);
-    var date = dateAndTimeUtil.dateToString(new Date());
 
     const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
     var factorsConcerned = [];
     var numberOfSleepQuestions = sleepQuestions.length;
     for (var i = 0; i < numberOfSleepQuestions; i++) {
         var factor = sleepQuestions[i];
-        var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
+        var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
         if (answer === 'yes') factorsConcerned.push(factor);
     }   
-    var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET, date);
+    var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
     if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
     var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
     if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
@@ -686,10 +685,9 @@ async function finishSleepChat(fbUserId) {
 }
 
 async function handleSleepQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
-    var date = dateAndTimeUtil.dateToString(new Date());
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
-            await userSleepAnswers.updateSleepAnswer(fbUserId, currentMainContext, message, date);
+            await userSleepAnswers.updateSleepAnswer(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
@@ -818,10 +816,10 @@ async function answerAboutSleepLastNight(fbUserId) {
         var numberOfSleepQuestions = sleepQuestions.length;
         for (var i = 0; i < numberOfSleepQuestions; i++) {
             var factor = sleepQuestions[i];
-            var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
+            var answer = await userSleepAnswers.getAnswer(fbUserId, factor);
             if (answer === 'yes') factorsConcerned.push(factor);
         }   
-        var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET, date);
+        var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET);
         if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
         var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
         if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
