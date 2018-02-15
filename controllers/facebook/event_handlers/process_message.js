@@ -29,7 +29,7 @@ backgroundQuestionsMap[constants.ELECTRONICS] = 'Do you use your phone (or any o
 backgroundQuestionsMap[constants.STRESSED] = 'Are you stressed or worried about anything?';
 backgroundQuestionsMap[constants.EAT] = 'Do you eat before going to bed?';
 backgroundQuestionsMap[constants.ALCOHOL] = 'Do you drink alcohol before going to bed?';
-backgroundQuestionsMap[constants.NICOTINE] = 'Do you take nicotine before going to bed?';
+backgroundQuestionsMap[constants.NICOTINE] = 'Do you smoke (or take nicotine) before going to bed?';
 backgroundQuestionsMap[constants.CAFFEINE] = 'Do you drink any beverages with caffeine, such as tea, before going to bed?';
 backgroundQuestionsMap[constants.LIGHTS] = 'Do you sleep with the lights on?';
 backgroundQuestionsMap[constants.QUIET] = 'Is your bedroom quiet when you sleep?';
@@ -42,7 +42,7 @@ initialAdviceMap[constants.ELECTRONICS] = 'You should be avoiding the use of ele
 initialAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
 initialAdviceMap[constants.EAT] = 'You should avoid eating late, especially large or heavy meals.';
 initialAdviceMap[constants.ALCOHOL] = 'You should be avoiding alcohol before going to bed.';
-initialAdviceMap[constants.NICOTINE] = 'You should be avoiding nicotine before going to bed.';
+initialAdviceMap[constants.NICOTINE] = 'You should be avoiding smoking (or nicotine) before going to bed.';
 initialAdviceMap[constants.CAFFEINE] = 'You should be avoiding caffeine before going to bed.';
 initialAdviceMap[constants.LIGHTS] = 'You should be sleeping with the lights off.';
 initialAdviceMap[constants.QUIET] = 'You should make your bedroom as quiet as possible for sleeping.';
@@ -59,7 +59,7 @@ sleepQuestionsMap[constants.ELECTRONICS] = 'Did you use your phone (or any other
 sleepQuestionsMap[constants.STRESSED] = 'Are you stressed or worried about anything?';
 sleepQuestionsMap[constants.EAT] = 'Did you eat before going to bed?';
 sleepQuestionsMap[constants.ALCOHOL] = 'Did you drink alcohol before going to bed?';
-sleepQuestionsMap[constants.NICOTINE] = 'Did you take nicotine before going to bed?';
+sleepQuestionsMap[constants.NICOTINE] = 'Did you smoke (or take nicotine) before going to bed?';
 sleepQuestionsMap[constants.CAFFEINE] = 'Did you drink any beverages with caffeine, such as tea, before going to bed?';
 sleepQuestionsMap[constants.LIGHTS] = 'Did you sleep with the lights on?';
 sleepQuestionsMap[constants.QUIET] = 'Was your bedroom quiet when you went to sleep?';
@@ -69,7 +69,7 @@ sleepAdviceMap[constants.ELECTRONICS] = 'Avoid using electronic devices before b
 sleepAdviceMap[constants.STRESSED] = 'Stress can impact on your sleep. Try some relaxation techniques to de-stress.';
 sleepAdviceMap[constants.EAT] = 'Avoid eating late, especially large heavy meals.';
 sleepAdviceMap[constants.ALCOHOL] = 'Avoiding alcohol before going to bed.';
-sleepAdviceMap[constants.NICOTINE] = 'Avoiding nicotine before going to bed.';
+sleepAdviceMap[constants.NICOTINE] = 'Avoiding smoking (or nicotine) before going to bed.';
 sleepAdviceMap[constants.CAFFEINE] = 'Avoiding caffeine before going to bed.';
 sleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
 sleepAdviceMap[constants.QUIET] = 'Your bedroom should be as quiet as possible for sleeping.';
@@ -186,13 +186,13 @@ module.exports = async (event) => {
              else 
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForFactorsReply(factorParameter, 0));
         } else if (intent === constants.INTENT_GENERAL_SLEEP_ADVICE) {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'general sleep advice');
+            giveGeneralSleepAdvice();
         } else if (intent === constants.INTENT_HOW_WAS_SLEEP_LAST_NIGHT) {
             answerAboutSleepLastNight(fbUserId);
         } else if (intent === constants.INTENT_PERSONAL_SLEEP_ADVICE) {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'personal sleep advice');
+            givePersonalSleepAdvice(fbUserId);
         } else if (intent === constants.INTENT_CONSEQUENCES_OF_POOR_SLEEP) {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'consequences');
+            answerAboutConsequencesOfPoorSleep();
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
@@ -671,7 +671,7 @@ async function finishSleepChat(fbUserId) {
     if (factorsConcerned.length === 0) {
         var msg1 = 'Unfortunately I could not determine what lifestyle or environmental factors caused your sleep disturbance.';
         var msg2 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
-                        + ' go see your doctor. Your doctor may be determine the causes of your sleep disturbances.' 
+                        + ' go see your doctor. Your doctor may be able to determine the causes of your sleep disturbances.' 
                         + ' Your sleep disturbances could be caused by some medical condition or another factor'
                         + ' (which I was not programmed to identify).';
         var msg3 = 'This concludes our chat. Thank you for talking to me about your sleep. Also don\'t forget to come back later to talk to me about your sleep!';
@@ -833,7 +833,7 @@ async function answerAboutSleepLastNight(fbUserId) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
             var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
-                        + ' go see your doctor. Your doctor may be determine the causes of your sleep disturbances.' 
+                        + ' go see your doctor. Your doctor may be able todetermine the causes of your sleep disturbances.' 
                         + ' Your sleep disturbances could be caused by some medical condition or another factor'
                         + ' (which I was not programmed to identify).';
 
@@ -846,7 +846,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                 else if (factorsConcerned[0] === constants.STRESSED) msg += 'being stressed or worried.';
                 else if (factorsConcerned[0] === constants.EAT) msg += 'eating before going to bed.';
                 else if (factorsConcerned[0] === constants.ALCOHOL) msg += 'drinking alcohol before going to bed.';
-                else if (factorsConcerned[0] === constants.NICOTINE) msg += 'taking nicotine before going to bed.';
+                else if (factorsConcerned[0] === constants.NICOTINE) msg += 'smoking (or taking nicotine) before going to bed.';
                 else if (factorsConcerned[0] === constants.CAFFEINE) msg += 'drinking any beverages with caffeine, such as tea, before going to bed.';
                 else if (factorsConcerned[0] === constants.LIGHTS) msg += 'sleeping with the lights on.';
                 else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
@@ -861,7 +861,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                     else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                     else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
                     else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
-                    else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- taking nicotine\n  before going to bed.';
+                    else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- smoking (or taking\n  nicotine) before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
                     else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
@@ -875,4 +875,24 @@ async function answerAboutSleepLastNight(fbUserId) {
         var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
         fbMessengerBotClient.sendTextMessage(fbUserId, msg);
     }
+}
+
+async function givePersonalSleepAdvice(fbUserId) {
+    var dateArr = [];
+    var date = new Date();
+    for (var i = 0; i < 7; i++) {
+        date.setDate(date.getDate()-i);
+        date.push(dateAndTimeUtil.dateToString(date));
+    }
+
+    console.log(date);
+    //var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+}
+
+async function giveGeneralSleepAdvice(fbUserId) {
+
+}
+
+async function answerAboutConsequencesOfPoorSleep(fbUserId) {
+
 }
