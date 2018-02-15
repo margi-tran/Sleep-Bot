@@ -833,7 +833,7 @@ async function answerAboutSleepLastNight(fbUserId) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
             var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
-                        + ' go see your doctor. Your doctor may be able todetermine the causes of your sleep disturbances.' 
+                        + ' go see your doctor. Your doctor may be able to determine the causes of your sleep disturbances.' 
                         + ' Your sleep disturbances could be caused by some medical condition or another factor'
                         + ' (which I was not programmed to identify).';
 
@@ -892,10 +892,9 @@ async function givePersonalSleepAdvice(fbUserId) {
         var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
         
         if (mainSleepExists === true) {
-            /*console.log(dateArr[i], mainSleepExists);
+    
             var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
-            console.log('levels', mainSleepLevelsData);
-            if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);*/
+            if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
             
             console.log(dateArr[i], mainSleepExists);
         }
