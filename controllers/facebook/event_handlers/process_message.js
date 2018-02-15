@@ -891,16 +891,16 @@ async function givePersonalSleepAdvice(fbUserId) {
     for (var i = 0; i < 7; i++) {
         console.log(dateArr[i]);
         var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
-        //if (mainSleepExists === false) continue;
-
-        console.log(dateArr[i], mainSleepExists);
-        //var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
-        //if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
+        
+        if (mainSleepExists === true) {
+            console.log(dateArr[i], mainSleepExists);
+            var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
+            if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
+        }
     }
 
     console.log(sleepDataArr);
 
-    
     //var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
 }
 

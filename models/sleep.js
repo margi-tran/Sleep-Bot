@@ -30,7 +30,7 @@ async function getMainSleep(fbUserId, date) {
     db.close();
     if (result.length === 0) return null;
     var sleepArr = result[0].sleep_data.sleep;
-    if (sleepArr === null || sleepArr.length === 0) return null;
+    if (sleepArr.length === 0) return null;
     for (i = 0; i < sleepArr.length; i++) {
         sleepItem = sleepArr[i];
         if (sleepItem.isMainSleep) 
