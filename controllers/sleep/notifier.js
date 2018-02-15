@@ -11,7 +11,7 @@ var userSleepAnswers = require('../../models/user_sleep_answers');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('53 9-23 * * *', notifySleep);
+schedule.scheduleJob('45 0-23 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
