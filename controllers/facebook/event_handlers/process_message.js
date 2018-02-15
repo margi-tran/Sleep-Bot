@@ -780,7 +780,7 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
 
 async function answerAboutSleepLastNight(fbUserId) {
     var date = dateAndTimeUtil.dateToString(new Date());
-    var noSleepDataMsg = 'Sorry I couldn\'t find any sleep data of your sleep last night.';
+    var noSleepDataMsg = 'Sorry I couldn\'t find any sleep data of your sleep last night. Perhaps try asking me again later.';
 
     var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
     if (mainSleepExists === false) {
