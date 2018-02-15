@@ -879,10 +879,11 @@ async function answerAboutSleepLastNight(fbUserId) {
 
 async function givePersonalSleepAdvice(fbUserId) {
     var dateArr = [];
-    var date = new Date();
+    var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
-        date.setDate(date.getDate()-i);
-        dateArr.push(dateAndTimeUtil.dateToString(date));
+        var tmp = new Date(todaysDate.getTime());
+        tmp.setDate(tmp.getDate()-i);
+        dateArr.push(dateAndTimeUtil.dateToString(tmp));
     }
 
     console.log(dateArr);
