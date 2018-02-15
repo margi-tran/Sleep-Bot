@@ -889,7 +889,7 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     var sleepDataArr = [];
     for (var i = 0; i < 7; i++) {
-        var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+        var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
         if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
     }
 
