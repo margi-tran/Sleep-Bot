@@ -29,7 +29,7 @@ async function getMainSleep(fbUserId, date) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
-    if (result.length === 0) return null;
+    if (result.length === 0 || result === undefined) return null;
     var sleepArr = result[0].sleep_data.sleep;
     if (sleepArr === null || sleepArr.length === 0) return null;
     for (i = 0; i < sleepArr.length; i++) {
