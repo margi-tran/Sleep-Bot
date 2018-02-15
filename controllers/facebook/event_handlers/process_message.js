@@ -882,7 +882,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     var date = new Date();
     for (var i = 0; i < 7; i++) {
         date.setDate(date.getDate()-i);
-        date.push(dateAndTimeUtil.dateToString(date));
+        dateArr.push(dateAndTimeUtil.dateToString(date));
     }
 
     console.log(date);
