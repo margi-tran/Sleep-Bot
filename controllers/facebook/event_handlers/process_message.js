@@ -778,7 +778,7 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
 
 async function answerAboutSleepLastNight(fbUserId) {
     var date = dateAndTimeUtil.dateToString(new Date());
-    var noSleepDataMsg = 'no sleep data';
+    var noSleepDataMsg = 'Sorry I couldn\'t find any sleep data of your sleep last night.';
 
     var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
     if (mainSleepExists === false) {
@@ -896,8 +896,8 @@ async function givePersonalSleepAdvice(fbUserId) {
             var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
             console.log('levels', mainSleepLevelsData);
             if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);*/
-            var e = await sleep.getMainSleep(fbUserId, dateArr[i]);
-            console.log(e);
+            
+            console.log(dateArr[i], mainSleepExists);
         }
     }
 
