@@ -46,7 +46,7 @@ const QUICK_REPLIES_YES_OR_NO =
 
 const SLEEP_CONSEQUENCES = 
     [
-        'a',
+        'You have an increased risk of developing a medical condition, such as',
         'b'
     ];
 

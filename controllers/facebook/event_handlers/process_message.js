@@ -177,10 +177,11 @@ module.exports = async (event) => {
                         else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForConsequenceReply(nextAdvice));
                         return;
                     } else if (context === 'CONSEQUENCE') {
+                        const consequences = await factor.getConsequences();
                         var index = parseInt(payloadStringSplit[1]);
                         var next = index+1;
-                        if (next >= constants.SLEEP_CONSEQUENCES.length-1) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next], BUTTON_DONE);
-                        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next], getButtonsForConsequenceReply(next));
+                        if (next >= consequences.length-1) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, consequences[next], BUTTON_DONE);
+                        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, consequences[next], getButtonsForConsequenceReply(next));
                         return;
                     }
                 }

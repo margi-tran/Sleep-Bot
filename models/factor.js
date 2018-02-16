@@ -6,3 +6,10 @@ exports.getExplanation = async (factor) => {
     db.close();
     return result[0].explanation;
 };
+
+exports.getConsequences = async () => {
+	const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('factors').find({ type: 'consequences' }).toArray();
+    db.close();
+    return result.explanations;
+}
