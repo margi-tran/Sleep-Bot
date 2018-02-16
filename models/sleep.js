@@ -36,3 +36,13 @@ async function getMainSleep(fbUserId, date) {
             return sleepItem;
     }
 }
+
+async function getSleepStartTime(fbUserId, date) {
+    var mainSleep = await getMainSleep(fbUserId, date);
+    if (mainSleep === null) return null;
+    else mainSleep.startTime;
+}
+
+async function getSleepEndTime(fbUserId, date) {
+
+}
