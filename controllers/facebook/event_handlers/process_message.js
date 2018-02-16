@@ -74,6 +74,16 @@ sleepAdviceMap[constants.CAFFEINE] = 'Avoiding caffeine before going to bed.';
 sleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
 sleepAdviceMap[constants.QUIET] = 'Your bedroom should be as quiet as possible for sleeping.';
 
+var personalSleepAdviceMap = {};
+personalSleepAdviceMap[constants.ELECTRONICS] = 'You should avoid using electronic devices before bedtime.';
+personalSleepAdviceMap[constants.STRESSED] = 'You should try some relaxation techniques to de-stress as stress can impact on yor sleep.';
+personalSleepAdviceMap[constants.EAT] = 'You should avoid eating late, especially large heavy meals.';
+personalSleepAdviceMap[constants.ALCOHOL] = 'You should avoid alcohol before going to bed.';
+personalSleepAdviceMap[constants.NICOTINE] = 'You should avoid smoking (or nicotine) before going to bed.';
+personalSleepAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before going to bed.';
+personalSleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
+personalSleepAdviceMap[constants.QUIET] = 'You should try to keep your bedroom as quiet as possible for sleeping.';
+
 
 const BUTTONS_WHY_AND_NEXT_QUESTION = 
     [{
@@ -889,7 +899,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         dateArr.push(dateAndTimeUtil.dateToString(tmp));
     }
 
-    var sleepDataArr = [];
+ 
     var factorsConcerned = {}; 
     factorsConcerned[constants.ELECTRONICS] = 0;
     factorsConcerned[constants.STRESSED] = 0;
@@ -899,27 +909,76 @@ async function givePersonalSleepAdvice(fbUserId) {
     factorsConcerned[constants.CAFFEINE] = 0;
     factorsConcerned[constants.LIGHTS] = 0;
     factorsConcerned[constants.QUIET] = 0;
+    var sleepStartTimes = [];
+    var sleepEndTimes = [];
      
     for (var i = 0; i < 7; i++) {
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
-        if (answerEntry === null) continue;
-
-        if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
-        if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
-        if (answerEntry.eat === 'yes') factorsConcerned[constants.EAT] += 1;
-        if (answerEntry.alcohol === 'yes') factorsConcerned[constants.ALCOHOL] += 1;
-        if (answerEntry.nicotine === 'yes') factorsConcerned[constants.NICOTINE] += 1;
-        if (answerEntry.caffeine === 'yes') factorsConcerned[constants.CAFFEINE] += 1;
-        if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
-        if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
+        if (answerEntry)
+            if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
+            if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
+            if (answerEntry.eat === 'yes') factorsConcerned[constants.EAT] += 1;
+            if (answerEntry.alcohol === 'yes') factorsConcerned[constants.ALCOHOL] += 1;
+            if (answerEntry.nicotine === 'yes') factorsConcerned[constants.NICOTINE] += 1;
+            if (answerEntry.caffeine === 'yes') factorsConcerned[constants.CAFFEINE] += 1;
+            if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
+            if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
         
-        var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
-        var sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
-        console.log('x ', dateArr[i], sleepStartTime, sleepEndTime);
+        var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
+        if (mainSleepExists) {
+            var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
+            var sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
+            sleepStartTimes.push(sleepStartTime);
+            sleepEndTimes.push(sleepEndTime);
+        }
     }
-    console.log(sleepDataArr);
-    console.log(factorsConcerned);
+
     
+    var concerned = false;
+    var factorsToAdvise = [];
+    if (factorsConcerned[constants.ELECTRONICS] > 1) {
+        concerned = true;
+        adviceArr.push(constants.ELECTRONICS);
+    }
+    if (factorsConcerned[constants.STRESSED] > 1) {
+        concerned = true;
+        adviceArr.push(constants.STRESSED);
+    }
+    if (factorsConcerned[constants.EAT] > 1) {
+        concerned = true;
+        adviceArr.push(constants.EAT);
+    }
+    if (factorsConcerned[constants.ALCOHOL] > 1) {
+        concerned = true;
+        adviceArr.push(constants.ALCOHOL);
+    }
+    if (factorsConcerned[constants.NICOTINE] > 1) {
+        concerned = true;
+        adviceArr.push(constants.NICOTINE);
+    }
+    if (factorsConcerned[constants.CAFFEINE] > 1) {
+        concerned = true;
+        adviceArr.push(constants.CAFFEINE);
+    }
+    if (factorsConcerned[constants.LIGHTS] > 1) {
+        concerned = true;
+        adviceArr.push(constants.LIGHTS);
+    }
+    if (factorsConcerned[constants.QUIET] > 1) {
+        concerned = true;
+        adviceArr.push(constants.QUIET);
+    }
+
+
+
+
+    if (concerned) {
+        var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
+        var numberOfFactorsToAdvise = factorsToAdvise.length;
+        for (var i = 0; i < numberOfFactorsToAdvise; i++) await fb.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
+    } else {
+
+    }
 }
 
 async function giveGeneralSleepAdvice(fbUserId) {
