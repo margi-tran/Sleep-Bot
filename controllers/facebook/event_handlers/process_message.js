@@ -167,19 +167,19 @@ module.exports = async (event) => {
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
                         var nextExplanation = explanationNumber+1;
-                        if (nextExplanation >= explanationArray.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
+                        if (nextExplanation >= explanationArray.length-1) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], BUTTON_DONE);
                         else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
                         return;
                     } else if (context === 'ADVICE') {
                         var index = parseInt(payloadStringSplit[1]);
                         var nextAdvice = index+1;
-                        if (nextAdvice >= generalSleepAdviceArr.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
+                        if (nextAdvice >= generalSleepAdviceArr.length-1) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], BUTTON_DONE);
                         else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForConsequenceReply(nextAdvice));
                         return;
                     } else if (context === 'CONSEQUENCE') {
                         var index = parseInt(payloadStringSplit[1]);
                         var next = index+1;
-                        if (next >= constants.SLEEP_CONSEQUENCES.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next]);
+                        if (next >= constants.SLEEP_CONSEQUENCES.length-1) fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next], BUTTON_DONE);
                         else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next], getButtonsForConsequenceReply(next));
                         return;
                     }
