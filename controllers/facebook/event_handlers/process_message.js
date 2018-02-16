@@ -153,8 +153,7 @@ module.exports = async (event) => {
             for (var i = 0; i < sleepTime.length; i++) {
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
                 var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
-                if (hour > 6)Date tmp = new Date(2018, 1, 1, hour, minute);
-                else Date tmp = new Date(2018, 1, 2, hour, minute);
+
                 dateObjsArr.push(tmp);
             }
 
