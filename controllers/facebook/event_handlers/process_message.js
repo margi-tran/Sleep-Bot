@@ -153,13 +153,13 @@ module.exports = async (event) => {
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
                 var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
                 console.log('for: ', hour, minute);
-                averageSleepTimesInSeconds += (hour*60*60 + minute*60);
+                averageSleepTimesInSeconds += (hour*60*60 + minute);
             }
 
             console.log(averageSleepTimesInSeconds);
             averageSeconds = averageSleepTimesInSeconds/2;
-            secondsToHours = (averageSeconds/60)/60;
-            secondsToMinutes = averageSeconds/60;
+            secondsToHours = Math.floor((averageSeconds/60)/60);
+            secondsToMinutes = averageSeconds%60;
             console.log(secondsToHours, secondsToMinutes);
 
         }
