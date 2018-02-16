@@ -156,6 +156,7 @@ module.exports = async (event) => {
 
                 dateObjsArr.push(tmp);
             }
+        }
 
         if (message === '!help') {
             var msg = 'I can assist you sleep related queries. You can ask about any of the following:' 
