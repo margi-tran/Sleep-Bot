@@ -915,6 +915,7 @@ async function givePersonalSleepAdvice(fbUserId) {
      
     for (var i = 0; i < 7; i++) {
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
+        console.log(answerEntry);
         if (answerEntry)
             if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
             if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
