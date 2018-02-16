@@ -178,13 +178,11 @@ module.exports = async (event) => {
 
                     else if (context === 'ADVICE') {
                         var index = parseInt(payloadStringSplit[1]);
-                        var explanationArray = await factor.getExplanation(factorParameter);
-                        
-                        var nextExplanation = index+1;
-                        if(nextExplanation >= generalSleepAdviceArr.length-1)                    
-                            fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
+                        var nextAdvice = index+1;
+                        if(nextAdvice >= generalSleepAdviceArr.length-1)                    
+                            fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
                         else 
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForGeneralAdviceReply(nextExplanation));
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForGeneralAdviceReply(nextExplanation));
                         return;
                     }
 
