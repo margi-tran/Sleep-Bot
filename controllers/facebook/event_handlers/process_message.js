@@ -147,8 +147,8 @@ module.exports = async (event) => {
 
         if(message.includes('a')) {
             split = message.split(' ');
-            getUpHour = parseInt(split[1]);
-            goToBedHour = parseInt(split[2]);
+            goToBedHour = parseInt(split[1]);
+            getUpHour = parseInt(split[2]);
             var date1 = new Date(2018, 1, 1, goToBedHour);
             if (getUpHour < goToBedHour) {
                 date2 = new Date(2018, 1, 2, getUpHour);
@@ -160,7 +160,7 @@ module.exports = async (event) => {
             }
 
             var difference = (new Date(date2 - date1)).getHours();
-            fb.sendTextMessage(difference);
+            fbMessengerBotClient.sendTextMessage(difference);
             console.log('[1]', difference);
         }
 
