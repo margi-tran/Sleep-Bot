@@ -1025,7 +1025,7 @@ async function givePersonalSleepAdvice(fbUserId) {
 
 async function giveGeneralSleepAdvice(fbUserId) {
     var advice = 'You should try to sleep around the same time every night.';
-    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, getButtonsForGeneralAdviceReply(0));
+    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, advice, getButtonsForGeneralAdviceReply(0));
 }
 
 async function answerAboutConsequencesOfPoorSleep(fbUserId) {
