@@ -23,6 +23,16 @@ exports.getMainSleepLevelsData = async (fbUserId, date) => {
     return mainSleep.levels.data;
 };
 
+exports.getSleepStartTime = async (fbUserId, date) => {
+    var mainSleep = await getMainSleep(fbUserId, date);
+    if (mainSleep === null) return null;
+    else mainSleep.startTime;
+}
+
+exports.getSleepEndTime = async (fbUserId, date) => {
+
+}
+
 async function getMainSleep(fbUserId, date) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();
@@ -35,14 +45,4 @@ async function getMainSleep(fbUserId, date) {
         if (sleepItem.isMainSleep) 
             return sleepItem;
     }
-}
-
-async function getSleepStartTime(fbUserId, date) {
-    var mainSleep = await getMainSleep(fbUserId, date);
-    if (mainSleep === null) return null;
-    else mainSleep.startTime;
-}
-
-async function getSleepEndTime(fbUserId, date) {
-
 }
