@@ -292,7 +292,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     }
                 } else if (subContext === constants.LATE_WAKEUP_EXPECT_EXPLANATION) {
                     await user.setSubContext(fbUserId, constants.FINISHED_OPTIONS);
-                    var msg1 = 'I see but you should waking up between 6am-8am.';
+                    var msg1 = 'I see but you should be waking up between 6am-8am.';
                     var getUp = await userBackground.getGoToBed(fbUserId);
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
@@ -307,7 +307,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var sleepEnough = true;
                     if (difference < 7 ) {
                         sleepEnough = false;
-                        msg2 += 'You sleep for ' + difference + ' hours which is not enough. The recommended amount of sleep (by the National Sleep Foundation) for adults is 7-8 hours).';
+                        msg2 += 'You sleep for ' + difference + ' hours which is not enough. The recommended amount of sleep (by the National Sleep Foundation) for adults is 7-8 hours.';
                     }
                     if (sleepEnough === false) {
                         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1) ;
