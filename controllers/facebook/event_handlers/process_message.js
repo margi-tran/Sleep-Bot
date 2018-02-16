@@ -153,6 +153,7 @@ module.exports = async (event) => {
                 var seconds;
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
                 var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
+                console.log('for: ', hour, minute);
                 seconds += (hour*60*60 + minute*60);
             }
 
