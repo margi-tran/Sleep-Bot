@@ -970,7 +970,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         factorsToAdvise.push(constants.QUIET);
     }
 
-
+    console.log(factorsToAdvise);
 
 
     if (concerned) {
