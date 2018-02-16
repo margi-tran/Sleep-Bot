@@ -920,8 +920,9 @@ async function givePersonalSleepAdvice(fbUserId) {
         if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
         if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
         
-        var dateStrin = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
-        console.log('x ', dateArr[i], p);
+        var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
+        sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
+        console.log('x ', dateArr[i], sleepStartTime, sleepEndTime);
     }
     console.log(sleepDataArr);
     console.log(factorsConcerned);
