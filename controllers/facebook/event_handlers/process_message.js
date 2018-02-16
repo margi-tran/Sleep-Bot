@@ -889,17 +889,16 @@ async function givePersonalSleepAdvice(fbUserId) {
     }
 
     var sleepDataArr = [];
-    var factorsConcerned = 
-        {
-            constants.ELECTRONICS: 0,
-            constants.STRESSED: 0,
-            constants.EAT: 0,
-            constants.ALCOHOL: 0,
-            constants.NICOTINE: 0,
-            constants.CAFFEINE: 0,
-            constants.LIGHTS: 0,
-            constants.QUIET
-        };
+    var factorsConcerned = {}; 
+    factorsConcerned[constants.ELECTRONICS] = 0;
+    factorsConcerned[constants.STRESSED] = 0;
+    factorsConcerned[constants.EAT] = 0;
+    factorsConcerned[constants.ALCOHOL] = 0;
+    factorsConcerned[constants.NICOTINE] = 0;
+    factorsConcerned[constants.CAFFEINE] = 0;
+    factorsConcerned[constants.LIGHTS] = 0;
+    factorsConcerned[constants.QUIET] = 0;
+     
     for (var i = 0; i < 7; i++) {
         /*var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
         if (mainSleepExists === true) {
@@ -911,8 +910,15 @@ async function givePersonalSleepAdvice(fbUserId) {
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
         if (answerEntry === null) continue;
 
-        sleepDataArr.push(answerEntry);
-
+        if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
+        if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
+        if (answerEntry.eat === 'yes') factorsConcerned[constants.EAT] += 1;
+        if (answerEntry.alcohol === 'yes') factorsConcerned[constants.ALCOHOL] += 1;
+        if (answerEntry.nicotine === 'yes') factorsConcerned[constants.NICOTINE] += 1;
+        if (answerEntry.caffeine === 'yes') factorsConcerned[constants.CAFFEINE] += 1;
+        if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
+        if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
+        
 
     }
     console.log(sleepDataArr);
