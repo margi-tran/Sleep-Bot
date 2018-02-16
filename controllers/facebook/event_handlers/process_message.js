@@ -674,6 +674,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
 
 async function finishSleepChat(fbUserId) {
     user.setMainContext(fbUserId, null);
+    user.setNotifiedSleepToTrue(fbUserId);
     var date = dateAndTimeUtil.dateToString(new Date());
 
     const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
