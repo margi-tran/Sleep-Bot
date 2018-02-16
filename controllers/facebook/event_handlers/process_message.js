@@ -902,7 +902,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         sleepDataArr.push(answerEntry);
 
     }
-    console.log(answerEntry);
+    console.log(sleepDataArr);
     
 }
 
