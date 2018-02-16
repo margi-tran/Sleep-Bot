@@ -166,7 +166,7 @@ module.exports = async (event) => {
 
             var count = 0;
             for (var i = 0; i < numberOfSleepTimes; i++) 
-                if (averageSleepTimeInSeconds[i] < minBoundary && averageSleepTimeInSeconds[i] > maxBoundary)
+                if (averageSleepTimeInSeconds[i] < minBoundary || averageSleepTimeInSeconds[i] > maxBoundary)
                     count += 1;
             console.log('count:', count);
             
