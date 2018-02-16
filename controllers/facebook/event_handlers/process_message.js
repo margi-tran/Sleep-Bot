@@ -159,13 +159,20 @@ module.exports = async (event) => {
         }
 
         if(message === 'b') {
+            console.log('in here');
             getUpHour = 7;
             goToBedHour = 8;
             var date1 = new Date(2018, 1, 1, getUpHour);
-            var date2;
-            if (getUpHour < goToBedHour) date2 = new Date(2018, 1, 2, goToBedHour);
-            else date2 = new Date(2018, 1, 1, goToBedHour);
-            var difference = Math.abs((new Date(date2 - date1)).getHours());
+            var difference;
+            if (getUpHour < goToBedHour) {
+                date2 = new Date(2018, 1, 2, goToBedHour);
+                var difference = (new Date(date2 - date1)).getHours();
+            }
+            else {
+                date2 = new Date(2018, 1, 1, goToBedHour);
+                var difference = (new Date(date1 - date2)).getHours();
+            }
+            
             console.log('allo',difference);
         }
 
