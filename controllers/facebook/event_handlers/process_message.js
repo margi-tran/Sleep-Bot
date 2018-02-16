@@ -1030,7 +1030,8 @@ async function giveGeneralSleepAdvice(fbUserId) {
 }
 
 async function answerAboutConsequencesOfPoorSleep(fbUserId) {
-    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[0], getButtonsForConsequenceReply(0));
+    const consequences = await factor.getConsequences();
+    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, consequences[0], getButtonsForConsequenceReply(0));
 }
 
 function getButtonsForConsequenceReply(index) {
