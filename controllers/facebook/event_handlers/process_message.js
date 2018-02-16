@@ -147,8 +147,8 @@ module.exports = async (event) => {
 
         if(message.includes('a')) {
             split = message.split(' ');
-            getUpHour = split[1];
-            goToBedHour = split[2];
+            getUpHour = parseInt(split[1]);
+            goToBedHour = parseInt(split[2]);
             var date1 = new Date(2018, 1, 1, goToBedHour);
             if (getUpHour < goToBedHour) {
                 date2 = new Date(2018, 1, 2, getUpHour);
