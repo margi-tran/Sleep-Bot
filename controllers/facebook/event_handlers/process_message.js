@@ -915,7 +915,6 @@ async function givePersonalSleepAdvice(fbUserId) {
      
     for (var i = 0; i < 7; i++) {
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
-        console.log(answerEntry);
         if (answerEntry) {
             if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
             if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
@@ -973,13 +972,10 @@ async function givePersonalSleepAdvice(fbUserId) {
         factorsToAdvise.push(constants.QUIET);
     }
 
-    console.log(factorsToAdvise);
-
-
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
         var numberOfFactorsToAdvise = factorsToAdvise.length;
-        for (var i = 0; i < numberOfFactorsToAdvise; i++) await fb.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
+        for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
 
     }
