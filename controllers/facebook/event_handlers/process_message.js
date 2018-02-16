@@ -84,6 +84,7 @@ personalSleepAdviceMap[constants.CAFFEINE] = 'You should avoid caffeine before g
 personalSleepAdviceMap[constants.LIGHTS] = 'You should sleep with the lights off.';
 personalSleepAdviceMap[constants.QUIET] = 'You should try to keep your bedroom as quiet as possible for sleeping.';
 
+var generalSleepAdviceArr = Object.values(personalSleepAdviceMap);
 
 const BUTTONS_WHY_AND_NEXT_QUESTION = 
     [{
@@ -123,7 +124,6 @@ const BUTTON_DONE =
         "payload": "done"
     }];
 
-
 module.exports = async (event) => {
     try { 
         const fbUserId = event.sender.id;
@@ -143,39 +143,6 @@ module.exports = async (event) => {
         if (sleepQuestions.includes(mainContext)) {
             chatAboutSleep(fbUserId, message, event, mainContext);
             return;
-        }
-
-        if (message === 'test') {
-            var sleepStartTimes = ["13:45", "13:00"];
-            var sleepTimesInSeconds = [];
-            var numberOfSleepTimes = sleepStartTimes.length;
-            var averageSleepTimeInSeconds = 0;
-            
-            for (var i = 0; i < numberOfSleepTimes; i++) {
-                var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
-                var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
-                var timeInSeconds = hour*60*60 + minute*60;
-                sleepTimesInSeconds.push(timeInSeconds);
-                averageSleepTimeInSeconds += timeInSeconds;
-            }
-
-            averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
-            const allowedOffSet = 1200;
-            var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
-            var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
-
-            var count = 0;
-            for (var i = 0; i < numberOfSleepTimes; i++) 
-                if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
-                    count += 1;
-
-            
-            console.log('count:', count);
-            
-
-
-           
-
         }
 
         if (message === '!help') {
@@ -208,6 +175,19 @@ module.exports = async (event) => {
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
                         return;
                     }
+
+                    else if (context === 'ADVICE') {
+                        var index = parseInt(payloadStringSplit[1]);
+                        var explanationArray = await factor.getExplanation(factorParameter);
+                        
+                        var nextExplanation = index+1;
+                        if(nextExplanation >= generalSleepAdviceArr.length-1)                    
+                            fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
+                        else 
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForGeneralAdviceReply(nextExplanation));
+                        return;
+                    }
+
                 }
             }
         }
@@ -229,13 +209,13 @@ module.exports = async (event) => {
              else 
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[0], getButtonsForFactorsReply(factorParameter, 0));
         } else if (intent === constants.INTENT_GENERAL_SLEEP_ADVICE) {
-            giveGeneralSleepAdvice();
+            giveGeneralSleepAdvice(fbUserId);
         } else if (intent === constants.INTENT_HOW_WAS_SLEEP_LAST_NIGHT) {
             answerAboutSleepLastNight(fbUserId);
         } else if (intent === constants.INTENT_PERSONAL_SLEEP_ADVICE) {
             givePersonalSleepAdvice(fbUserId);
         } else if (intent === constants.INTENT_CONSEQUENCES_OF_POOR_SLEEP) {
-            answerAboutConsequencesOfPoorSleep();
+            answerAboutConsequencesOfPoorSleep(fbUserId);
         } else { 
             // Default apiai filler response or smalltalk response
             fbMessengerBotClient.sendTextMessage(fbUserId, apiaiResponse.result.fulfillment.speech);
@@ -553,6 +533,7 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
             await userBackground.updateBackground(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
+                await userSleepAnswers.addNewEntry(fbUserId, date);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
                 updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
@@ -1006,7 +987,7 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     var sleepTimesInSeconds = [];
     var numberOfSleepTimes = sleepStartTimes.length;
-    var threshold = 3; //Math.ceil(numberOfSleepTimes*0.4);
+    var threshold = 3; 
     var averageSleepTimeInSeconds = 0; 
     for (var i = 0; i < numberOfSleepTimes; i++) {
         var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
@@ -1017,7 +998,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     }
 
     averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
-    const allowedOffSet = 1200;
+    const allowedOffSet = 900;
     var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
     var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
     var inconsistentGoToBed = false;
@@ -1037,14 +1018,31 @@ async function givePersonalSleepAdvice(fbUserId) {
         var numberOfFactorsToAdvise = factorsToAdvise.length;
         for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
-
+        var msg = 'Looking at the available data of your sleep for the last seven days, I did not see anything concerning which is great!';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
     }
 }
 
 async function giveGeneralSleepAdvice(fbUserId) {
-
+    var advice = 'You should try to sleep around the same time every night.';
+    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, getButtonsForGeneralAdviceReply(0));
 }
 
 async function answerAboutConsequencesOfPoorSleep(fbUserId) {
 
+}
+
+function getButtonsForGeneralAdviceReply(index) {
+    var buttons = 
+        [{
+            "content_type": "text",
+            "title": "next",
+            "payload": 'ADVICE ' + index
+        },
+        {
+            "content_type": "text",
+            "title": "done",
+            "payload": "done"
+        }];
+    return buttons;
 }
