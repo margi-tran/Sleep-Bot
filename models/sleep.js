@@ -1,5 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 
+var dateAndTimeUtil = require('../utility/date_and_time_util');
+
 exports.insertSleepData = async (fbUserId, date, sleepData) => {
     var sleepDataDoc = 
         { 
@@ -26,11 +28,13 @@ exports.getMainSleepLevelsData = async (fbUserId, date) => {
 exports.getSleepStartTime = async (fbUserId, date) => {
     var mainSleep = await getMainSleep(fbUserId, date);
     if (mainSleep === null) return null;
-    else return mainSleep.startTime;
+    else return dateAndTimeUtil.getTimeFromDateString(mainSleep.startTime);
 }
 
 exports.getSleepEndTime = async (fbUserId, date) => {
-
+    var mainSleep = await getMainSleep(fbUserId, date);
+    if (mainSleep === null) return null;
+    else return dateAndTimeUtil.getTimeFromDateString(mainSleep.endTime);
 }
 
 async function getMainSleep(fbUserId, date) {
