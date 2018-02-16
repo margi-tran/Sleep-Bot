@@ -146,14 +146,14 @@ module.exports = async (event) => {
         }
 
         if (message === 'test') {
-            var sleepTimes = ["13:45", "13:00"];
+            var sleepStartTimes = ["13:45", "13:00"];
             var sleepTimesInSeconds = [];
-            var numberOfSleepTimes = sleepTimes.length;
+            var numberOfSleepTimes = sleepStartTimes.length;
             var averageSleepTimeInSeconds = 0;
             
             for (var i = 0; i < numberOfSleepTimes; i++) {
-                var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
-                var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
+                var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
+                var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
                 var timeInSeconds = hour*60*60 + minute*60;
                 sleepTimesInSeconds.push(timeInSeconds);
                 averageSleepTimeInSeconds += timeInSeconds;
@@ -172,6 +172,7 @@ module.exports = async (event) => {
             
             console.log('count:', count);
             
+
 
            
 
@@ -1005,9 +1006,33 @@ async function givePersonalSleepAdvice(fbUserId) {
         factorsToAdvise.push(constants.QUIET);
     }
 
+    var sleepTimesInSeconds = [];
+    var numberOfSleepTimes = sleepStartTimes.length;
+    var threshold = Math.celi(numberOfSleepTimes*0.4);
+    var averageSleepTimeInSeconds = 0; 
+    for (var i = 0; i < numberOfSleepTimes; i++) {
+        var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
+        var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
+        var timeInSeconds = hour*60*60 + minute*60;
+        sleepTimesInSeconds.push(timeInSeconds);
+        averageSleepTimeInSeconds += timeInSeconds;
+    }
+
+    averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
+    const allowedOffSet = 1200;
+    var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
+    var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
+    var inconsistentGoToBed = false;
+    var count = 0;
+    for (var i = 0; i < numberOfSleepTimes; i++) 
+        if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
+                    count += 1;
+    if (count > threshold) inconsistentGoToBed = true;
+
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+        if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'troll');
         var numberOfFactorsToAdvise = factorsToAdvise.length;
         for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
