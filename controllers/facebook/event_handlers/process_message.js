@@ -154,8 +154,8 @@ module.exports = async (event) => {
             for (var i = 0; i < numberOfSleepTimes; i++) {
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
                 var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
-                timeInSeconds = hour*60*60 + minute*60;
-                sleepTimesInSeconds.push(sleepTimesInSeconds);
+                var timeInSeconds = hour*60*60 + minute*60;
+                var sleepTimesInSeconds.push(timeInSeconds);
                 averageSleepTimeInSeconds += timeInSeconds;
             }
 
