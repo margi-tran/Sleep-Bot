@@ -1023,6 +1023,8 @@ async function givePersonalSleepAdvice(fbUserId) {
     var inconsistentGoToBed = false;
     var count = 0;
     console.log(count);
+
+    console.log('boundaries', minBoundary, maxBoundary);
     for (var i = 0; i < numberOfSleepTimes; i++) 
         if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
                     count += 1;
