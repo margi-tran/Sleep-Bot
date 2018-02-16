@@ -880,7 +880,6 @@ async function answerAboutSleepLastNight(fbUserId) {
 }
 
 async function givePersonalSleepAdvice(fbUserId) {
-    console.log('in here');
     var dateArr = [];
     var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
@@ -891,17 +890,20 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     var sleepDataArr = [];
     for (var i = 0; i < 7; i++) {
-        var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
-        
+        /*var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
         if (mainSleepExists === true) {
             var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
             if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
-        }
+        }*/
+
+        var answerEntry = userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
+        if (answerEntry === null) continue;
+
+        sleepDataArr.push(answerEntry);
+
     }
-
-    console.log(sleepDataArr);
-
-    //var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, date);
+    console.log(answerEntry);
+    
 }
 
 async function giveGeneralSleepAdvice(fbUserId) {
