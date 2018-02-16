@@ -962,6 +962,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         
         var date = dateAndTimeUtil.dateToString(new Date());
         var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
+        console.log(date, mainSleepExists);
         if (mainSleepExists) {
             var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
             var sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
@@ -970,9 +971,6 @@ async function givePersonalSleepAdvice(fbUserId) {
         }
     }
 
-    console.log(sleepStartTimes);
-
-    
     var concerned = false;
     var factorsToAdvise = [];
     if (factorsConcerned[constants.ELECTRONICS] > 1) {
