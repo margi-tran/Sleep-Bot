@@ -924,6 +924,7 @@ async function givePersonalSleepAdvice(fbUserId) {
             if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
             if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
         
+        var date = dateAndTimeUtil.dateToString(new Date());
         var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
         if (mainSleepExists) {
             var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
