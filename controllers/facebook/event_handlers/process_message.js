@@ -176,7 +176,7 @@ module.exports = async (event) => {
                 date2 = new Date(2018, 1, 1, getUpHour);
                 var difference = (new Date(date1 - date2)).getHours();
             }
-            console.log('[1]', difference);
+            console.log('[2]', difference);
         }
 
 
