@@ -146,21 +146,32 @@ module.exports = async (event) => {
         }
 
         if (message === 'test') {
-            sleepTimes = ["13:45", "13:00"];
-            averageSleepTimesInSeconds = 0;
-
-            for (var i = 0; i < sleepTimes.length; i++) {
+            var sleepTimes = ["13:45", "13:00"];
+            var sleepTimesInSeconds = [];
+            var numberOfSleepTimes = sleepTimes.length;
+            var averageSleepTimeInSeconds = 0;
+            
+            for (var i = 0; i < numberOfSleepTimes; i++) {
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
                 var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
-                console.log('for: ', hour, minute);
-                averageSleepTimesInSeconds += (hour*60*60 + minute);
+                timeInSeconds = hour*60*60 + minute*60;
+                sleepTimesInSeconds.push(sleepTimesInSeconds);
+                averageSleepTimeInSeconds += timeInSeconds;
             }
 
-            console.log(averageSleepTimesInSeconds);
-            averageSeconds = averageSleepTimesInSeconds/2;
-            secondsToHours = Math.floor((averageSeconds/60)/60);
-            secondsToMinutes = averageSeconds%60;
-            console.log(secondsToHours, secondsToMinutes);
+            averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
+            const allowedOffSet = 1200;
+            var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
+            var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
+
+            var count = 0;
+            for (var i = 0; i < numberOfSleepTimes; i++) {
+                if (averageSleepTimeInSeconds[i] >= minBoundary && averageSleepTimeInSeconds[i] <= maxBoundary)
+                    count += 1;
+            console.log('count:', count);
+            
+
+           
 
         }
 
