@@ -44,6 +44,12 @@ const QUICK_REPLIES_YES_OR_NO =
         "payload": "no"
     }];
 
+const SLEEP_CONSEQUENCES = 
+    [
+        'a',
+        'b'
+    ];
+
 module.exports = {
 	GET_STARTED_PAYLOAD,
 	FITBIT_AUTH,
@@ -80,5 +86,7 @@ module.exports = {
     INTENT_PERSONAL_SLEEP_ADVICE,
     INTENT_CONSEQUENCES_OF_POOR_SLEEP,
 
-	QUICK_REPLIES_YES_OR_NO
+	QUICK_REPLIES_YES_OR_NO,
+
+    SLEEP_CONSEQUENCES
 };

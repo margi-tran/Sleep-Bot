@@ -162,33 +162,27 @@ module.exports = async (event) => {
                     var payloadStringSplit = event.message.quick_reply.payload.split(' ');
                     var context = payloadStringSplit[0];
 
-                    // The user has asked a question about the effect of a factor on sleep
                     if (context === 'FACTORS') {
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
-                        
                         var nextExplanation = explanationNumber+1;
-                        if(nextExplanation >= explanationArray.length-1)                    
-                            fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
-                        else 
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
+                        if (nextExplanation >= explanationArray.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, explanationArray[nextExplanation]);
+                        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, explanationArray[nextExplanation], getButtonsForFactorsReply(factorParameter, nextExplanation));
                         return;
-                    }
-
-                    else if (context === 'ADVICE') {
+                    } else if (context === 'ADVICE') {
                         var index = parseInt(payloadStringSplit[1]);
                         var nextAdvice = index+1;
-                        if(nextAdvice >= generalSleepAdviceArr.length-1)   {     
-                        console.log(event);     
-                            fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
-                        }else {
-                            console.log(event); 
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForGeneralAdviceReply(nextAdvice));
-                        }
+                        if (nextAdvice >= generalSleepAdviceArr.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
+                        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForConsequenceReply(nextAdvice));
+                        return;
+                    } else if (context === 'CONSEQUENCE') {
+                        var index = parseInt(payloadStringSplit[1]);
+                        var next = index+1;
+                        if (next >= constants.SLEEP_CONSEQUENCES.length-1) fbMessengerBotClient.sendTextMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next]);
+                        else fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[next], getButtonsForConsequenceReply(next));
                         return;
                     }
-
                 }
             }
         }
@@ -1030,14 +1024,29 @@ async function giveGeneralSleepAdvice(fbUserId) {
 }
 
 async function answerAboutConsequencesOfPoorSleep(fbUserId) {
+    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, constants.SLEEP_CONSEQUENCES[0], getButtonsForConsequenceReply(0));
+}
 
+function getButtonsForConsequenceReply(index) {
+    var buttons = 
+        [{
+            "content_type": "text",
+            "title": "more",
+            "payload": 'CONSEQUENCE ' + index
+        },
+        {
+            "content_type": "text",
+            "title": "done",
+            "payload": "done"
+        }];
+    return buttons;
 }
 
 function getButtonsForGeneralAdviceReply(index) {
     var buttons = 
         [{
             "content_type": "text",
-            "title": "next",
+            "title": "more",
             "payload": 'ADVICE ' + index
         },
         {
