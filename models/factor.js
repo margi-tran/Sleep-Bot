@@ -11,5 +11,6 @@ exports.getConsequences = async () => {
 	const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('factors').find({ type: 'consequences' }).toArray();
     db.close();
+    console.log(result.explanation);
     return result.explanations;
 }
