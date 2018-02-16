@@ -156,6 +156,7 @@ module.exports = async (event) => {
                 seconds += (hour*60*60 + minute*60);
             }
 
+            console.log(averageSleepTimesInSeconds);
             averageSeconds = seconds/2;
             secondsToHours = (averageSeconds/60)/60;
             secondsToMinutes = averageSeconds/60;
