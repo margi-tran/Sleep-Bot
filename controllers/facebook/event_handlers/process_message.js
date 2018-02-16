@@ -126,6 +126,7 @@ const BUTTON_DONE =
 
 module.exports = async (event) => {
     try { 
+        console.log(event.message);
         const fbUserId = event.sender.id;
         var message = event.message.text.toLowerCase();
         await fbMessengerBotClient.markSeen(fbUserId);
