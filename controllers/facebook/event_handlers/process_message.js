@@ -889,6 +889,17 @@ async function givePersonalSleepAdvice(fbUserId) {
     }
 
     var sleepDataArr = [];
+    var factorsConcerned = 
+        {
+            constants.ELECTRONICS: 0,
+            constants.STRESSED: 0,
+            constants.EAT: 0,
+            constants.ALCOHOL: 0,
+            constants.NICOTINE: 0,
+            constants.CAFFEINE: 0,
+            constants.LIGHTS: 0,
+            constants.QUIET
+        };
     for (var i = 0; i < 7; i++) {
         /*var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
         if (mainSleepExists === true) {
@@ -896,13 +907,16 @@ async function givePersonalSleepAdvice(fbUserId) {
             if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
         }*/
 
+
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
         if (answerEntry === null) continue;
 
         sleepDataArr.push(answerEntry);
 
+
     }
     console.log(sleepDataArr);
+    console.log(factorsConcerned);
     
 }
 
