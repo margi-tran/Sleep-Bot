@@ -164,7 +164,6 @@ module.exports = async (event) => {
 
                     // The user has asked a question about the effect of a factor on sleep
                     if (context === 'FACTORS') {
-                        console.log(event);
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
@@ -180,10 +179,13 @@ module.exports = async (event) => {
                     else if (context === 'ADVICE') {
                         var index = parseInt(payloadStringSplit[1]);
                         var nextAdvice = index+1;
-                        if(nextAdvice >= generalSleepAdviceArr.length-1)                    
+                        if(nextAdvice >= generalSleepAdviceArr.length-1)   {     
+                        console.log(event);     
                             fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
-                        else 
+                        }else {
+                            console.log(event); 
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForGeneralAdviceReply(nextExplanation));
+                        }
                         return;
                     }
 
