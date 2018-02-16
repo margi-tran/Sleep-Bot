@@ -901,13 +901,6 @@ async function givePersonalSleepAdvice(fbUserId) {
     factorsConcerned[constants.QUIET] = 0;
      
     for (var i = 0; i < 7; i++) {
-        /*var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
-        if (mainSleepExists === true) {
-            var mainSleepLevelsData = await sleep.getMainSleepLevelsData(fbUserId, dateArr[i]);
-            if (mainSleepLevelsData) sleepDataArr.push(mainSleepLevelsData);
-        }*/
-
-
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
         if (answerEntry === null) continue;
 
@@ -921,7 +914,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
         
         var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
-        sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
+        var sleepEndTime = await sleep.getSleepEndTime(fbUserId, dateArr[i]);
         console.log('x ', dateArr[i], sleepStartTime, sleepEndTime);
     }
     console.log(sleepDataArr);
