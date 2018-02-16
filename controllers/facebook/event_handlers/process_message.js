@@ -164,6 +164,7 @@ module.exports = async (event) => {
 
                     // The user has asked a question about the effect of a factor on sleep
                     if (context === 'FACTORS') {
+                        console.log(event);
                         var factorParameter = payloadStringSplit[1];
                         var explanationNumber = parseInt(payloadStringSplit[2]);
                         var explanationArray = await factor.getExplanation(factorParameter);
