@@ -933,7 +933,6 @@ async function givePersonalSleepAdvice(fbUserId) {
         tmp.setDate(tmp.getDate()-i);
         dateArr.push(dateAndTimeUtil.dateToString(tmp));
     }
-
  
     var factorsConcerned = {}; 
     factorsConcerned[constants.ELECTRONICS] = 0;
@@ -1006,7 +1005,7 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     var sleepTimesInSeconds = [];
     var numberOfSleepTimes = sleepStartTimes.length;
-    var threshold = Math.ceil(numberOfSleepTimes*0.4);
+    var threshold = 3; //Math.ceil(numberOfSleepTimes*0.4);
     var averageSleepTimeInSeconds = 0; 
     for (var i = 0; i < numberOfSleepTimes; i++) {
         var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
@@ -1030,7 +1029,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
-        if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'troll');
+        if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
         var numberOfFactorsToAdvise = factorsToAdvise.length;
         for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
