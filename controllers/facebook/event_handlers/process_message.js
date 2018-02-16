@@ -301,25 +301,12 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
-                    var difference = Math.abs(getUpHour - goToBedHour) % 23;
-                    
-
-
+                
                     var date1 = new Date(2018, 1, 1, getUpHour);
-
                     var date2;
-
-                    if (getUpHour < goToBedHour)
-                    var date2 = new Date(2018, 1, 2, goToBedHour);
-                    else 
-                    var date2 = new Date(2018, 1, 1, goToBedHour);
-
-
-                    var difference = (new Date(date2 - date1)).getHours();
-
-
-                    
-                    
+                    if (getUpHour < goToBedHour) date2 = new Date(2018, 1, 2, goToBedHour);
+                    else date2 = new Date(2018, 1, 1, goToBedHour);
+                    var difference = Math.abs((new Date(date2 - date1)).getHours());
 
                     var msg2 = '';
                     var sleepEnough = true;
