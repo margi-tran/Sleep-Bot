@@ -184,7 +184,7 @@ module.exports = async (event) => {
                             fbMessengerBotClient.sendTextMessage(fbUserId, generalSleepAdviceArr[nextAdvice]);
                         }else {
                             console.log(event); 
-                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForGeneralAdviceReply(nextExplanation));
+                            fbMessengerBotClient.sendQuickReplyMessage(fbUserId, generalSleepAdviceArr[nextAdvice], getButtonsForGeneralAdviceReply(nextAdvice));
                         }
                         return;
                     }
