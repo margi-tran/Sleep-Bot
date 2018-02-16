@@ -1008,7 +1008,7 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     var sleepTimesInSeconds = [];
     var numberOfSleepTimes = sleepStartTimes.length;
-    var threshold = Math.celi(numberOfSleepTimes*0.4);
+    var threshold = Math.ceil(numberOfSleepTimes*0.4);
     var averageSleepTimeInSeconds = 0; 
     for (var i = 0; i < numberOfSleepTimes; i++) {
         var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
