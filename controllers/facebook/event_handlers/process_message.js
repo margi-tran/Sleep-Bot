@@ -158,24 +158,6 @@ module.exports = async (event) => {
             }
         }
 
-        if(message === 'b') {
-            console.log('in here');
-            getUpHour = 1;
-            goToBedHour = 23;
-            var date1 = new Date(2018, 1, 1, getUpHour);
-            var difference;
-            if (getUpHour < goToBedHour) {
-                date2 = new Date(2018, 1, 2, goToBedHour);
-                var difference = (new Date(date2 - date1)).getHours();
-            }
-            else {
-                date2 = new Date(2018, 1, 1, goToBedHour);
-                var difference = (new Date(date1 - date2)).getHours();
-            }
-            
-            console.log('allo',difference);
-        }
-
         if (message === '!help') {
             var msg = 'I can assist you sleep related queries. You can ask about any of the following:' 
                         + '\n- your sleep last night'
