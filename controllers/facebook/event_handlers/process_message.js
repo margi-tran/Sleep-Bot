@@ -939,35 +939,35 @@ async function givePersonalSleepAdvice(fbUserId) {
     var factorsToAdvise = [];
     if (factorsConcerned[constants.ELECTRONICS] > 1) {
         concerned = true;
-        adviceArr.push(constants.ELECTRONICS);
+        factorsToAdvise.push(constants.ELECTRONICS);
     }
     if (factorsConcerned[constants.STRESSED] > 1) {
         concerned = true;
-        adviceArr.push(constants.STRESSED);
+        factorsToAdvise.push(constants.STRESSED);
     }
     if (factorsConcerned[constants.EAT] > 1) {
         concerned = true;
-        adviceArr.push(constants.EAT);
+        factorsToAdvise.push(constants.EAT);
     }
     if (factorsConcerned[constants.ALCOHOL] > 1) {
         concerned = true;
-        adviceArr.push(constants.ALCOHOL);
+        factorsToAdvise.push(constants.ALCOHOL);
     }
     if (factorsConcerned[constants.NICOTINE] > 1) {
         concerned = true;
-        adviceArr.push(constants.NICOTINE);
+        factorsToAdvise.push(constants.NICOTINE);
     }
     if (factorsConcerned[constants.CAFFEINE] > 1) {
         concerned = true;
-        adviceArr.push(constants.CAFFEINE);
+        factorsToAdvise.push(constants.CAFFEINE);
     }
     if (factorsConcerned[constants.LIGHTS] > 1) {
         concerned = true;
-        adviceArr.push(constants.LIGHTS);
+        factorsToAdvise.push(constants.LIGHTS);
     }
     if (factorsConcerned[constants.QUIET] > 1) {
         concerned = true;
-        adviceArr.push(constants.QUIET);
+        factorsToAdvise.push(constants.QUIET);
     }
 
 
