@@ -126,7 +126,6 @@ const BUTTON_DONE =
 
 module.exports = async (event) => {
     try { 
-        console.log(event.message);
         const fbUserId = event.sender.id;
         var message = event.message.text.toLowerCase();
         await fbMessengerBotClient.markSeen(fbUserId);
@@ -161,8 +160,8 @@ module.exports = async (event) => {
 
         if(message === 'b') {
             console.log('in here');
-            getUpHour = 7;
-            goToBedHour = 8;
+            getUpHour = 23;
+            goToBedHour = 1;
             var date1 = new Date(2018, 1, 1, getUpHour);
             var difference;
             if (getUpHour < goToBedHour) {
