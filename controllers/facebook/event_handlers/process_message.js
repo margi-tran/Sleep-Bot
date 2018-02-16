@@ -926,6 +926,7 @@ async function answerAboutSleepLastNight(fbUserId) {
 }
 
 async function givePersonalSleepAdvice(fbUserId) {
+    fbMessengerBotClient.sendTextMessage(fbUserId, 'Hold on, I\'m checking your sleep data.');
     var dateArr = [];
     var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
@@ -1021,6 +1022,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
     var inconsistentGoToBed = false;
     var count = 0;
+    console.log(count);
     for (var i = 0; i < numberOfSleepTimes; i++) 
         if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
                     count += 1;
