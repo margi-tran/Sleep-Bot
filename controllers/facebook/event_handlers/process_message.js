@@ -166,7 +166,7 @@ module.exports = async (event) => {
             if (getUpHour < goToBedHour) date2 = new Date(2018, 1, 2, goToBedHour);
             else date2 = new Date(2018, 1, 1, goToBedHour);
             var difference = Math.abs((new Date(date2 - date1)).getHours());
-            console.log(difference);
+            console.log('allo',difference);
         }
 
         if (message === '!help') {
