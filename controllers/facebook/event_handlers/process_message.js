@@ -145,6 +145,19 @@ module.exports = async (event) => {
             return;
         }
 
+
+        if (message === 'test') {
+            sleepTimes = ["13:45", "13:00"];
+            dateObjsArr = [];
+
+            for (var i = 0; i < sleepTime.length; i++) {
+                var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
+                var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepTimes[i]);
+                if (hour > 6)Date tmp = new Date(2018, 1, 1, hour, minute);
+                else Date tmp = new Date(2018, 1, 2, hour, minute);
+                dateObjsArr.push(tmp);
+            }
+
         if (message === '!help') {
             var msg = 'I can assist you sleep related queries. You can ask about any of the following:' 
                         + '\n- your sleep last night'
@@ -292,6 +305,9 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var date1 = new Date(2018, 1, 1, getUpHour);
                     var date2 = new Date(2018, 1, 1, goToBedHour);
                     var diff = (new Date(date2 - date1)).getHours();
+
+                    diff = Math.abs(getUpHour * 60 - goToBedHour*60);
+
                     var msg2 = '';
                     var sleepEnough = true;
                     if (difference < 7 ) {
@@ -891,7 +907,6 @@ async function answerAboutSleepLastNight(fbUserId) {
 }
 
 async function givePersonalSleepAdvice(fbUserId) {
-    try {
     var dateArr = [];
     var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
@@ -974,15 +989,12 @@ async function givePersonalSleepAdvice(fbUserId) {
 
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
         var numberOfFactorsToAdvise = factorsToAdvise.length;
         for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
 
     }
-
-}catch (err) {
-    console.log(err);
-}
 }
 
 async function giveGeneralSleepAdvice(fbUserId) {

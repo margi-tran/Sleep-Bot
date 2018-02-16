@@ -15,6 +15,11 @@ exports.getHourFromTimeString = (timeString) => {
 	return parseInt(arr[0]);
 };
 
+exports.getMinuteFromTimeString = (timeString) => {
+	var arr = timeString.split(':');
+	return parseInt(arr[1]);
+};
+
 // dateString in this format: "2018-01-31T02:11:41.000"
 exports.getTimeFromDateString = (dateString) => {
 	return dateString.substring(11, 16);
