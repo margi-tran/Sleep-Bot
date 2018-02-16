@@ -25,6 +25,7 @@ exports.getMainSleepLevelsData = async (fbUserId, date) => {
 
 exports.getSleepStartTime = async (fbUserId, date) => {
     var mainSleep = await getMainSleep(fbUserId, date);
+    console.log('bla', mainSleep);
     if (mainSleep === null) return null;
     else mainSleep.startTime;
 }
