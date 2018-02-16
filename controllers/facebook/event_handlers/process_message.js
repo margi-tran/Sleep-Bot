@@ -597,7 +597,8 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
             case constants.QUIET:
                 if (subContext === constants.QUESTION_ANSWER) {
                     if (message === 'yes' || message === 'no') {
-                        await userBackground.updateBackground(fbUserId, constants.QUIET, message);
+                        var date = dateAndTimeUtil.dateToString(new Date());
+                        userSleepAnswers.updateSleepAnswer(fbUserId, constants.QUIET, message, date);
                         if (message === 'no') {
                             await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
                             fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepAdviceMap[constants.QUIET], BUTTONS_WHY_AND_DONE);
