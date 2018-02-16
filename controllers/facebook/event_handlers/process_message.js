@@ -771,6 +771,11 @@ function getButtonsForFactorsReply(factor, index) {
             "content_type": "text",
             "title": "more",
             "payload": 'FACTORS ' + factor + ' ' + index
+        },
+        {
+            "content_type": "text",
+            "title": "done",
+            "payload": "done"
         }];
     return buttons;
 }
