@@ -145,25 +145,6 @@ module.exports = async (event) => {
             return;
         }
 
-        if(message.includes('a')) {
-            split = message.split(' ');
-            goToBedHour = parseInt(split[1]);
-            getUpHour = parseInt(split[2]);
-            var date1 = new Date(2018, 1, 1, goToBedHour);
-            if (getUpHour < goToBedHour) {
-                date2 = new Date(2018, 1, 2, getUpHour);
-                
-            }
-            else {
-                date2 = new Date(2018, 1, 1, getUpHour);
-                
-            }
-
-            var difference = (new Date(date2 - date1)).getHours();
-            fbMessengerBotClient.sendTextMessage('hey ' + difference);
-            console.log('[1]', difference);
-        }
-
         if (message === 'test') {
             sleepTimes = ["13:45", "13:00"];
             dateObjsArr = [];
@@ -319,16 +300,11 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var goToBed = await userBackground.getGetUp(fbUserId);
                     var getUpHour = dateAndTimeUtil.getHourFromTimeString(getUp);
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
-                
-                    var date1 = new Date(2018, 1, 1, getUpHour);
-                    var difference;
-                    if (getUpHour < goToBedHour) {
-                        date2 = new Date(2018, 1, 2, goToBedHour);
-                        var difference = (new Date(date2 - date1)).getHours();
-                    } else {
-                        date2 = new Date(2018, 1, 1, goToBedHour);
-                        var difference = (new Date(date1 - date2)).getHours();
-                    }
+
+                    var date1 = new Date(2018, 1, 1, goToBedHour);
+                    if (getUpHour < goToBedHour) date2 = new Date(2018, 1, 2, getUpHour);
+                    else date2 = new Date(2018, 1, 1, getUpHour);
+                    var difference = (new Date(date1 - date2)).getHours();
 
                     var msg2 = '';
                     var sleepEnough = true;
