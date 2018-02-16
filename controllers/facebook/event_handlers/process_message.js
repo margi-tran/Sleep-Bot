@@ -970,6 +970,8 @@ async function givePersonalSleepAdvice(fbUserId) {
         }
     }
 
+    console.log(sleepStarTimes);
+
     
     var concerned = false;
     var factorsToAdvise = [];
