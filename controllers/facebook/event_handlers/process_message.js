@@ -916,7 +916,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     for (var i = 0; i < 7; i++) {
         var answerEntry = await userSleepAnswers.getAnswersEntry(fbUserId, dateArr[i]);
         console.log(answerEntry);
-        if (answerEntry)
+        if (answerEntry) {
             if (answerEntry.electronics === 'yes') factorsConcerned[constants.ELECTRONICS] += 1;
             if (answerEntry.stressed === 'yes') factorsConcerned[constants.STRESSED] += 1;
             if (answerEntry.eat === 'yes') factorsConcerned[constants.EAT] += 1;
@@ -925,6 +925,7 @@ async function givePersonalSleepAdvice(fbUserId) {
             if (answerEntry.caffeine === 'yes') factorsConcerned[constants.CAFFEINE] += 1;
             if (answerEntry.lights === 'yes') factorsConcerned[constants.LIGHTS] += 1;
             if (answerEntry.quiet === 'yes') factorsConcerned[constants.QUIET] += 1;
+        }
         
         var date = dateAndTimeUtil.dateToString(new Date());
         var mainSleepExists = await sleep.mainSleepExists(fbUserId, date);
