@@ -825,6 +825,7 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
 }
 
 async function answerAboutSleepLastNight(fbUserId) {
+    console.log('in here');
     var date = dateAndTimeUtil.dateToString(new Date());
     var noSleepDataMsg = 'Sorry I couldn\'t find any sleep data of your sleep last night. Perhaps try asking me again later.';
 
@@ -876,7 +877,6 @@ async function answerAboutSleepLastNight(fbUserId) {
 
         var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
-                
         if (factorsConcerned.length === 0) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
