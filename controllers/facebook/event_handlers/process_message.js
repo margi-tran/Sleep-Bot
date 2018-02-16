@@ -147,7 +147,7 @@ module.exports = async (event) => {
 
         if (message === 'test') {
             sleepTimes = ["13:45", "13:00"];
-            averageSleepTimesInSeconds;
+            averageSleepTimesInSeconds = 0;
 
             for (var i = 0; i < sleepTimes.length; i++) {
                 var hour = dateAndTimeUtil.getHourFromTimeString(sleepTimes[i]);
