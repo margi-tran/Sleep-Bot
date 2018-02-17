@@ -899,7 +899,47 @@ async function answerAboutSleepLastNight(fbUserId) {
                 }              
                 if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
                 if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
-                fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+                await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+
+
+
+                var dateArr = [];
+                var todaysDate = new Date();
+                for (var i = 0; i < 3; i++) {
+                    var tmp = new Date(todaysDate.getTime());
+                    tmp.setDate(tmp.getDate()-i);
+                    dateArr.push(dateAndTimeUtil.dateToString(tmp));
+                }
+                var sleepStartTimes = [];
+                for (var i = 0; i < 3; i++) {
+                    var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
+                    if (mainSleepExists) {
+                        var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
+                        sleepStartTimes.push(sleepStartTime);
+                    }
+                }
+                var sleepTimesInSeconds = [];
+                var numberOfSleepTimes = sleepStartTimes.length;
+                var threshold = 2; 
+                var averageSleepTimeInSeconds = 0; 
+                for (var i = 0; i < numberOfSleepTimes; i++) {
+                    var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
+                    var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
+                    var timeInSeconds = hour*60*60 + minute*60;
+                    sleepTimesInSeconds.push(timeInSeconds);
+                    averageSleepTimeInSeconds += timeInSeconds;
+                }
+                averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
+                const allowedOffSet = 900;
+                var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
+                var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
+                var inconsistentGoToBed = false;
+                var count = 0;
+                for (var i = 0; i < numberOfSleepTimes; i++) 
+                    if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
+                        count += 1;
+                if (count > threshold) inconsistentGoToBed = true;
+                if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
             }
         }
     } else {
