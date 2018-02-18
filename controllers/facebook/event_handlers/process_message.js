@@ -844,15 +844,14 @@ async function answerAboutSleepLastNight(fbUserId) {
             
     if (flag) {
 
-        var answersEntry = userSleepAnswers.getAnswersEntry(fbUserId, date);
+        var answersEntry = await userSleepAnswers.getAnswersEntry(fbUserId, date);
 
         const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
         var factorsConcerned = [];
         var numberOfSleepQuestions = sleepQuestions.length;
 
         if (answersEntry) {
-            console.log('in here');
-            console.log('bla', answersEntry);
+    
         for (var i = 0; i < numberOfSleepQuestions; i++) {
             var factor = sleepQuestions[i];
             var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
