@@ -525,6 +525,7 @@ async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
 }
 
 async function handleBackgroundQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
+    Date date = dateAndTimeUtil.dateToString(new Date());
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
             await userBackground.updateBackground(fbUserId, currentMainContext, message);
@@ -809,7 +810,6 @@ async function updateContextsAndAskNextQuestion(fbUserId, mainContext, subContex
 }
 
 async function answerAboutSleepLastNight(fbUserId) {
-    console.log('in here');
     var date = dateAndTimeUtil.dateToString(new Date());
     var noSleepDataMsg = 'Sorry I couldn\'t find any sleep data of your sleep last night. Perhaps try asking me again later.';
 
