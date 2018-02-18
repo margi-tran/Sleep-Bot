@@ -525,7 +525,7 @@ async function finishSleepBackgroundChat(fbUserId, hasIrregularWorkSchedule) {
 }
 
 async function handleBackgroundQuestionReply(fbUserId, event, message, currentMainContext, nextMainContext, subContext) {
-    Date date = dateAndTimeUtil.dateToString(new Date());
+    var date = dateAndTimeUtil.dateToString(new Date());
     if (subContext === constants.QUESTION_ANSWER) {
         if (message === 'yes' || message === 'no') {
             await userBackground.updateBackground(fbUserId, currentMainContext, message);
