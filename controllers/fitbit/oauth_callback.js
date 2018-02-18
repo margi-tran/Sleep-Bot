@@ -10,7 +10,6 @@ var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token: process.env.FB_PAGE_ACCESS_TOKEN });
 
 var MongoClient = require('mongodb').MongoClient;
-const db = await MongoClient.connect(process.env.MONGODB_URI);
 
 var user = require('../../models/user');
 var fitbitAuth = require('../../models/fitbit_auth');
@@ -32,8 +31,9 @@ module.exports = async (req, res) => {
 		}
 
 		// Check whether or not the user has already authenticated Fitbit with the server
-		//const db = await MongoClient.connect(process.env.MONGODB_URI);
-        const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();   
+		const db = await MongoClient.connect(process.env.MONGODB_URI);
+        const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray(); 
+        db.close();  
         if(result != 0) {
         	res.send('You have already authenticated Fitbit with SleepBot.');
         	return;
