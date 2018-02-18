@@ -871,7 +871,7 @@ async function answerAboutSleepLastNight(fbUserId) {
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
 
         var answersEntry = userSleepAnswers.getAnswersEntry(fbUserId, date);
-        if (getAnswersEntry === null) {
+        if (answersEntry === null) {
             fbMessengerBotClient.send(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
             return;
         }
