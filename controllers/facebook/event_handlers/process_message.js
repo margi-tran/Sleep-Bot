@@ -852,6 +852,7 @@ async function answerAboutSleepLastNight(fbUserId) {
 
         if (answersEntry) {
             console.log('in here');
+            console.log('bla', answersEntry);
         for (var i = 0; i < numberOfSleepQuestions; i++) {
             var factor = sleepQuestions[i];
             var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
