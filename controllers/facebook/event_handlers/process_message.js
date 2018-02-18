@@ -148,7 +148,7 @@ module.exports = async (event) => {
         if (message === '!help') {
             var msg = 'I can assist you sleep related queries. You can ask about any of the following:' 
                         + '\n- your sleep last night'
-                        + '\n- your sleep advice'
+                        + '\n- your personal sleep advice'
                         + '\n- general sleep advice'
                         + '\n- how something affects sleep (disturbances)'
                         + '\n- consequences of poor sleep';
