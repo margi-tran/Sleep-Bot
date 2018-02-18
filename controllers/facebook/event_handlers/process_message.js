@@ -964,6 +964,8 @@ async function answerAboutSleepLastNight(fbUserId) {
 
 async function givePersonalSleepAdvice(fbUserId) {
     fbMessengerBotClient.sendTextMessage(fbUserId, 'Hold on, I\'m checking your sleep data.');
+    await messengerBotClient.sendSenderAction(fbUserId, 'typing_on');
+    
     var dateArr = [];
     var todaysDate = new Date();
     for (var i = 0; i < 7; i++) {
