@@ -9,8 +9,6 @@ var fbMessengerBotClient = new fbMessengerBot.Client(process.env.FB_PAGE_ACCESS_
 var MessengerBot = require('messenger-bot');
 var messengerBotClient = new MessengerBot({ token: process.env.FB_PAGE_ACCESS_TOKEN });
 
-var MongoClient = require('mongodb').MongoClient;
-
 var user = require('../../models/user');
 var fitbitAuth = require('../../models/fitbit_auth');
 var userBackground = require('../../models/user_background');
@@ -30,14 +28,11 @@ module.exports = async (req, res) => {
 			return;
 		}
 
-		// Check whether or not the user has already authenticated Fitbit with the server
-		const db = await MongoClient.connect(process.env.MONGODB_URI);
-        const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray(); 
-        db.close();  
-        if(result != 0) {
-        	res.send('You have already authenticated Fitbit with SleepBot.');
+        var userIsAuthenticated = await fitbitAuth.userIsAuthenticated(fbUserId);
+    	if (userIsAuthenticated) {
+    		res.send('You have already authenticated Fitbit with SleepBot.');
         	return;
-        }
+    	}
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
