@@ -22,13 +22,11 @@ module.exports = async (req, res) => {
 		const fbUserId = req.cookies.fbUserId;
 
 		// If the fbUserId cookie is not set then this route is being accessed illegally
-		if(fbUserId === undefined) {
+		if(fbUserId === undefined || fbUserId === '') {
 			res.send('An error occurred. Please contact admin for assistance.' 
 						+ '\n[ERROR] (/oauth_callback) fbUserId is undefined.');
 			return;
 		}
-
-		console.log('blah', fbUserId);
 
         var userIsAuthenticated = await fitbitAuth.userIsAuthenticated(fbUserId);
     	if (userIsAuthenticated) {
