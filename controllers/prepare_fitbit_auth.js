@@ -7,7 +7,7 @@
 
 
 var path = require('path');
-var fitbitAuth = require('../../models/fitbit_auth');
+var fitbitAuth = require('../models/fitbit_auth');
 
 module.exports = async (req, res) => {
 	try {
