@@ -843,6 +843,15 @@ async function answerAboutSleepLastNight(fbUserId) {
     if (maxAwake >= 600) flag = true;
             
     if (flag) {
+        var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
+        await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+
+        var answersEntry = userSleepAnswers.getAnswersEntry(fbUserId, date);
+        if (getAnswersEntry === null) {
+            fbMessengerBotClient.send(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
+            return;
+        }
+
         const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
         var minutesAwake = Math.floor(maxAwake / 60);
         var factorsConcerned = [];
@@ -858,7 +867,6 @@ async function answerAboutSleepLastNight(fbUserId) {
         if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
         var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
         if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
-
         var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
 
@@ -867,7 +875,6 @@ async function answerAboutSleepLastNight(fbUserId) {
             fbMessengerBotClient.send(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
             return;
         }
-
 
         if (factorsConcerned.length === 0) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
