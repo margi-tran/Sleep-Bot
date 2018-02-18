@@ -582,6 +582,7 @@ async function repeatQuestion(fbUserId, questionText, quickReplyMessage) {
 }
 
 async function chatAboutSleep(fbUserId, message, event, mainContext) {
+    var date = dateAndTimeUtil.dateToString(new Date());
     const subContext = await user.getSubContext(fbUserId);
     try {
         switch (mainContext) {
