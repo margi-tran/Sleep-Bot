@@ -299,6 +299,7 @@ async function getNewUserBackground(fbUserId, message, event, mainContext) {
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(goToBed);
 
                     var date1 = new Date(2018, 1, 1, goToBedHour);
+                    var date2;
                     if (getUpHour < goToBedHour) date2 = new Date(2018, 1, 2, getUpHour);
                     else date2 = new Date(2018, 1, 1, getUpHour);
                     var difference = (new Date(date1 - date2)).getHours();
