@@ -50,6 +50,7 @@ exports.getAnswersEntry = async (fbUserId, date) => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_answers').find({ fbUserId_: fbUserId, date: date }).toArray();
     db.close();
+    console.log('results', result);
     if (result.length === 0) return null;
     else return result[0];
 }
