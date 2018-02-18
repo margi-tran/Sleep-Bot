@@ -28,6 +28,8 @@ module.exports = async (req, res) => {
 			return;
 		}
 
+		console.log('blah', fbUserId);
+
         var userIsAuthenticated = await fitbitAuth.userIsAuthenticated(fbUserId);
     	if (userIsAuthenticated) {
     		res.send('You have already authenticated Fitbit with SleepBot.');
