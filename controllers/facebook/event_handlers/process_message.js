@@ -531,7 +531,6 @@ async function handleBackgroundQuestionReply(fbUserId, event, message, currentMa
             await userBackground.updateBackground(fbUserId, currentMainContext, message);
             if (message === 'yes') {
                 await user.setSubContext(fbUserId, constants.QUESTION_ANSWER_DONE);
-                await userSleepAnswers.addNewEntry(fbUserId, date);
                 fbMessengerBotClient.sendQuickReplyMessage(fbUserId, initialAdviceMap[currentMainContext], BUTTONS_WHY_AND_NEXT_QUESTION);
             } else {
                 updateContextsAndAskNextQuestion(fbUserId, nextMainContext, constants.QUESTION_ANSWER, true);
@@ -591,6 +590,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
                     await user.setMainContext(fbUserId, constants.ELECTRONICS);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
+                    await userSleepAnswers.addNewEntry(fbUserId, date);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
