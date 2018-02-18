@@ -851,26 +851,25 @@ async function answerAboutSleepLastNight(fbUserId) {
         var numberOfSleepQuestions = sleepQuestions.length;
 
         if (answersEntry) {
-    
-        for (var i = 0; i < numberOfSleepQuestions; i++) {
-            var factor = sleepQuestions[i];
-            var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
-            if (answer === 'yes') factorsConcerned.push(factor);
-        }   
-        var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET, date);
-        if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
-        var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
-        if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
-        var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
-        if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
-    }
+            for (var i = 0; i < numberOfSleepQuestions; i++) {
+                var factor = sleepQuestions[i];
+                var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
+                if (answer === 'yes') factorsConcerned.push(factor);
+            }   
+            var quietAnswer = await userSleepAnswers.getAnswer(fbUserId, constants.QUIET, date);
+            if (quietAnswer === 'no') factorsConcerned.push(constants.QUIET);
+            var exerciseAnswer = await userBackground.getExerciseAnswer(fbUserId);
+            if (exerciseAnswer === 'no') factorsConcerned.push(constants.EXERCISE);
+            var workScheduleAnswer = await userBackground.getWorkScheduleAnswer(fbUserId);
+            if (workScheduleAnswer === 'yes') factorsConcerned.push(constants.WORK_SCHEDULE);
+        }
 
         var minutesAwake = Math.floor(maxAwake / 60);
         var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
 
         if (answersEntry === null) {
-            fbMessengerBotClient.send(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
             return;
         }
 
