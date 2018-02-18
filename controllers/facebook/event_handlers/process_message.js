@@ -861,6 +861,14 @@ async function answerAboutSleepLastNight(fbUserId) {
 
         var msg1 = 'You had a sleep disturbance last night: you were awake at ' + timeOfAwake + ' for ' + minutesAwake + ' minutes.';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+
+        var answersEntry = userSleepAnswers.getAnswersEntry(fbUserId, date);
+        if (getAnswersEntry === null) {
+            fbMessengerBotClient.send(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
+            return;
+        }
+
+
         if (factorsConcerned.length === 0) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
