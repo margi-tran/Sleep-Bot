@@ -685,8 +685,6 @@ async function finishSleepChat(fbUserId) {
     var numberOfSleepQuestions = sleepQuestions.length;
     for (var i = 0; i < numberOfSleepQuestions; i++) {
         var factor = sleepQuestions[i];
-        
-        console.log('in here', i);
         var answer = await userSleepAnswers.getAnswer(fbUserId, factor, date);
         if (answer === 'yes') factorsConcerned.push(factor);
     }   
