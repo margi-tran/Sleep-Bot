@@ -7,6 +7,8 @@
 
 
 var path = require('path');
+var MongoClient = require('mongodb').MongoClient;
+const db = await MongoClient.connect(process.env.MONGODB_URI);
 
 module.exports = async (req, res) => {
 	try {
