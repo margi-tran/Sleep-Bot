@@ -13,19 +13,19 @@ module.exports = async (req, res) => {
 		const fbUserId = req.query.fbUserId;
 
 		// If fbUserId is not present in the URL, then assume that access to this route was illegal
-		/*if(fbUserId === undefined) {
+		if(fbUserId === undefined) {
 			res.send('An error occurred. Please contact Margi for assistance.' 
 						+ '\n[ERROR] (/prepare_fitbit_auth) fbUserId is undefined.');
 			return;
-		}*/
+		}
 
 		// Check whether or not the user has already authenticated Fitbit with the server
 		//const db = await MongoClient.connect(process.env.MONGODB_URI);
-   	 	/*const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
+   	 	const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();
 		if(result != 0) {
         	res.send('You have already authenticated Fitbit with SleepBot.');
         	return;
-    	} */
+    	} 
 
 		res.cookie('fbUserId', fbUserId);
 		res.sendFile(path.join(__dirname + '/../views/prepare_fitbit_auth.html'));

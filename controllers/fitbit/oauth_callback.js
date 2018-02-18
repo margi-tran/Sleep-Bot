@@ -12,7 +12,6 @@ var messengerBotClient = new MessengerBot({ token: process.env.FB_PAGE_ACCESS_TO
 var user = require('../../models/user');
 var fitbitAuth = require('../../models/fitbit_auth');
 var userBackground = require('../../models/user_background');
-var userSleepAnswers = require('../../models/user_sleep_answers');
 
 var constants = require('../constants');
 var fitbitClient = require('./fitbit_client');
@@ -23,19 +22,19 @@ module.exports = async (req, res) => {
 		const fbUserId = req.cookies.fbUserId;
 
 		// If the fbUserId cookie is not set then this route is being accessed illegally
-		/*if(fbUserId === undefined) {
+		if(fbUserId === undefined) {
 			res.send('An error occurred. Please contact admin for assistance.' 
-						+ '\n[ERROR] (/oauth_callback) fbUserId is undefined. );
+						+ '\n[ERROR] (/oauth_callback) fbUserId is undefined.');
 			return;
-		}*/
+		}
 
 		// Check whether or not the user has already authenticated Fitbit with the server
 		//const db = await MongoClient.connect(process.env.MONGODB_URI);
-        /*const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();   
+        const result = await db.collection('fitbit_auths').find({ fbUserId_: fbUserId }).toArray();   
         if(result != 0) {
         	res.send('You have already authenticated Fitbit with SleepBot.');
         	return;
-        }*/
+        }
 
 		const accessTokenPromise = await fitbitClient.client.getAccessToken(req.query.code, fitbitClient.redirectUri);
 		const sleepData = await fitbitClient.client.get('/sleep/date/' + dateAndTimeUlti.dateToString(new Date()) + '.json', accessTokenPromise.access_token);
@@ -44,7 +43,6 @@ module.exports = async (req, res) => {
         await fitbitAuth.addNewFitbitAuth(fbUserId, accessTokenPromise.user_id, accessTokenPromise.access_token, accessTokenPromise.refresh_token);
         await user.setMainContext(fbUserId, null);
         await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
-        await userSleepAnswers.addNewUser(fbUserId);
 
     	fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
        		console.log(results);
