@@ -841,8 +841,6 @@ async function answerAboutSleepLastNight(fbUserId) {
         tmp = 0;
     }
 
-    //if (maxAwake >= 600) flag = true;
-
     if (maxAwake >= 600) {
         var answersEntry = await userSleepAnswers.getAnswersEntry(fbUserId, date);
 

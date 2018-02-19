@@ -18,7 +18,6 @@ async function notifySleep() {
 	console.log('notifying: ', usersToNotify);
 	var numOfUsers = usersToNotify.length;
 	for (var i = 0; i < numOfUsers; i++) {
-		var flag = false;
 		var date = dateAndTimeUtil.dateToString(new Date());
 		var fbUserId = usersToNotify[i];
 
@@ -44,8 +43,6 @@ async function notifySleep() {
 			if (tmp > maxAwake) maxAwake = tmp;
 			tmp = 0;
 		}
-
-		//if (maxAwake >= 600) flag = true;
 		
 		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
