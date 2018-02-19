@@ -874,6 +874,45 @@ async function answerAboutSleepLastNight(fbUserId) {
             return;
         }
 
+        var dateArr = [];
+        var todaysDate = new Date();
+        for (var i = 0; i < 3; i++) {
+            var tmp = new Date(todaysDate.getTime());
+            tmp.setDate(tmp.getDate()-i);
+            dateArr.push(dateAndTimeUtil.dateToString(tmp));
+        }
+        var sleepStartTimes = [];
+        for (var i = 0; i < 3; i++) {
+            var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
+            if (mainSleepExists) {
+                var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
+                sleepStartTimes.push(sleepStartTime);
+            }
+        }
+        var sleepTimesInSeconds = [];
+        var numberOfSleepTimes = sleepStartTimes.length;
+        var threshold = 2; 
+        var averageSleepTimeInSeconds = 0; 
+        for (var i = 0; i < numberOfSleepTimes; i++) {
+            var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
+            var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
+            var timeInSeconds = hour*60*60 + minute*60;
+            sleepTimesInSeconds.push(timeInSeconds);
+            averageSleepTimeInSeconds += timeInSeconds;
+        }
+        averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
+        const allowedOffSet = 900;
+        var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
+        var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
+        var inconsistentGoToBed = false;
+        var count = 0;
+        for (var i = 0; i < numberOfSleepTimes; i++) 
+            if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
+                count += 1;
+        if (count >= threshold) inconsistentGoToBed = true;
+        
+
+
         if (factorsConcerned.length === 0) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
@@ -897,7 +936,9 @@ async function answerAboutSleepLastNight(fbUserId) {
                 else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
                 else if (factorsConcerned[0] === constants.EXERCISE) msg += 'not exercising regularly.';
                 else if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += 'doing shifts at irregular hours.';
+                else if (inconsistentGoToBed) msg += 'not sleeping around the around the same time every night.';
                 fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+
             } else {
                 var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
                 var numberOfFactorsConcerned = factorsConcerned.length;
@@ -910,14 +951,15 @@ async function answerAboutSleepLastNight(fbUserId) {
                     else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
                     else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
-                }              
+                }           
                 if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
                 if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
+                if (inconsistentGoToBed) msg += '\n- not sleeping around\n  the around the same\n  time every night.';
                 await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
 
 
 
-                var dateArr = [];
+               /* var dateArr = [];
                 var todaysDate = new Date();
                 for (var i = 0; i < 3; i++) {
                     var tmp = new Date(todaysDate.getTime());
@@ -954,6 +996,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                         count += 1;
                 if (count >= threshold) inconsistentGoToBed = true;
                 if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
+                */
             }
         }
     } else {
@@ -1067,9 +1110,7 @@ async function givePersonalSleepAdvice(fbUserId) {
                     count += 1;
     if (count >= threshold) inconsistentGoToBed = true;
 
-    console.log('count', count);
-
-    if (concerned) {
+    if (concerned || inconsistentGoToBed) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
         if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
