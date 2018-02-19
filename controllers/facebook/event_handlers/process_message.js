@@ -1008,6 +1008,8 @@ async function givePersonalSleepAdvice(fbUserId) {
         }
     }
 
+    console.log(sleepStartTimes);
+
     var concerned = false;
     var factorsToAdvise = [];
     if (factorsConcerned[constants.ELECTRONICS] > 1) {
