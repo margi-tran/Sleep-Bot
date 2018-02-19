@@ -870,7 +870,7 @@ async function answerAboutSleepLastNight(fbUserId) {
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
 
         if (answersEntry === null) {
-            fbMessengerBotClient.sendTextMessage(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\' tell you more right now!');
+            fbMessengerBotClient.sendTextMessage(fbUserId, 'We haven\'t had a chat about your sleep yet so I can\'t tell you more right now!');
             return;
         }
 
@@ -933,7 +933,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                 else if (factorsConcerned[0] === constants.NICOTINE) msg += 'smoking (or taking nicotine) before going to bed.';
                 else if (factorsConcerned[0] === constants.CAFFEINE) msg += 'drinking any beverages with caffeine, such as tea, before going to bed.';
                 else if (factorsConcerned[0] === constants.LIGHTS) msg += 'sleeping with the lights on.';
-                else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was\n  noisy.';
+                else if (factorsConcerned[0] === constants.QUIET) msg += 'sleeping while your bedroom was noisy.';
                 else if (factorsConcerned[0] === constants.EXERCISE) msg += 'not exercising regularly.';
                 else if (factorsConcerned[0] === constants.WORK_SCHEDULE) msg += 'doing shifts at irregular hours.';
                 else if (inconsistentGoToBed) msg += 'not sleeping around the around the same time every night.';
@@ -943,60 +943,19 @@ async function answerAboutSleepLastNight(fbUserId) {
                 var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
                 var numberOfFactorsConcerned = factorsConcerned.length;
                 for (var i = 0; i < numberOfFactorsConcerned; i++) {
-                    if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any other\n  electronic devices) before\n  going to bed (or in bed)';
+                    if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any\n  other electronic devices)\n   before going to bed\n  (or in bed)';
                     else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                     else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
                     else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
                     else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- smoking (or taking\n  nicotine) before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
-                    else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your bedroom was noisy.';
+                    else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your\n  bedroom was noisy.';
                 }           
                 if (exerciseAnswer === 'no') msg += '\n- not exercising regularly.';
                 if (workScheduleAnswer === 'yes') msg += '\n- doing shifts at irregular hours.';
                 if (inconsistentGoToBed) msg += '\n- not sleeping around\n  the around the same\n  time every night.';
                 await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
-
-
-
-               /* var dateArr = [];
-                var todaysDate = new Date();
-                for (var i = 0; i < 3; i++) {
-                    var tmp = new Date(todaysDate.getTime());
-                    tmp.setDate(tmp.getDate()-i);
-                    dateArr.push(dateAndTimeUtil.dateToString(tmp));
-                }
-                var sleepStartTimes = [];
-                for (var i = 0; i < 3; i++) {
-                    var mainSleepExists = await sleep.mainSleepExists(fbUserId, dateArr[i]);
-                    if (mainSleepExists) {
-                        var sleepStartTime = await sleep.getSleepStartTime(fbUserId, dateArr[i]);
-                        sleepStartTimes.push(sleepStartTime);
-                    }
-                }
-                var sleepTimesInSeconds = [];
-                var numberOfSleepTimes = sleepStartTimes.length;
-                var threshold = 2; 
-                var averageSleepTimeInSeconds = 0; 
-                for (var i = 0; i < numberOfSleepTimes; i++) {
-                    var hour = dateAndTimeUtil.getHourFromTimeString(sleepStartTimes[i]);
-                    var minute = dateAndTimeUtil.getMinuteFromTimeString(sleepStartTimes[i]);
-                    var timeInSeconds = hour*60*60 + minute*60;
-                    sleepTimesInSeconds.push(timeInSeconds);
-                    averageSleepTimeInSeconds += timeInSeconds;
-                }
-                averageSleepTimeInSeconds = averageSleepTimeInSeconds/numberOfSleepTimes;
-                const allowedOffSet = 900;
-                var minBoundary = averageSleepTimeInSeconds - allowedOffSet;
-                var maxBoundary = averageSleepTimeInSeconds + allowedOffSet;
-                var inconsistentGoToBed = false;
-                var count = 0;
-                for (var i = 0; i < numberOfSleepTimes; i++) 
-                    if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
-                        count += 1;
-                if (count >= threshold) inconsistentGoToBed = true;
-                if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
-                */
             }
         }
     } else {
