@@ -45,9 +45,9 @@ async function notifySleep() {
 			tmp = 0;
 		}
 
-		if (maxAwake >= 600) flag = true;
+		//if (maxAwake >= 600) flag = true;
 		
-		if (flag) {
+		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake

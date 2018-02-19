@@ -841,10 +841,9 @@ async function answerAboutSleepLastNight(fbUserId) {
         tmp = 0;
     }
 
-    if (maxAwake >= 600) flag = true;
-            
-    if (flag) {
+    //if (maxAwake >= 600) flag = true;
 
+    if (maxAwake >= 600) {
         var answersEntry = await userSleepAnswers.getAnswersEntry(fbUserId, date);
 
         const sleepQuestions = [constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS];
