@@ -1008,8 +1008,6 @@ async function givePersonalSleepAdvice(fbUserId) {
         }
     }
 
-    console.log(sleepStartTimes);
-
     var concerned = false;
     var factorsToAdvise = [];
     if (factorsConcerned[constants.ELECTRONICS] > 1) {
@@ -1067,7 +1065,7 @@ async function givePersonalSleepAdvice(fbUserId) {
     for (var i = 0; i < numberOfSleepTimes; i++) 
         if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
                     count += 1;
-    if (count > threshold) inconsistentGoToBed = true;
+    if (count >= threshold) inconsistentGoToBed = true;
 
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
