@@ -913,7 +913,7 @@ async function answerAboutSleepLastNight(fbUserId) {
         
 
 
-        if (factorsConcerned.length === 0) {
+        if (factorsConcerned.length === 0 && inconsistentGoToBed === true) {
             var msg2 = 'Earlier we had a chat about your sleep last night. Unfortunately I could not determine'
                         + ' what lifestyle or environmental factors caused your sleep disturbance.';
             var msg3 = 'If you feel that your sleep disturbances are affecting you, then I would suggest you'
@@ -1000,7 +1000,7 @@ async function answerAboutSleepLastNight(fbUserId) {
             }
         }
     } else {
-        var msg = 'From your sleep data last night, you did not appear to have any sleep disturbances.';
+        var msg = 'From the data of your sleep last night, you did not appear to have any sleep disturbances.';
         fbMessengerBotClient.sendTextMessage(fbUserId, msg);
     }
 }
@@ -1117,7 +1117,7 @@ async function givePersonalSleepAdvice(fbUserId) {
         var numberOfFactorsToAdvise = factorsToAdvise.length;
         for (var i = 0; i < numberOfFactorsToAdvise; i++) await fbMessengerBotClient.sendTextMessage(fbUserId, personalSleepAdviceMap[factorsToAdvise[i]]);
     } else {
-        var msg = 'Looking at the available data of your sleep for the last seven days, I did not see anything concerning which is great!';
+        var msg = 'Looking at the available data of your sleep for the last seven days, I did not find anything concerning which is great!';
         await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
     }
 }
