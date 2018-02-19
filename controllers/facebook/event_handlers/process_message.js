@@ -952,7 +952,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                 for (var i = 0; i < numberOfSleepTimes; i++) 
                     if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
                         count += 1;
-                if (count > threshold) inconsistentGoToBed = true;
+                if (count >= threshold) inconsistentGoToBed = true;
                 if (inconsistentGoToBed) await fbMessengerBotClient.sendTextMessage(fbUserId, 'You should try to sleep around the same time every night.');
             }
         }
@@ -1066,6 +1066,8 @@ async function givePersonalSleepAdvice(fbUserId) {
         if (sleepTimesInSeconds[i] < minBoundary || sleepTimesInSeconds[i] > maxBoundary)
                     count += 1;
     if (count >= threshold) inconsistentGoToBed = true;
+
+    console.log('count', count);
 
     if (concerned) {
         var msg = 'Looking at the available data of your sleep for the last seven days, I recommend that...';
