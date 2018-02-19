@@ -943,12 +943,12 @@ async function answerAboutSleepLastNight(fbUserId) {
                 var msg = 'Earlier we had a chat about your sleep last night. I determined that possible causes for your sleep disturbance was due to you:'
                 var numberOfFactorsConcerned = factorsConcerned.length;
                 for (var i = 0; i < numberOfFactorsConcerned; i++) {
-                    if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any\n  other electronic devices)\n   before going to bed\n  (or in bed)';
+                    if (factorsConcerned[i] === constants.ELECTRONICS) msg += '\n- using your phone (or any\n  other electronic devices)\n  before going to bed\n  (or in bed)';
                     else if (factorsConcerned[i] === constants.STRESSED) msg += '\n- being stressed or worried.';
                     else if (factorsConcerned[i] === constants.EAT) msg += '\n- eating before going to bed.';
                     else if (factorsConcerned[i] === constants.ALCOHOL) msg += '\n- drinking alcohol\n  before going to bed.';
                     else if (factorsConcerned[i] === constants.NICOTINE) msg += '\n- smoking (or taking\n  nicotine) before\n  going to bed.';
-                    else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea,before\n  going to bed.';
+                    else if (factorsConcerned[i] === constants.CAFFEINE) msg += '\n- drinking any beverages with\n  caffeine, such as tea, before\n  going to bed.';
                     else if (factorsConcerned[i] === constants.LIGHTS) msg += '\n- sleeping with the lights on.';
                     else if (factorsConcerned[i] === constants.QUIET) msg += '\n- sleeping while your\n  bedroom was noisy.';
                 }           
