@@ -44,15 +44,26 @@ async function notifySleep() {
 			tmp = 0;
 		}
 
+		var minutesAsleep = await sleep.getMinutesAsleep(fbUserId, date);
+
 		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
+
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
 						+ ' for ' + minutesAwake + ' minutes.';
 			var msg2 = 'Could we have a little chat about that?'; 
 
-			await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
-        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
+			if (minutesAsleep >= 420) {
+				await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+        		fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
+        	} else {
+        		var msg = 'Also, you only slept for ' + (minutesAsleep/60) + ' and ' + (minutesAsleep%60) 
+        					+ ' which is below the recommended amount of sleep.';
+        		await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+        		await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
+        		fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
+        	}
         } else {
         	var msg = 'Hey. I analysed your sleep last night and you did not appear to have any sleep disturbances, which is great!';
         	await user.setNotifiedSleepToTrue(fbUserId);
