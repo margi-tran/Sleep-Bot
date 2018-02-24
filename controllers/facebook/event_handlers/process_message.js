@@ -51,7 +51,7 @@ initialAdviceMap[constants.WORK_SCHEDULE] = 'Your shifts at irregular hours may 
 
 const sleepQuestions = 
     [
-        constants.NOTIFIED_SLEEP, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
+        constants.NOTIFIED_SLEEP, constants.GO_TO_BED, constants.ELECTRONICS, constants.STRESSED, constants.EAT, constants.ALCOHOL, 
         constants.NICOTINE, constants.CAFFEINE, constants.LIGHTS, constants.QUIET
     ];
 var sleepQuestionsMap = {};
