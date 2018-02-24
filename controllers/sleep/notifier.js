@@ -10,7 +10,8 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('0 9-22 * * *', notifySleep);
+schedule.scheduleJob('31 * * * *', notifySleep);
+//schedule.scheduleJob('0 9-22 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
@@ -58,7 +59,7 @@ async function notifySleep() {
 				await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         		fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         	} else {
-        		var msg = 'Also, you only slept for ' + (minutesAsleep/60) + ' and ' + (minutesAsleep%60) 
+        		var msg = 'Also you slept for only ' + (minutesAsleep/60) + ' and ' + (minutesAsleep%60) 
         					+ ' which is below the recommended amount of sleep.';
         		await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         		await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
