@@ -45,6 +45,7 @@ async function notifySleep() {
 			tmp = 0;
 		}
 
+		console.log('max ', maxAwake);
 		var minutesAsleep = await sleep.getMinutesAsleep(fbUserId, date);
 		console.log('as;spespe', minutesAsleep);
 
