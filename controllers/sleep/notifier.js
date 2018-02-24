@@ -43,14 +43,13 @@ async function notifySleep() {
 			if (tmp > maxAwake) maxAwake = tmp;
 			tmp = 0;
 		}
-		
+
 		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
 						+ ' for ' + minutesAwake + ' minutes.';
 			var msg2 = 'Could we have a little chat about that?'; 
-
 
 			await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
         	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);

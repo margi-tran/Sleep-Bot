@@ -37,6 +37,12 @@ exports.getSleepEndTime = async (fbUserId, date) => {
     else return dateAndTimeUtil.getTimeFromDateString(mainSleep.endTime);
 }
 
+exports.getMinutesAsleep = async (fbUserId, date) => {
+    var mainSleep = await getMainSleep(fbUserId, date);
+    if (mainSleep === null) return null;
+    else return mainSleep.minutesAsleep;
+}
+
 async function getMainSleep(fbUserId, date) {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     const result = await db.collection('sleep_data').find({ fbUserId_: fbUserId, date: date }).toArray();

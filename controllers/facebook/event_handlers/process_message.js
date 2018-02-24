@@ -588,16 +588,45 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
         switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
-                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
+                    /*await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
                     await user.setMainContext(fbUserId, constants.ELECTRONICS);
                     await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
                     await userSleepAnswers.addNewEntry(fbUserId, date);
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
+                    */
+                
+
+                    await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
+
+                    var sleepStartTime = await sleep.getSleepStartTime(fbUserId, date);
+                    var goToBedHour = dateAndTimeUtil.getHourFromTimeString(sleepStartTime);
+
+                    if (goToBedHour > 18) {
+                        await user.setMainContext(fbUserId, constants.ELECTRONICS);
+                        await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
+                        await userSleepAnswers.addNewEntry(fbUserId, date);
+                        fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
+                        return;
+                    }
+
+                    await user.setMainContext(fbUserId, constants.GO_TO_BED);
+                    await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
+                    if (goToBedHour < 3) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why did you go to bed very late at night?');
+                    else if (goToBedHour < 12) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why did you go to bed in the morning?');
+                    else if (goToBedHour < 18) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why did you go to bed in the afternoon?');
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;
+            case constants.GO_TO_BED:
+                if (subContext === constants.QUESTION_ANSWER) {
+                    var msg = 'I see but you should be going to bed between 8pm-12am.';
+                    await fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, BUTTON_NEXT_QUESTION);
+                    updateContextsAndAskNextQuestion(fbUserId, constants.ELECTRONICS, constants.QUESTION_ANSWER, true);
+                }
+                var minutesAsleep = await sleep.getMinutesAsleep(fbUserId, date);
+                break; 
             case constants.ELECTRONICS:
                 handleSleepQuestionReply(fbUserId, event, message, constants.ELECTRONICS, constants.STRESSED, subContext);
                 break;
