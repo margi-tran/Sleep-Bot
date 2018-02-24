@@ -10,7 +10,7 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('31 * * * *', notifySleep);
+schedule.scheduleJob('33 * * * *', notifySleep);
 //schedule.scheduleJob('0 9-22 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
@@ -46,6 +46,7 @@ async function notifySleep() {
 		}
 
 		var minutesAsleep = await sleep.getMinutesAsleep(fbUserId, date);
+		console.log('as;spespe', minutesAsleep);
 
 		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
