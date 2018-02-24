@@ -589,14 +589,14 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
-
+                    await userSleepAnswers.addNewEntry(fbUserId, date);
+                    
                     var sleepStartTime = await sleep.getSleepStartTime(fbUserId, date);
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(sleepStartTime);
 
                     if (goToBedHour > 18) {
                         await user.setMainContext(fbUserId, constants.ELECTRONICS);
                         await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                        await userSleepAnswers.addNewEntry(fbUserId, date);
                         fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
                         return;
                     }
