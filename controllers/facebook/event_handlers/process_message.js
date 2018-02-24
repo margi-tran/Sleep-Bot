@@ -588,14 +588,6 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
         switch (mainContext) {
             case constants.NOTIFIED_SLEEP:
                 if (message === 'yes') {
-                    /*await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
-                    await user.setMainContext(fbUserId, constants.ELECTRONICS);
-                    await user.setSubContext(fbUserId, constants.QUESTION_ANSWER);
-                    await userSleepAnswers.addNewEntry(fbUserId, date);
-                    fbMessengerBotClient.sendQuickReplyMessage(fbUserId, sleepQuestionsMap[constants.ELECTRONICS], constants.QUICK_REPLIES_YES_OR_NO);
-                    */
-                
-
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
 
                     var sleepStartTime = await sleep.getSleepStartTime(fbUserId, date);
@@ -617,6 +609,9 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                     else if (goToBedHour < 18) fbMessengerBotClient.sendTextMessage(fbUserId, 'Why did you go to bed in the afternoon?');
                 } else {  
                     var msg = 'Sorry but it\'s important that we find out why you had a sleep disturbance. Please may we proceed?';
+                    var sleepDisturbed = await user.getSleepDisturbed(fbUserId);
+                    if (sleepDisturbed === null) msg = 'Sorry but it\'s important that we find out why you didn\'t sleep very long. Please may we proceed?';
+                    
                     fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg, constants.QUICK_REPLIES_YES_OR_NO);
                 }
                 break;

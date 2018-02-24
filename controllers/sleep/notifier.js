@@ -10,7 +10,7 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('46 * * * *', notifySleep);
+schedule.scheduleJob('58 * * * *', notifySleep);
 //schedule.scheduleJob('0 9-22 * * *', notifySleep);
 schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
@@ -45,12 +45,11 @@ async function notifySleep() {
 			tmp = 0;
 		}
 
-		console.log('max ', maxAwake);
 		var minutesAsleep = await sleep.getMinutesAsleep(fbUserId, date);
-		console.log('as;spespe', minutesAsleep);
 
 		if (maxAwake >= 600) {
 			await user.setMainContext(fbUserId, constants.NOTIFIED_SLEEP);
+			await user.setSleepDisturbedToTrue(fbUserId);
 
 			var minutesAwake = Math.floor(maxAwake / 60);
 			var msg1 = 'Hey! I noticed a disturbance in your sleep last night: you were awake at ' + timeOfAwake
@@ -67,6 +66,14 @@ async function notifySleep() {
         		await fbMessengerBotClient.sendTextMessage(fbUserId, msg);
         		fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg2, constants.QUICK_REPLIES_YES_OR_NO);
         	}
+        } else if (minutesAsleep < 420) {
+        	var msg1 = 'Hey. I analysed your sleep last night and you did not appear to have any sleep disturbances, which is great!';
+        	var msg2 = 'But you slept for only ' + (minutesAsleep/60) + ' hours and ' + (minutesAsleep%60) 
+        					+ ' minutes, which is below the recommended amount of sleep.';
+        	var msg3 = 'Could we have a little chat about that?'; 
+        	await fbMessengerBotClient.sendTextMessage(fbUserId, msg1);
+        	await fbMessengerBotClient.sendTextMessage(fbUserId, msg2);
+        	fbMessengerBotClient.sendQuickReplyMessage(fbUserId, msg3, constants.QUICK_REPLIES_YES_OR_NO);
         } else {
         	var msg = 'Hey. I analysed your sleep last night and you did not appear to have any sleep disturbances, which is great!';
         	await user.setNotifiedSleepToTrue(fbUserId);

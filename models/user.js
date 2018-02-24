@@ -55,6 +55,19 @@ exports.updateUserIsNew = async (fbUserId, value) => {
     db.close();
 };
 
+exports.setSleepDisturbedToTrue = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    await db.collection('users').updateOne({ fbUserId_: fbUserId }, { $set: { sleepDisturbed: true } });
+    db.close();
+};
+
+exports.getSleepDisturbed = async (fbUserId) => {
+    const db = await MongoClient.connect(process.env.MONGODB_URI);
+    const result = await db.collection('users').find({ fbUserId_: fbUserId }).toArray();
+    db.close();
+    return result[0].sleepDisturbed;
+};
+
 exports.addUser = async (fbUserId) => {
     var newUser = 
         { 
@@ -63,6 +76,7 @@ exports.addUser = async (fbUserId) => {
             subContext: null,
             userIsNew: true,
             notifiedSleep: null,
+            sleepDisturbed: null,
         };
 
     const db = await MongoClient.connect(process.env.MONGODB_URI);
@@ -84,7 +98,7 @@ exports.setNotifiedSleepToFalse = async (fbUserId) => {
 
 exports.reset = async () => {
     const db = await MongoClient.connect(process.env.MONGODB_URI);
-    await db.collection('users').updateMany({ notifiedSleep: true }, { $set: { notifiedSleep: false, mainContext: null } });
+    await db.collection('users').updateMany({ notifiedSleep: true }, { $set: { notifiedSleep: false, mainContext: null, sleepDisturbed: null } });
     db.close();
 };
 
