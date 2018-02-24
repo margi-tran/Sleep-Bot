@@ -24,7 +24,7 @@ exports.addNewEntry = async (fbUserId, date) => {
         };
     const db = await MongoClient.connect(process.env.MONGODB_URI);
     //await db.collection('sleep_answers').insertOne(user);
-    await db.collection('sleep_data').update({ fbUserId_: fbUserId, date: date }, user, { upsert : true });
+    await db.collection('sleep_answers').update({ fbUserId_: fbUserId, date: date }, user, { upsert : true });
     db.close();
 };
 
