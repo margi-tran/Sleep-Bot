@@ -599,6 +599,7 @@ async function chatAboutSleep(fbUserId, message, event, mainContext) {
                     await fbMessengerBotClient.sendTextMessage(fbUserId, 'Great. I have a few questions for you.');
 
                     var sleepStartTime = await sleep.getSleepStartTime(fbUserId, date);
+                    console.log(date, sleepStartTime);
                     var goToBedHour = dateAndTimeUtil.getHourFromTimeString(sleepStartTime);
 
                     if (goToBedHour > 18) {
