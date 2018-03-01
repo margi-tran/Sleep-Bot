@@ -37,7 +37,7 @@ async function notifySleep() {
 			timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
 			for (var k = j; k < lengthOfData; k++) {
 				var data = mainSleepLevelsData[k];
-				if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
+				if (data.level === 'awake' || data.level === 'restless' || data.level === 'wake') tmp += data.seconds;
 				else break;
 			}
 			if (tmp > maxAwake) maxAwake = tmp;
