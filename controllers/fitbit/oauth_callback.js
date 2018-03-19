@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     	//fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
     	var postStr = '/sleep/apiSubscriptions/' + fbUserId + '.json';
     	fitbitClient.client.post(postStr, accessTokenPromise.access_token).then((results) => {
-       		console.log(results);
+       		//console.log(results);
             console.log('subscribeToSleep:', results[0]);
     	}).catch((results) => {
         	console.log(results[0].errors);
