@@ -42,7 +42,6 @@ module.exports = async (req, res) => {
         await user.setMainContext(fbUserId, null);
         await userBackground.addNewUserBackground(fbUserId, profileData[0].user.age);
 
-    	//fitbitClient.client.post('/sleep/apiSubscriptions/1.json', accessTokenPromise.access_token).then((results) => {
     	var postStr = '/sleep/apiSubscriptions/' + fbUserId + '.json';
     	fitbitClient.client.post(postStr, accessTokenPromise.access_token).then((results) => {
        		console.log(results);
