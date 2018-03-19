@@ -872,6 +872,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                     var date2 = new Date(2018, 1, 1, hour2, min2);
                     var difference = (new Date(date1 - date2)).getMinutes();
 
+                    console.log(startTimeOfSleep, time2);
                     console.log('test:', difference);
 
                     if (difference > 15) tmp += data.seconds;
