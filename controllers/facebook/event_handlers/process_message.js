@@ -877,8 +877,8 @@ async function answerAboutSleepLastNight(fbUserId) {
 
                     if (difference > 15) tmp += data.seconds;
             } else {
-                break
-            };
+                break;
+            }
         }
         if (tmp > maxAwake) maxAwake = tmp;
         tmp = 0;
