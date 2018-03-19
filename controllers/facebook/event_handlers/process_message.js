@@ -874,7 +874,7 @@ async function answerAboutSleepLastNight(fbUserId) {
 
                     console.log('test:', difference);
 
-                    if (minutes > 15) tmp += data.seconds;
+                    if (difference > 15) tmp += data.seconds;
             } else {
                 break
             };
