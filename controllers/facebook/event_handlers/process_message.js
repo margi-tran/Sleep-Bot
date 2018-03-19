@@ -864,11 +864,25 @@ async function answerAboutSleepLastNight(fbUserId) {
         timeOfAwake = dateAndTimeUtil.getTimeFromDateString(mainSleepLevelsData[j].dateTime);
         for (var k = j; k < lengthOfData; k++) {
             var data = mainSleepLevelsData[k];
-            if (data.level === 'awake' || data.level === 'restless') tmp += data.seconds;
-            else break;
+            if (data.level === 'awake' || data.level === 'restless') {
+
+                    var time2 = dateAndTimeUtil.getTimeFromDateString(data.dateTime);
+                    var hour2 = dateAndTimeUtil.getHourFromTimeString(time2);
+                    var min2 = dateAndTimeUtil.getMinuteFromTimeString(time2);
+                    var date2 = new Date(2018, 1, 1, hour2, min2);
+                    var difference = (new Date(date2 - date1)).getMinutes();
+
+                    console.log(startTimeOfSleep, time2);
+                    console.log('test:', difference);
+
+                    if (difference > 15) tmp += data.seconds;
+            } else {
+                break;
+            }
         }
         if (tmp > maxAwake) maxAwake = tmp;
         tmp = 0;
+        if (maxAwake >= 600) break;
     }
 
     if (maxAwake >= 600) {
