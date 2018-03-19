@@ -870,7 +870,7 @@ async function answerAboutSleepLastNight(fbUserId) {
                     var hour2 = dateAndTimeUtil.getHourFromTimeString(time2);
                     var min2 = dateAndTimeUtil.getMinuteFromTimeString(time2);
                     var date2 = new Date(2018, 1, 1, hour2, min2);
-                    var difference = (new Date(date1 - date2)).getMinutes();
+                    var difference = (new Date(date2 - date1)).getMinutes();
 
                     console.log(startTimeOfSleep, time2);
                     console.log('test:', difference);
