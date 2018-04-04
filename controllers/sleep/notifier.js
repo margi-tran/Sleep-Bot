@@ -10,8 +10,9 @@ var sleep = require('../../models/sleep');
 var constants = require('../constants');
 var dateAndTimeUtil = require('../../utility/date_and_time_util');
 
-schedule.scheduleJob('18 9-22 * * *', notifySleep);
-schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
+schedule.scheduleJob('0 9-22 * * *', notifySleep);
+schedule.scheduleJob('33 * * * *', resetNotifyFlag);
+//schedule.scheduleJob('0 0 * * *', resetNotifyFlag);
 
 async function notifySleep() {
 	var usersToNotify = await user.getAllUsersWithNotifiedSleepFalse();
